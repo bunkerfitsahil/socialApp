@@ -7,7 +7,18 @@ environment:
 
 dependencies: 
   cupertino_icons: ^1.0.2
+  shared_preferences:
   get: 4.6.1
+  http:
+  dio:
+  flutter_svg:
+  intl:
+  url_launcher:
+  auto_size_text:
+  video_player:
+  connectivity:
+  fluttertoast:
+
   flutter: 
     sdk: flutter
 
@@ -19,4 +30,23 @@ dev_dependencies:
 
 flutter: 
   uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/lang/
+    - assets/videos/
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 800
+        - asset: assets/fonts/Roboto-Black.ttf
+          weight: 600
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Roboto-Light.ttf
+          weight: 300
+
+
 

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
+    <defs>
+        <linearGradient id="b" x1=".5" x2=".5" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#f8f8f8"/>
+            <stop offset="1" stop-color="#e6dcdc"/>
+        </linearGradient>
+        <linearGradient id="c" x1=".5" x2=".5" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#bb08dc"/>
+            <stop offset="1" stop-color="#ff9d00"/>
+        </linearGradient>
+        <filter id="a" x="0" y="0" width="23" height="23" filterUnits="userSpaceOnUse">
+            <feOffset dy="1"/>
+            <feGaussianBlur stdDeviation=".5" result="blur"/>
+            <feFlood flood-color="#aca9a9"/>
+            <feComposite operator="in" in2="blur"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+    </defs>
+    <g data-name="Group 15921">
+        <g style="filter:url(#a)">
+            <g data-name="Path 3679" transform="translate(1.503 .502)" style="fill:url(#b)">
+                <path d="M10 19.5C4.762 19.5.5 15.238.5 10S4.762.5 10 .5s9.5 4.262 9.5 9.5-4.262 9.5-9.5 9.5z" style="stroke:none"/>
+                <path d="M10 1c-4.963 0-9 4.037-9 9s4.037 9 9 9 9-4.037 9-9-4.037-9-9-9m0-1c5.523 0 10 4.477 10 10s-4.477 10-10 10S0 15.523 0 10 4.477 0 10 0z" style="fill:#fff;stroke:none"/>
+            </g>
+        </g>
+        <path data-name="Intersection 34" d="M0 11.216V0h8.658l2.362 2.4v2.408l-.783.794.783.8v2.4l-2.363 2.41zm3.148-3.2H7.09l.388-.4-.388-.4H3.148zm0-4H7.09l.388-.4L7.09 3.2H3.148z" transform="translate(6.369 4.501)" style="fill:url(#c)"/>
+    </g>
+</svg>
