@@ -20,4 +20,20 @@ class Assets {
   static const String comment = "assets/icons/comment.svg";
   static const String trophy = "assets/icons/trophy.svg";
   static const String gymImage = "assets/images/story.jpg";
+
+  // User Profile Screen
+  static const String profBack = "assets/images/profile_back.png";
+  static const String streak1 = "assets/icons/streak1.svg";
+  static const String streak2 = "assets/icons/streak2.svg";
+  static const String streak3 = "assets/icons/streak3.svg";
+  static const String streak4 = "assets/icons/streak4.svg";
+  static const String streak5 = "assets/icons/streak5.svg";
+  static const String streak6 = "assets/icons/streak6.svg";
+  static const String stImage1 = "assets/images/st1.jpg";
+  static const String stImage2 = "assets/images/st2.jpg";
+  static const String stImage3 = "assets/images/st3.jpg";
+
+  //Post Detail Screen
+  static const String sendIcon = "assets/icons/send.svg";
+  static const String cancelIcon = "assets/icons/cancel.svg";
 }

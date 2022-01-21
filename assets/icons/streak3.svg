@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60.5" height="60.5" viewBox="0 0 60.5 60.5">
+    <defs>
+        <linearGradient id="a" x1=".5" x2=".5" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#45afce"/>
+            <stop offset="1" stop-color="#235867"/>
+        </linearGradient>
+    </defs>
+    <g data-name="Group 11034">
+        <g data-name="Group 3543" transform="translate(-46.75 -1093.75)">
+            <circle data-name="Ellipse 99" cx="30" cy="30" r="30" transform="translate(47 1094)" style="stroke:#fff;stroke-width:.5px;fill:url(#a)"/>
+            <circle data-name="Ellipse 103" cx="27.5" cy="27.5" transform="translate(49.5 1096.5)" style="fill:none;stroke:#fce90b;stroke-dasharray:2" r="27.5"/>
+            <text transform="translate(76.521 1124.94)" style="font-size:15px;font-family:LeagueGothic-Regular,League Gothic;fill:#fff"><tspan x="-16.253" y="0">SUNDAY</tspan></text>
+            <rect data-name="Rectangle 570" width="33.291" height="10" rx="5" transform="translate(60 1130.292)" style="fill:#fff"/>
+            <text transform="translate(77 1138)" style="fill:#45afce;font-size:8px;font-family:HelveticaNeue-Bold,Helvetica Neue;font-weight:700"><tspan x="-8.816" y="0">RUN</tspan></text>
+        </g>
+    </g>
+</svg>
