@@ -332,7 +332,8 @@ class UserProfileView extends GetWidget<UserProfileController> {
         }
         if (name == "Following") {
           Get.toNamed(Routes.FOLLOWING_SCREEN);
-        } else {
+        }
+        if (name == "Post") {
           Get.toNamed(Routes.FOLLOW_REQUEST_SCREEN);
         }
       },

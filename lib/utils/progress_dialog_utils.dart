@@ -11,7 +11,7 @@ class ProgressDialogUtils {
           child: CircularProgressIndicator.adaptive(
             strokeWidth: 4,
             valueColor: AlwaysStoppedAnimation<Color>(
-              Colors.white,
+              Colors.blue,
             ),
           ),
         ),
