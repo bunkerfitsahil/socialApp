@@ -318,7 +318,11 @@ class HomeView extends GetWidget<HomeController> {
                                                   Column(
                                                     children: [
                                                       Text(
-                                                        "Rahul Shah",
+                                                        controller
+                                                            .allPostList[i]
+                                                            .userData!
+                                                            .name
+                                                            .toString(),
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontSize: getSize(
@@ -546,7 +550,7 @@ class HomeView extends GetWidget<HomeController> {
                               : Container(
                                   height: getSize(300, context),
                                   width: double.infinity,
-                                  child: Text("Sahil Soni",
+                                  child: Text("No Posts",
                                       style: TextStyle(
                                           color: const Color(0xff1c1414),
                                           fontWeight: FontWeight.w500,

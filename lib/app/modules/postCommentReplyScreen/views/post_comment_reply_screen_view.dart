@@ -8,7 +8,7 @@ import 'package:social_feed_flutter/constants/math_utils.dart';
 import '../controllers/post_comment_reply_screen_controller.dart';
 
 class PostCommentReplyScreenView
-    extends GetView<PostCommentReplyScreenController> {
+    extends GetWidget<PostCommentReplyScreenController> {
   @override
   Widget build(BuildContext context) {
     return Stack(

@@ -128,7 +128,7 @@ class ApiClient extends GetConnect {
     headers["Authorization"] = token;
     ProgressDialogUtils.showProgressDialog();
     try {
-      final response = await get(Base_url + 'social-feed-comments/?post_id=07',
+      final response = await get(Base_url + 'social-feed-comments/?post_id=$id',
           contentType: "application/json", headers: headers);
 
       onSuccess!(response.body);

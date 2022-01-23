@@ -7,6 +7,7 @@ import 'package:social_feed_flutter/app/routes/app_pages.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
 import 'package:social_feed_flutter/constants/math_utils.dart';
+import 'package:social_feed_flutter/utils/pref_utils.dart';
 
 import '../controllers/post_detail_screen_controller.dart';
 
@@ -96,7 +97,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                             Row(
                               children: [
                                 Text(
-                                  "6",
+                                  controller.postData.numberOfLikes.toString(),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: getSize(16, context)),
@@ -127,7 +128,8 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                   SizedBox(
                                     width: getSize(10, context),
                                   ),
-                                  Text("20 comments",
+                                  Text(
+                                      "${controller.postData.numberOfComments} comments",
                                       style: TextStyle(
                                         color: const Color(0xff6d6d6e),
                                         fontWeight: FontWeight.w400,
@@ -161,193 +163,280 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                         height: getSize(20, context),
                       ),
                       (controller.hasPostData.value)
-                          ? Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: getSize(18, context)),
-                              child: ListView.separated(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context, i) {
-                                  return Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Row(
+                          ? (!controller.postComments.isNotEmpty)
+                              ? Container(
+                                  width: double.infinity,
+                                  height: getSize(50, context),
+                                  child: Center(
+                                    child: Text("No Comments",
+                                        style: TextStyle(
+                                            color: const Color(0xff1c1414),
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: "Roboto",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: getSize(14, context)),
+                                        textAlign: TextAlign.center),
+                                  ),
+                                )
+                              : Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: getSize(18, context)),
+                                  child: ListView.separated(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, i) {
+                                      return Container(
+                                        child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.end,
                                           children: [
-                                            CircleAvatar(
-                                              radius: getSize(20, context),
-                                              backgroundImage:
-                                                  AssetImage(Assets.avtar),
-                                            ),
-                                            SizedBox(
-                                              width: getSize(10, context),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                child: Column(
-                                                  children: [
-                                                    Text("Sarfaraz ",
-                                                        style: TextStyle(
-                                                            color: const Color(
-                                                                0xff1c1414),
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            fontFamily:
-                                                                "Roboto",
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontSize: getSize(
-                                                                14, context)),
-                                                        textAlign:
-                                                            TextAlign.left),
-                                                    SizedBox(
-                                                      height:
-                                                          getSize(7, context),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                CircleAvatar(
+                                                  radius: getSize(20, context),
+                                                  // backgroundImage:
+                                                  //     AssetImage(Assets.avtar),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: controller
+                                                        .postComments[i]
+                                                        .userData!
+                                                        .profilePicture
+                                                        .toString(),
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            SpinKitCircle(
+                                                      color: Colors.green,
+                                                      size:
+                                                          getSize(20, context),
                                                     ),
-                                                    Text(
-                                                        "Excellent dvjhsv scvjsvhj",
-                                                        style: TextStyle(
-                                                            color: const Color(
-                                                                0xff1c1414),
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontFamily:
-                                                                "Roboto",
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontSize: getSize(
-                                                                14, context)),
-                                                        textAlign:
-                                                            TextAlign.left)
-                                                  ],
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                    imageBuilder: (context,
+                                                            imageProvider) =>
+                                                        Container(
+                                                      height:
+                                                          getSize(20, context),
+                                                      width:
+                                                          getSize(20, context),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(100),
+                                                        image: DecorationImage(
+                                                          image: imageProvider,
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(Icons.error),
+                                                  ),
                                                 ),
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      const Color(0xffeef0f0),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          getSize(8, context)),
+                                                SizedBox(
+                                                  width: getSize(10, context),
                                                 ),
-                                                padding: EdgeInsets.only(
-                                                    left: getSize(10, context),
-                                                    top: getSize(10, context),
-                                                    bottom:
-                                                        getSize(10, context)),
+                                                Expanded(
+                                                  child: Container(
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                            controller
+                                                                .postComments[i]
+                                                                .userData!
+                                                                .name
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                color: const Color(
+                                                                    0xff1c1414),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                fontFamily:
+                                                                    "Roboto",
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .normal,
+                                                                fontSize: getSize(
+                                                                    14,
+                                                                    context)),
+                                                            textAlign:
+                                                                TextAlign.left),
+                                                        SizedBox(
+                                                          height: getSize(
+                                                              7, context),
+                                                        ),
+                                                        Text(
+                                                            (PrefUtils.isNullEmptyOrFalse(
+                                                                    controller
+                                                                        .postComments[
+                                                                            i]
+                                                                        .commentBody))
+                                                                ? ""
+                                                                : controller
+                                                                    .postComments[
+                                                                        i]
+                                                                    .commentBody
+                                                                    .toString(),
+                                                            style: TextStyle(
+                                                                color: const Color(
+                                                                    0xff1c1414),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontFamily:
+                                                                    "Roboto",
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .normal,
+                                                                fontSize: getSize(
+                                                                    14,
+                                                                    context)),
+                                                            textAlign:
+                                                                TextAlign.left)
+                                                      ],
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                      color: const Color(
+                                                          0xffeef0f0),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              getSize(
+                                                                  8, context)),
+                                                    ),
+                                                    padding: EdgeInsets.only(
+                                                        left: getSize(
+                                                            10, context),
+                                                        top: getSize(
+                                                            10, context),
+                                                        bottom: getSize(
+                                                            10, context)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: getSize(50, context),
+                                                  top: getSize(10, context)),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text("6",
+                                                          style: TextStyle(
+                                                              color: const Color(
+                                                                  0xff6d6d6e),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontFamily:
+                                                                  "Roboto",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: getSize(
+                                                                  14, context)),
+                                                          textAlign:
+                                                              TextAlign.right),
+                                                      SizedBox(
+                                                        width: getSize(
+                                                            10, context),
+                                                      ),
+                                                      SvgPicture.asset(
+                                                        Assets.trophy,
+                                                        color: AppColors
+                                                            .button_green,
+                                                        width: getSize(
+                                                            13, context),
+                                                        height: getSize(
+                                                            16, context),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Get.toNamed(Routes
+                                                          .POST_COMMENT_REPLY_SCREEN);
+                                                    },
+                                                    child: Row(
+                                                      children: [
+                                                        Text("Reply",
+                                                            style: const TextStyle(
+                                                                color: const Color(
+                                                                    0xff6d6d6e),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontFamily:
+                                                                    "Roboto",
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .normal,
+                                                                fontSize: 12.0),
+                                                            textAlign: TextAlign
+                                                                .right),
+                                                        SizedBox(
+                                                          width: getSize(
+                                                              10, context),
+                                                        ),
+                                                        Container(
+                                                            width: 3,
+                                                            height: 3,
+                                                            decoration: BoxDecoration(
+                                                                color: const Color(
+                                                                    0xff1c1414))),
+                                                        SizedBox(
+                                                          width: getSize(
+                                                              10, context),
+                                                        ),
+                                                        Text("1",
+                                                            style: const TextStyle(
+                                                                color: const Color(
+                                                                    0xff1c1414),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontFamily:
+                                                                    "Roboto",
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .normal,
+                                                                fontSize: 14.0),
+                                                            textAlign:
+                                                                TextAlign.right)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ],
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: getSize(50, context),
-                                              top: getSize(10, context)),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text("6",
-                                                      style: TextStyle(
-                                                          color: const Color(
-                                                              0xff6d6d6e),
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontFamily: "Roboto",
-                                                          fontStyle:
-                                                              FontStyle.normal,
-                                                          fontSize: getSize(
-                                                              14, context)),
-                                                      textAlign:
-                                                          TextAlign.right),
-                                                  SizedBox(
-                                                    width: getSize(10, context),
-                                                  ),
-                                                  SvgPicture.asset(
-                                                    Assets.trophy,
-                                                    color:
-                                                        AppColors.button_green,
-                                                    width: getSize(13, context),
-                                                    height:
-                                                        getSize(16, context),
-                                                  ),
-                                                ],
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  Get.toNamed(Routes
-                                                      .POST_COMMENT_REPLY_SCREEN);
-                                                },
-                                                child: Row(
-                                                  children: [
-                                                    Text("Reply",
-                                                        style: const TextStyle(
-                                                            color: const Color(
-                                                                0xff6d6d6e),
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontFamily:
-                                                                "Roboto",
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontSize: 12.0),
-                                                        textAlign:
-                                                            TextAlign.right),
-                                                    SizedBox(
-                                                      width:
-                                                          getSize(10, context),
-                                                    ),
-                                                    Container(
-                                                        width: 3,
-                                                        height: 3,
-                                                        decoration: BoxDecoration(
-                                                            color: const Color(
-                                                                0xff1c1414))),
-                                                    SizedBox(
-                                                      width:
-                                                          getSize(10, context),
-                                                    ),
-                                                    Text("1",
-                                                        style: const TextStyle(
-                                                            color: const Color(
-                                                                0xff1c1414),
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontFamily:
-                                                                "Roboto",
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontSize: 14.0),
-                                                        textAlign:
-                                                            TextAlign.right)
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                itemCount: 100,
-                                separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  return SizedBox(
-                                    height: getSize(20, context),
-                                  );
-                                },
-                              ),
-                            )
+                                      );
+                                    },
+                                    itemCount: controller.postComments.length,
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return SizedBox(
+                                        height: getSize(20, context),
+                                      );
+                                    },
+                                  ),
+                                )
                           : SpinKitCircle(
                               color: Colors.green,
                               size: getSize(30, context),
                             ),
+                      SizedBox(
+                        height: getSize(90, context),
+                      ),
                     ],
                   ),
                 ),
