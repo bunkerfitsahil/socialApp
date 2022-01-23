@@ -116,4 +116,26 @@ class ApiClient extends GetConnect {
       Fluttertoast.showToast(msg: "$error");
     }
   }
+
+  callApiForGetPostsComment({
+    Function(dynamic data)? onSuccess,
+    Function(dynamic error)? onError,
+    int? id,
+  }) async {
+    Map<String, String> headers = {};
+    headers["Content-Type"] = "application/json";
+
+    headers["Authorization"] = token;
+    ProgressDialogUtils.showProgressDialog();
+    try {
+      final response = await get(Base_url + 'social-feed-comments/?post_id=07',
+          contentType: "application/json", headers: headers);
+
+      onSuccess!(response.body);
+    } catch (error) {
+      ProgressDialogUtils.hideProgressDialog();
+      onError!(error);
+      Fluttertoast.showToast(msg: "$error");
+    }
+  }
 }

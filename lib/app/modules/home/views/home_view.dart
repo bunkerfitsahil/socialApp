@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:social_feed_flutter/app/routes/app_pages.dart';
+import 'package:social_feed_flutter/constants/argumentConstant.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
 import 'package:social_feed_flutter/constants/math_utils.dart';
@@ -204,6 +205,7 @@ class HomeView extends GetWidget<HomeController> {
                                     InkWell(
                                       onTap: () {
                                         if (controller.isImageSelected.value) {
+                                          controller.postData.value.text = "";
                                           controller.onClickPostButton(
                                               successCall:
                                                   _onCreateAuthloginSuccess,
@@ -438,73 +440,92 @@ class HomeView extends GetWidget<HomeController> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      controller.allPostList[i]
-                                                          .numberOfLikes
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: getSize(
-                                                              14, context)),
-                                                    ),
-                                                    SizedBox(
-                                                      width:
-                                                          getSize(10, context),
-                                                    ),
-                                                    SvgPicture.asset(
-                                                      Assets.trophy,
-                                                      color: AppColors
-                                                          .button_green,
-                                                      width:
-                                                          getSize(13, context),
-                                                      height:
-                                                          getSize(16, context),
-                                                    ),
-                                                  ],
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    Get.toNamed(Routes
-                                                        .POST_DETAIL_SCREEN);
-                                                  },
+                                                Container(
                                                   child: Row(
                                                     children: [
-                                                      SvgPicture.asset(
-                                                        Assets.comment,
-                                                        color: Colors.grey,
-                                                        width: getSize(
-                                                            13, context),
-                                                        height: getSize(
-                                                            16, context),
+                                                      Text(
+                                                        controller
+                                                            .allPostList[i]
+                                                            .numberOfLikes
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: getSize(
+                                                                14, context)),
                                                       ),
                                                       SizedBox(
                                                         width: getSize(
                                                             10, context),
                                                       ),
-                                                      Text(
-                                                        "${controller.allPostList[i].numberOfComments} comments",
-                                                        style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize: getSize(
-                                                                14, context)),
+                                                      SvgPicture.asset(
+                                                        Assets.trophy,
+                                                        color: AppColors
+                                                            .button_green,
+                                                        width: getSize(
+                                                            13, context),
+                                                        height: getSize(
+                                                            16, context),
                                                       ),
                                                     ],
                                                   ),
+                                                  height: getSize(27, context),
                                                 ),
-                                                SvgPicture.asset(
-                                                  Assets.share,
-                                                  color: Colors.black
-                                                      .withOpacity(0.7),
-                                                  width: getSize(18, context),
-                                                  height: getSize(18, context),
+                                                InkWell(
+                                                  onTap: () {
+                                                    Get.toNamed(
+                                                        Routes
+                                                            .POST_DETAIL_SCREEN,
+                                                        arguments: {
+                                                          Argument.postData:
+                                                              controller
+                                                                  .allPostList[i]
+                                                        });
+                                                  },
+                                                  child: Container(
+                                                    height:
+                                                        getSize(27, context),
+                                                    child: Row(
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                          Assets.comment,
+                                                          color: Colors.grey,
+                                                          width: getSize(
+                                                              13, context),
+                                                          height: getSize(
+                                                              16, context),
+                                                        ),
+                                                        SizedBox(
+                                                          width: getSize(
+                                                              10, context),
+                                                        ),
+                                                        Text(
+                                                          "${controller.allPostList[i].numberOfComments} comments",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize: getSize(
+                                                                  14, context)),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: getSize(27, context),
+                                                  child: SvgPicture.asset(
+                                                    Assets.share,
+                                                    color: Colors.black
+                                                        .withOpacity(0.7),
+                                                    width: getSize(18, context),
+                                                    height:
+                                                        getSize(18, context),
+                                                  ),
                                                 ),
                                               ],
                                             ),
                                           ),
                                           SizedBox(
-                                            height: getSize(15, context),
+                                            height: getSize(5, context),
                                           )
                                         ],
                                       ),
@@ -540,7 +561,7 @@ class HomeView extends GetWidget<HomeController> {
                     )
                   : SpinKitCircle(
                       color: Colors.green,
-                      size: 50.0,
+                      size: getSize(50, context),
                     );
             }),
             resizeToAvoidBottomInset: true,
