@@ -5,10 +5,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:social_feed_flutter/app/routes/app_pages.dart';
+import 'package:social_feed_flutter/constants/DateUtilities.dart';
 import 'package:social_feed_flutter/constants/argumentConstant.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
+import 'package:social_feed_flutter/constants/dateConstant.dart';
 import 'package:social_feed_flutter/constants/math_utils.dart';
 import 'package:social_feed_flutter/utils/pref_utils.dart';
 
@@ -336,7 +339,24 @@ class HomeView extends GetWidget<HomeController> {
                                                             getSize(5, context),
                                                       ),
                                                       Text(
-                                                        "15 Min",
+                                                        // TimeAgo.timeAgoSinceDate(
+                                                        //     controller
+                                                        //         .allPostList[i]
+                                                        //         .createdAt
+                                                        //         .toString()),
+                                                        TimeAgo.timeAgoSinceDate(DateFormat(
+                                                                "dd-MM-yyyy hh:mma")
+                                                            .format(DateUtilities()
+                                                                .getDateFromString(controller
+                                                                    .allPostList[
+                                                                        i]
+                                                                    .createdAt
+                                                                    .toString())
+                                                                .toLocal()
+                                                                .add(Duration(
+                                                                    hours: 5,
+                                                                    minutes:
+                                                                        30)))),
                                                         style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: getSize(

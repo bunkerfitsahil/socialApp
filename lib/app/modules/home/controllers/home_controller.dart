@@ -23,11 +23,13 @@ class HomeController extends GetxController {
   RxBool hasPostData = false.obs;
 
   late final ImagePicker? _picker;
+  //EventBus eventBus = EventBus();
   @override
   void onInit() {
     super.onInit();
     _picker = ImagePicker();
     print("hhe");
+
     getPostData();
   }
 

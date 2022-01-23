@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:social_feed_flutter/ApiClient/api_client.dart';
+import 'package:social_feed_flutter/app/modules/home/controllers/home_controller.dart';
 import 'package:social_feed_flutter/constants/argumentConstant.dart';
 import 'package:social_feed_flutter/models/PostsResponseModel.dart';
 import 'package:social_feed_flutter/models/postCommentModel.dart';
@@ -90,6 +91,7 @@ class PostDetailScreenController extends GetxController {
 
     Fluttertoast.showToast(msg: "Comment is SuccessFully added");
     getpostCommentsData();
+    HomeController().postData();
   }
 
   void onCreateCommentFail(var err) {
