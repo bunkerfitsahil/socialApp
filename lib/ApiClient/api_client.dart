@@ -126,14 +126,42 @@ class ApiClient extends GetConnect {
     headers["Content-Type"] = "application/json";
 
     headers["Authorization"] = token;
-    ProgressDialogUtils.showProgressDialog();
+    // ProgressDialogUtils.showProgressDialog();
     try {
       final response = await get(Base_url + 'social-feed-comments/?post_id=$id',
           contentType: "application/json", headers: headers);
 
       onSuccess!(response.body);
     } catch (error) {
-      ProgressDialogUtils.hideProgressDialog();
+      // ProgressDialogUtils.hideProgressDialog();
+      onError!(error);
+      Fluttertoast.showToast(msg: "$error");
+    }
+  }
+
+  callApiForCreatePostsComment({
+    Function(dynamic data)? onSuccess,
+    Function(dynamic error)? onError,
+    String? message,
+    int? id,
+  }) async {
+    Map<String, String> headers = {};
+    headers["Content-Type"] = "application/json";
+
+    headers["Authorization"] = token;
+    Map<String, dynamic> data = {};
+    data["post"] = id;
+    data["comment_body"] = message;
+    data["parent"] = null;
+
+    //ProgressDialogUtils.showProgressDialog();
+    try {
+      final response = await post(Base_url + 'social-feed-comments/', data,
+          contentType: "application/json", headers: headers);
+
+      onSuccess!(response.body);
+    } catch (error) {
+      //ProgressDialogUtils.hideProgressDialog();
       onError!(error);
       Fluttertoast.showToast(msg: "$error");
     }

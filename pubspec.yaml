@@ -19,9 +19,10 @@ dependencies:
   connectivity:
   fluttertoast:
   flutter_staggered_animations:
-  image_picker:
+  image_picker: ^0.8.4+4
   flutter_spinkit:
   cached_network_image:
+  event_bus: ^2.0.0
 
 
   flutter: 

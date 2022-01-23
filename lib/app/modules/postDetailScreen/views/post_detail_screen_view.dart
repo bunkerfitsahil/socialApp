@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:social_feed_flutter/app/routes/app_pages.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
@@ -215,9 +216,9 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                             imageProvider) =>
                                                         Container(
                                                       height:
-                                                          getSize(20, context),
+                                                          getSize(40, context),
                                                       width:
-                                                          getSize(20, context),
+                                                          getSize(40, context),
                                                       decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -452,7 +453,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                       children: [
                         Expanded(
                           child: TextField(
-                            // controller: _controller,
+                            controller: controller.commentController.value,
                             decoration: InputDecoration(
                               isDense: true,
                               fillColor: Color(0xffF0F0F0),
@@ -482,11 +483,17 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                     color: Color(0xffacacac), width: 1),
                               ),
                               hintText: "",
-                              suffixIcon: Icon(
-                                Icons.close,
-                                color: Colors.black,
-                                size: getSize(24, context),
+                              suffixIcon: InkWell(
+                                onTap: () {
+                                  controller.commentController.value.text = "";
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.black,
+                                  size: getSize(24, context),
+                                ),
                               ),
+
                               hintStyle: TextStyle(
                                   color: Color(0xffacacac),
                                   fontWeight: FontWeight.w400,
@@ -497,11 +504,29 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                             cursorColor: Colors.black12.withOpacity(0.6),
                           ),
                         ),
-                        Container(
-                          child: SvgPicture.asset(
-                            Assets.sendIcon,
-                            height: getSize(40, context),
-                            width: getSize(40, context),
+                        InkWell(
+                          onTap: () {
+                            if (controller.commentController.value.text
+                                        .trim() ==
+                                    "" ||
+                                controller.commentController.value.text
+                                        .trim() ==
+                                    " ") {
+                              Fluttertoast.showToast(
+                                  msg: "Please Enter Comment First");
+                            } else {
+                              controller.addCommentsData();
+                              controller.commentController.value.text = "";
+                              controller.postData.numberOfComments =
+                                  controller.postData.numberOfComments! + 1;
+                            }
+                          },
+                          child: Container(
+                            child: SvgPicture.asset(
+                              Assets.sendIcon,
+                              height: getSize(40, context),
+                              width: getSize(40, context),
+                            ),
                           ),
                         ),
                       ],
