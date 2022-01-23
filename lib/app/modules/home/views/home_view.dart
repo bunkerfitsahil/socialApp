@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:social_feed_flutter/app/routes/app_pages.dart';
 import 'package:social_feed_flutter/constants/argumentConstant.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
@@ -514,16 +515,36 @@ class HomeView extends GetWidget<HomeController> {
                                                     ),
                                                   ),
                                                 ),
-                                                Container(
-                                                  height: getSize(27, context),
-                                                  child: SvgPicture.asset(
-                                                    Assets.share,
-                                                    color: Colors.black
-                                                        .withOpacity(0.7),
-                                                    width: getSize(18, context),
+                                                InkWell(
+                                                  child: Container(
                                                     height:
-                                                        getSize(18, context),
+                                                        getSize(27, context),
+                                                    child: SvgPicture.asset(
+                                                      Assets.share,
+                                                      color: Colors.black
+                                                          .withOpacity(0.7),
+                                                      width:
+                                                          getSize(18, context),
+                                                      height:
+                                                          getSize(18, context),
+                                                    ),
                                                   ),
+                                                  onTap: () {
+                                                    var text = (controller
+                                                                .allPostList[i]
+                                                                .postBody !=
+                                                            null)
+                                                        ? controller
+                                                            .allPostList[i]
+                                                            .postBody
+                                                        : null;
+                                                    var msg = (text != null)
+                                                        ? "${controller.allPostList[i].attachment!} \n $text"
+                                                        : controller
+                                                            .allPostList[i]
+                                                            .attachment!;
+                                                    Share.share(msg);
+                                                  },
                                                 ),
                                               ],
                                             ),
