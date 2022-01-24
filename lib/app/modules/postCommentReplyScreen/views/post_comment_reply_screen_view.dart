@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
+import 'package:social_feed_flutter/constants/font_family.dart';
 import 'package:social_feed_flutter/constants/math_utils.dart';
+import 'package:social_feed_flutter/constants/sizeConstant.dart';
 
 import '../controllers/post_comment_reply_screen_controller.dart';
 
@@ -22,46 +26,50 @@ class PostCommentReplyScreenView
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: getSize(15, context),
+                      height: MySize.size20,
                     ),
                     InkWell(
                       onTap: () {
                         Get.back();
                       },
                       child: Container(
-                        width: getSize(32, context),
-                        height: getSize(32, context),
+                        width: MySize.getScaledSizeWidth(28),
+                        height: MySize.size28,
                         decoration: BoxDecoration(
-                            color: const Color(0xffffffff),
+                            color: AppColors.white,
                             borderRadius: BorderRadius.circular(50)),
                         child: Center(
                           child: Icon(
                             Icons.arrow_back,
-                            size: getSize(22, context),
+                            size: MySize.size13,
+                            color: AppColors.blackColor,
                           ),
                         ),
                       ),
                     ),
                     SizedBox(
-                      height: getSize(25, context),
+                      height: MySize.size17,
                     ),
-                    Text("Replies to Sarfaraz’s comments",
-                        style: TextStyle(
-                            color: const Color(0xff1c1414),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "Roboto",
-                            fontStyle: FontStyle.normal,
-                            fontSize: getSize(16, context)),
-                        textAlign: TextAlign.left),
-                    SizedBox(
-                      height: getSize(10, context),
-                    ),
-                    Divider(
-                      color: const Color(0xffacacac),
-                      thickness: 2,
+                    Container(
+                      height: MySize.size19,
+                      child: Text("Replies to Sarfaraz’s comments",
+                          style: TextStyle(
+                              color: AppColors.textBlackColor,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: FontFamily.roboto,
+                              fontStyle: FontStyle.normal,
+                              fontSize: MySize.size14),
+                          textAlign: TextAlign.left),
                     ),
                     SizedBox(
-                      height: getSize(10, context),
+                      height: MySize.size8,
+                    ),
+                    Container(
+                      height: MySize.getScaledSizeHeight(0.5),
+                      color: AppColors.textGray,
+                    ),
+                    SizedBox(
+                      height: MySize.size28,
                     ),
                     ListView.separated(
                       physics: NeverScrollableScrollPhysics(),
@@ -79,60 +87,84 @@ class PostCommentReplyScreenView
                                       width: getSize(20, context),
                                     ),
                                   CircleAvatar(
-                                    radius: getSize(20, context),
-                                    backgroundImage: AssetImage(Assets.avtar),
+                                    radius: MySize.size17,
+                                    // backgroundImage:
+                                    //     AssetImage(Assets.avtar),
+                                    child: CachedNetworkImage(
+                                      imageUrl: "",
+                                      placeholder: (context, url) =>
+                                          SpinKitCircle(
+                                        color: Colors.green,
+                                        size: MySize.size20!,
+                                      ),
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        height: MySize.size17,
+                                        width: MySize.size17,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: getSize(10, context),
                                   ),
                                   Expanded(
                                     child: Container(
+                                      height: MySize.size49,
                                       child: Column(
                                         children: [
-                                          Text("Sarfaraz ",
+                                          Text("jus bshushd jsbdushdsud",
                                               style: TextStyle(
                                                   color:
-                                                      const Color(0xff1c1414),
+                                                      AppColors.textBlackColor,
                                                   fontWeight: FontWeight.w700,
-                                                  fontFamily: "Roboto",
+                                                  fontFamily:
+                                                      FontFamily.robotoBold,
                                                   fontStyle: FontStyle.normal,
-                                                  fontSize:
-                                                      getSize(14, context)),
+                                                  fontSize: MySize.size14),
                                               textAlign: TextAlign.left),
                                           SizedBox(
-                                            height: getSize(7, context),
+                                            height: MySize.size3,
                                           ),
-                                          Text("Excellent dvjhsv scvjsvhj",
+                                          Text("hdgd dhvdhVDdgD udguD",
                                               style: TextStyle(
-                                                  color:
-                                                      const Color(0xff1c1414),
+                                                  color: AppColors
+                                                      .textGrayBlackColor,
                                                   fontWeight: FontWeight.w400,
-                                                  fontFamily: "Roboto",
+                                                  fontFamily: FontFamily.roboto,
                                                   fontStyle: FontStyle.normal,
-                                                  fontSize:
-                                                      getSize(14, context)),
+                                                  fontSize: MySize.size14),
                                               textAlign: TextAlign.left)
                                         ],
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: const Color(0xffeef0f0),
+                                        color: AppColors.profileFollowText,
                                         borderRadius: BorderRadius.circular(
-                                            getSize(8, context)),
+                                            MySize.size8!),
                                       ),
                                       padding: EdgeInsets.only(
-                                          left: getSize(10, context),
-                                          top: getSize(10, context),
-                                          bottom: getSize(10, context)),
+                                          left: MySize.getScaledSizeWidth(7),
+                                          top: MySize.size6!,
+                                          bottom: MySize.size6!),
                                     ),
                                   ),
                                 ],
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    left: getSize(50, context),
-                                    top: getSize(10, context)),
+                                    left: MySize.getScaledSizeWidth(49),
+                                    top: MySize.size10!),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -141,62 +173,58 @@ class PostCommentReplyScreenView
                                       children: [
                                         Text("6",
                                             style: TextStyle(
-                                                color: const Color(0xff6d6d6e),
+                                                color: AppColors
+                                                    .textGrayBlackColor,
                                                 fontWeight: FontWeight.w400,
-                                                fontFamily: "Roboto",
+                                                fontFamily: FontFamily.roboto,
                                                 fontStyle: FontStyle.normal,
-                                                fontSize: getSize(14, context)),
+                                                fontSize: MySize.size14),
                                             textAlign: TextAlign.right),
                                         SizedBox(
-                                          width: getSize(10, context),
+                                          width: MySize.getScaledSizeWidth(8),
                                         ),
                                         SvgPicture.asset(
                                           Assets.trophy,
                                           color: AppColors.button_green,
-                                          width: getSize(13, context),
-                                          height: getSize(16, context),
+                                          width: MySize.getScaledSizeWidth(16),
+                                          height: MySize.size16,
                                         ),
                                       ],
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        // Get.toNamed(
-                                        //     Routes.POST_COMMENT_REPLY_SCREEN);
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Text("Reply",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff6d6d6e),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "Roboto",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 12.0),
-                                              textAlign: TextAlign.right),
-                                          SizedBox(
-                                            width: getSize(10, context),
-                                          ),
-                                          Container(
-                                              width: 3,
-                                              height: 3,
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      const Color(0xff1c1414))),
-                                          SizedBox(
-                                            width: getSize(10, context),
-                                          ),
-                                          Text("1",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff1c1414),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "Roboto",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 14.0),
-                                              textAlign: TextAlign.right)
-                                        ],
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text("Reply",
+                                            style: TextStyle(
+                                                color: AppColors
+                                                    .textGrayBlackColor,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: FontFamily.roboto,
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: MySize.size12),
+                                            textAlign: TextAlign.right),
+                                        SizedBox(
+                                          width: MySize.size7,
+                                        ),
+                                        Container(
+                                            width: MySize.size3,
+                                            height: MySize.size3,
+                                            decoration: BoxDecoration(
+                                                color: AppColors.textBlackColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100))),
+                                        SizedBox(
+                                          width: MySize.getScaledSizeWidth(16),
+                                        ),
+                                        Text("1",
+                                            style: TextStyle(
+                                                color: AppColors.textBlackColor,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: FontFamily.roboto,
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: MySize.size14),
+                                            textAlign: TextAlign.right)
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -219,15 +247,17 @@ class PostCommentReplyScreenView
           ),
           bottomSheet: SafeArea(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: getSize(15, context)),
+              padding: EdgeInsets.symmetric(
+                  horizontal: MySize.getScaledSizeWidth(29.5)),
+              margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(20)),
               width: double.infinity,
-              height: getSize(70, context),
+              height: MySize.size36,
               child: Form(
                 child: Row(
                   children: [
                     Expanded(
                       child: TextField(
-                        // controller: _controller,
+                        // controller: controller.commentController.value,
                         decoration: InputDecoration(
                           isDense: true,
                           fillColor: Color(0xffF0F0F0),
@@ -236,38 +266,44 @@ class PostCommentReplyScreenView
                             borderRadius:
                                 BorderRadius.all(Radius.circular(100)),
                             borderSide:
-                                BorderSide(color: Colors.grey, width: 1),
+                                BorderSide(color: AppColors.textGray, width: 1),
                           ),
                           enabledBorder: const OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(100)),
                             borderSide:
-                                BorderSide(color: Color(0xffacacac), width: 1),
+                                BorderSide(color: AppColors.textGray, width: 1),
                           ),
                           border: const OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(100)),
                             borderSide:
-                                BorderSide(color: Color(0xffacacac), width: 1),
+                                BorderSide(color: AppColors.textGray, width: 1),
                           ),
                           disabledBorder: const OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(100)),
                             borderSide:
-                                BorderSide(color: Color(0xffacacac), width: 1),
+                                BorderSide(color: AppColors.textGray, width: 1),
                           ),
                           hintText: "",
-                          suffixIcon: Icon(
-                            Icons.close,
-                            color: Colors.black,
-                            size: getSize(24, context),
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              // controller.commentController.value.text = "";
+                            },
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.black,
+                              size: getSize(24, context),
+                            ),
                           ),
+
                           hintStyle: TextStyle(
                               color: Color(0xffacacac),
                               fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
+                              fontFamily: FontFamily.roboto,
                               fontStyle: FontStyle.normal,
-                              fontSize: getSize(16, context)),
+                              fontSize: MySize.size16),
                         ),
                         cursorColor: Colors.black12.withOpacity(0.6),
                       ),
@@ -275,8 +311,8 @@ class PostCommentReplyScreenView
                     Container(
                       child: SvgPicture.asset(
                         Assets.sendIcon,
-                        height: getSize(40, context),
-                        width: getSize(40, context),
+                        height: MySize.getScaledSizeHeight(30.5),
+                        width: MySize.getScaledSizeWidth(30.5),
                       ),
                     ),
                   ],

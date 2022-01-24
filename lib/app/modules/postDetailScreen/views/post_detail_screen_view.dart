@@ -7,7 +7,9 @@ import 'package:get/get.dart';
 import 'package:social_feed_flutter/app/routes/app_pages.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
+import 'package:social_feed_flutter/constants/font_family.dart';
 import 'package:social_feed_flutter/constants/math_utils.dart';
+import 'package:social_feed_flutter/constants/sizeConstant.dart';
 import 'package:social_feed_flutter/utils/pref_utils.dart';
 
 import '../controllers/post_detail_screen_controller.dart';
@@ -28,13 +30,13 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                   child: Column(
                     children: [
                       Container(
-                        height: getSize(320, context),
+                        height: MySize.getScaledSizeHeight(206.3),
                         width: double.infinity,
                         child: Stack(
                           children: [
                             Container(
                               width: double.infinity,
-                              height: getSize(320, context),
+                              height: MySize.getScaledSizeHeight(206.3),
                               child: CachedNetworkImage(
                                 imageUrl:
                                     controller.postData.attachment.toString(),
@@ -57,8 +59,8 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                               ),
                             ),
                             Positioned(
-                              top: getSize(10, context),
-                              left: getSize(20, context),
+                              top: MySize.size20,
+                              left: MySize.getScaledSizeWidth(20),
                               child: Row(
                                 children: [
                                   InkWell(
@@ -87,32 +89,39 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                         ),
                       ),
                       SizedBox(
-                        height: getSize(20, context),
+                        height: MySize.size23,
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: getSize(18, context)),
+                            horizontal: MySize.getScaledSizeWidth(22)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  controller.postData.numberOfLikes.toString(),
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: getSize(16, context)),
-                                ),
-                                SizedBox(
-                                  width: getSize(10, context),
-                                ),
-                                SvgPicture.asset(
-                                  Assets.trophy,
-                                  color: AppColors.button_green,
-                                  width: getSize(16, context),
-                                  height: getSize(16, context),
-                                ),
-                              ],
+                            Container(
+                              child: Row(
+                                children: [
+                                  Text(
+                                      controller.postData.numberOfLikes
+                                          .toString(),
+                                      style: TextStyle(
+                                          color: AppColors.textGrayBlackColor,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: FontFamily.roboto,
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: MySize.size14),
+                                      textAlign: TextAlign.right),
+                                  SizedBox(
+                                    width: MySize.getScaledSizeWidth(8),
+                                  ),
+                                  SvgPicture.asset(
+                                    Assets.trophy,
+                                    color: AppColors.button_green,
+                                    width: MySize.getScaledSizeWidth(17),
+                                    height: MySize.size17,
+                                  ),
+                                ],
+                              ),
+                              height: MySize.size17,
                             ),
                             InkWell(
                               onTap: () {
@@ -123,36 +132,36 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                   SvgPicture.asset(
                                     Assets.comment,
                                     color: Colors.grey,
-                                    width: getSize(13, context),
-                                    height: getSize(16, context),
+                                    width: MySize.getScaledSizeWidth(14),
+                                    height: MySize.size14,
                                   ),
                                   SizedBox(
-                                    width: getSize(10, context),
+                                    width: MySize.getScaledSizeWidth(9),
                                   ),
                                   Text(
                                       "${controller.postData.numberOfComments} comments",
                                       style: TextStyle(
-                                        color: const Color(0xff6d6d6e),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: "Roboto",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: getSize(16, context),
-                                      ),
+                                          color: AppColors.textGrayBlackColor,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: FontFamily.roboto,
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: MySize.size14),
                                       textAlign: TextAlign.right)
                                 ],
                               ),
                             ),
                             SvgPicture.asset(
                               Assets.share,
-                              color: Colors.black.withOpacity(0.7),
-                              width: getSize(18, context),
-                              height: getSize(18, context),
+                              color:
+                                  AppColors.textGrayBlackColor.withOpacity(0.7),
+                              width: MySize.getScaledSizeWidth(14),
+                              height: MySize.size14,
                             ),
                           ],
                         ),
                       ),
                       SizedBox(
-                        height: getSize(20, context),
+                        height: MySize.size54,
                       ),
                       Divider(
                         color: const Color(0xffacacac),
@@ -161,27 +170,28 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                         endIndent: getSize(18, context),
                       ),
                       SizedBox(
-                        height: getSize(20, context),
+                        height: MySize.size35,
                       ),
                       (controller.hasPostData.value)
                           ? (!controller.postComments.isNotEmpty)
                               ? Container(
                                   width: double.infinity,
-                                  height: getSize(50, context),
+                                  height: MySize.size14,
                                   child: Center(
                                     child: Text("No Comments",
                                         style: TextStyle(
-                                            color: const Color(0xff1c1414),
+                                            color: AppColors.textBlackColor,
                                             fontWeight: FontWeight.w700,
-                                            fontFamily: "Roboto",
+                                            fontFamily: FontFamily.roboto,
                                             fontStyle: FontStyle.normal,
-                                            fontSize: getSize(14, context)),
+                                            fontSize: MySize.size14),
                                         textAlign: TextAlign.center),
                                   ),
                                 )
                               : Padding(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: getSize(18, context)),
+                                      horizontal:
+                                          MySize.getScaledSizeWidth(22)),
                                   child: ListView.separated(
                                     physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
@@ -196,7 +206,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 CircleAvatar(
-                                                  radius: getSize(20, context),
+                                                  radius: MySize.size17,
                                                   // backgroundImage:
                                                   //     AssetImage(Assets.avtar),
                                                   child: CachedNetworkImage(
@@ -209,16 +219,13 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                         (context, url) =>
                                                             SpinKitCircle(
                                                       color: Colors.green,
-                                                      size:
-                                                          getSize(20, context),
+                                                      size: MySize.size20!,
                                                     ),
                                                     imageBuilder: (context,
                                                             imageProvider) =>
                                                         Container(
-                                                      height:
-                                                          getSize(40, context),
-                                                      width:
-                                                          getSize(40, context),
+                                                      height: MySize.size17,
+                                                      width: MySize.size17,
                                                       decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -235,10 +242,13 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  width: getSize(10, context),
+                                                  width:
+                                                      MySize.getScaledSizeWidth(
+                                                          11),
                                                 ),
                                                 Expanded(
                                                   child: Container(
+                                                    height: MySize.size49,
                                                     child: Column(
                                                       children: [
                                                         Text(
@@ -248,31 +258,29 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                                 .name
                                                                 .toString(),
                                                             style: TextStyle(
-                                                                color: const Color(
-                                                                    0xff1c1414),
+                                                                color: AppColors
+                                                                    .textBlackColor,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w700,
                                                                 fontFamily:
-                                                                    "Roboto",
+                                                                    FontFamily
+                                                                        .robotoBold,
                                                                 fontStyle:
                                                                     FontStyle
                                                                         .normal,
-                                                                fontSize: getSize(
-                                                                    14,
-                                                                    context)),
+                                                                fontSize: MySize
+                                                                    .size14),
                                                             textAlign:
                                                                 TextAlign.left),
                                                         SizedBox(
-                                                          height: getSize(
-                                                              7, context),
+                                                          height: MySize.size3,
                                                         ),
                                                         Text(
-                                                            (PrefUtils.isNullEmptyOrFalse(
-                                                                    controller
-                                                                        .postComments[
-                                                                            i]
-                                                                        .commentBody))
+                                                            (PrefUtils.isNullEmptyOrFalse(controller
+                                                                    .postComments[
+                                                                        i]
+                                                                    .commentBody))
                                                                 ? ""
                                                                 : controller
                                                                     .postComments[
@@ -280,19 +288,19 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                                     .commentBody
                                                                     .toString(),
                                                             style: TextStyle(
-                                                                color: const Color(
-                                                                    0xff1c1414),
+                                                                color: AppColors
+                                                                    .textGrayBlackColor,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
                                                                 fontFamily:
-                                                                    "Roboto",
+                                                                    FontFamily
+                                                                        .roboto,
                                                                 fontStyle:
                                                                     FontStyle
                                                                         .normal,
-                                                                fontSize: getSize(
-                                                                    14,
-                                                                    context)),
+                                                                fontSize: MySize
+                                                                    .size14),
                                                             textAlign:
                                                                 TextAlign.left)
                                                       ],
@@ -301,28 +309,28 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                               .start,
                                                     ),
                                                     decoration: BoxDecoration(
-                                                      color: const Color(
-                                                          0xffeef0f0),
+                                                      color: AppColors
+                                                          .profileFollowText,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              getSize(
-                                                                  8, context)),
+                                                              MySize.size8!),
                                                     ),
                                                     padding: EdgeInsets.only(
-                                                        left: getSize(
-                                                            10, context),
-                                                        top: getSize(
-                                                            10, context),
-                                                        bottom: getSize(
-                                                            10, context)),
+                                                        left: MySize
+                                                            .getScaledSizeWidth(
+                                                                7),
+                                                        top: MySize.size6!,
+                                                        bottom: MySize.size6!),
                                                   ),
                                                 ),
                                               ],
                                             ),
                                             Padding(
                                               padding: EdgeInsets.only(
-                                                  left: getSize(50, context),
-                                                  top: getSize(10, context)),
+                                                  left:
+                                                      MySize.getScaledSizeWidth(
+                                                          49),
+                                                  top: MySize.size10!),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -332,32 +340,34 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                     children: [
                                                       Text("6",
                                                           style: TextStyle(
-                                                              color: const Color(
-                                                                  0xff6d6d6e),
+                                                              color: AppColors
+                                                                  .textGrayBlackColor,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w400,
                                                               fontFamily:
-                                                                  "Roboto",
+                                                                  FontFamily
+                                                                      .roboto,
                                                               fontStyle:
                                                                   FontStyle
                                                                       .normal,
-                                                              fontSize: getSize(
-                                                                  14, context)),
+                                                              fontSize: MySize
+                                                                  .size14),
                                                           textAlign:
                                                               TextAlign.right),
                                                       SizedBox(
-                                                        width: getSize(
-                                                            10, context),
+                                                        width: MySize
+                                                            .getScaledSizeWidth(
+                                                                8),
                                                       ),
                                                       SvgPicture.asset(
                                                         Assets.trophy,
                                                         color: AppColors
                                                             .button_green,
-                                                        width: getSize(
-                                                            13, context),
-                                                        height: getSize(
-                                                            16, context),
+                                                        width: MySize
+                                                            .getScaledSizeWidth(
+                                                                16),
+                                                        height: MySize.size16,
                                                       ),
                                                     ],
                                                   ),
@@ -369,47 +379,56 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                     child: Row(
                                                       children: [
                                                         Text("Reply",
-                                                            style: const TextStyle(
-                                                                color: const Color(
-                                                                    0xff6d6d6e),
+                                                            style: TextStyle(
+                                                                color: AppColors
+                                                                    .textGrayBlackColor,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
                                                                 fontFamily:
-                                                                    "Roboto",
+                                                                    FontFamily
+                                                                        .roboto,
                                                                 fontStyle:
                                                                     FontStyle
                                                                         .normal,
-                                                                fontSize: 12.0),
+                                                                fontSize: MySize
+                                                                    .size12),
                                                             textAlign: TextAlign
                                                                 .right),
                                                         SizedBox(
-                                                          width: getSize(
-                                                              10, context),
+                                                          width: MySize.size7,
                                                         ),
                                                         Container(
-                                                            width: 3,
-                                                            height: 3,
+                                                            width: MySize.size3,
+                                                            height:
+                                                                MySize.size3,
                                                             decoration: BoxDecoration(
-                                                                color: const Color(
-                                                                    0xff1c1414))),
+                                                                color: AppColors
+                                                                    .textBlackColor,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            100))),
                                                         SizedBox(
-                                                          width: getSize(
-                                                              10, context),
+                                                          width: MySize
+                                                              .getScaledSizeWidth(
+                                                                  16),
                                                         ),
                                                         Text("1",
-                                                            style: const TextStyle(
-                                                                color: const Color(
-                                                                    0xff1c1414),
+                                                            style: TextStyle(
+                                                                color: AppColors
+                                                                    .textBlackColor,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
                                                                 fontFamily:
-                                                                    "Roboto",
+                                                                    FontFamily
+                                                                        .roboto,
                                                                 fontStyle:
                                                                     FontStyle
                                                                         .normal,
-                                                                fontSize: 14.0),
+                                                                fontSize: MySize
+                                                                    .size14),
                                                             textAlign:
                                                                 TextAlign.right)
                                                       ],
@@ -426,7 +445,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                     separatorBuilder:
                                         (BuildContext context, int index) {
                                       return SizedBox(
-                                        height: getSize(20, context),
+                                        height: MySize.size20,
                                       );
                                     },
                                   ),
@@ -444,10 +463,12 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
               ),
               bottomSheet: SafeArea(
                 child: Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: getSize(15, context)),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MySize.getScaledSizeWidth(29.5)),
+                  margin:
+                      EdgeInsets.only(bottom: MySize.getScaledSizeHeight(20)),
                   width: double.infinity,
-                  height: getSize(70, context),
+                  height: MySize.size36,
                   child: Form(
                     child: Row(
                       children: [
@@ -461,26 +482,26 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                               focusedBorder: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(100)),
-                                borderSide:
-                                    BorderSide(color: Colors.grey, width: 1),
+                                borderSide: BorderSide(
+                                    color: AppColors.textGray, width: 1),
                               ),
                               enabledBorder: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(100)),
                                 borderSide: BorderSide(
-                                    color: Color(0xffacacac), width: 1),
+                                    color: AppColors.textGray, width: 1),
                               ),
                               border: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(100)),
                                 borderSide: BorderSide(
-                                    color: Color(0xffacacac), width: 1),
+                                    color: AppColors.textGray, width: 1),
                               ),
                               disabledBorder: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(100)),
                                 borderSide: BorderSide(
-                                    color: Color(0xffacacac), width: 1),
+                                    color: AppColors.textGray, width: 1),
                               ),
                               hintText: "",
                               suffixIcon: InkWell(
@@ -497,9 +518,9 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                               hintStyle: TextStyle(
                                   color: Color(0xffacacac),
                                   fontWeight: FontWeight.w400,
-                                  fontFamily: "Roboto",
+                                  fontFamily: FontFamily.roboto,
                                   fontStyle: FontStyle.normal,
-                                  fontSize: getSize(16, context)),
+                                  fontSize: MySize.size16),
                             ),
                             cursorColor: Colors.black12.withOpacity(0.6),
                           ),
@@ -524,8 +545,8 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                           child: Container(
                             child: SvgPicture.asset(
                               Assets.sendIcon,
-                              height: getSize(40, context),
-                              width: getSize(40, context),
+                              height: MySize.getScaledSizeHeight(30.5),
+                              width: MySize.getScaledSizeWidth(30.5),
                             ),
                           ),
                         ),

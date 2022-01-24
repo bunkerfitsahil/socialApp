@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
+import 'package:social_feed_flutter/constants/colors.dart';
+import 'package:social_feed_flutter/constants/font_family.dart';
 import 'package:social_feed_flutter/constants/math_utils.dart';
+import 'package:social_feed_flutter/constants/sizeConstant.dart';
 
 import '../controllers/follow_request_screen_controller.dart';
 
@@ -15,48 +18,51 @@ class FollowRequestScreenView extends GetWidget<FollowRequestScreenController> {
           child: Column(
             children: [
               Container(
-                height: getSize(70, context),
-                color: const Color(0xff3ba27f),
+                height: MySize.size70,
+                color: AppColors.button_green,
                 alignment: Alignment.center,
                 child: Stack(
                   children: [
                     Positioned(
-                      left: getSize(20, context),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              width: getSize(32, context),
-                              height: getSize(32, context),
-                              decoration: BoxDecoration(
-                                  color: const Color(0xffffffff),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Center(
-                                child: Icon(
-                                  Icons.arrow_back,
-                                  size: getSize(22, context),
+                      left: MySize.getScaledSizeWidth(20.5),
+                      child: Container(
+                        height: MySize.getScaledSizeHeight(31.2),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Container(
+                                width: MySize.getScaledSizeWidth(28),
+                                height: MySize.size28,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xffffffff),
+                                    borderRadius: BorderRadius.circular(50)),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    size: MySize.size13,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Positioned(
                       child: Container(
-                        height: getSize(32, context),
+                        height: MySize.getScaledSizeHeight(31.2),
                         width: MediaQuery.of(context).size.width,
                         alignment: Alignment.center,
                         child: Text("Follower Requests  ",
                             style: TextStyle(
-                                color: const Color(0xffffffff),
+                                color: AppColors.white,
                                 fontWeight: FontWeight.w500,
-                                fontFamily: "Roboto",
+                                fontFamily: FontFamily.robotoMedium,
                                 fontStyle: FontStyle.normal,
-                                fontSize: getSize(18, context)),
+                                fontSize: MySize.size18),
                             textAlign: TextAlign.center),
                       ),
                     ),
@@ -65,142 +71,175 @@ class FollowRequestScreenView extends GetWidget<FollowRequestScreenController> {
               ),
               Expanded(
                 child: Container(
-                  color: const Color(0xffe6e6e6),
-                  padding: EdgeInsets.only(top: getSize(20, context)),
+                  color: AppColors.backGray,
+                  padding: EdgeInsets.only(top: MySize.size23!),
                   child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: getSize(20, context)),
+                    padding: EdgeInsets.symmetric(horizontal: MySize.size18!),
                     child: ListView.separated(
                       itemCount: 15,
                       itemBuilder: (context, i) {
                         return Container(
-                          height: getSize(110, context),
+                          height: MySize.size95,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius:
-                                  BorderRadius.circular(getSize(10, context))),
-                          padding: EdgeInsets.all(getSize(10, context)),
+                                  BorderRadius.circular(MySize.size10!)),
+                          padding: EdgeInsets.only(
+                              left: MySize.getScaledSizeWidth(7),
+                              top: MySize.size4!,
+                              right: MySize.getScaledSizeWidth(3)),
                           child: Column(
                             children: [
                               Row(
                                 children: [
                                   Row(
                                     children: [
-                                      CircleAvatar(
-                                        radius: getSize(30, context),
-                                        backgroundImage:
-                                            AssetImage(Assets.avtar),
+                                      Container(
+                                        height: MySize.size55,
+                                        child: CircleAvatar(
+                                          radius: MySize.size27,
+                                          backgroundImage:
+                                              AssetImage(Assets.avtar),
+                                        ),
                                       ),
                                       SizedBox(
-                                        width: getSize(10, context),
+                                        width: MySize.getScaledSizeWidth(5),
                                       ),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text("Sahil Soni",
-                                              style: TextStyle(
-                                                  color:
-                                                      const Color(0xff1c1414),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: "Roboto",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize:
-                                                      getSize(14, context)),
-                                              textAlign: TextAlign.left),
-                                          SizedBox(
-                                            height: getSize(8, context),
+                                          Container(
+                                            height: MySize.size55,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text("Sahil Soni",
+                                                    style: TextStyle(
+                                                        color: AppColors
+                                                            .textBlackColor,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontFamily: FontFamily
+                                                            .robotoMedium,
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontSize:
+                                                            MySize.size14),
+                                                    textAlign: TextAlign.left),
+                                                SizedBox(
+                                                  height: MySize.size3,
+                                                ),
+                                                Text(
+                                                    "New Delhi,  Sales & Marketing",
+                                                    style: TextStyle(
+                                                        color: AppColors
+                                                            .textGrayBlackColor,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontFamily:
+                                                            FontFamily.roboto,
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontSize:
+                                                            MySize.size12),
+                                                    textAlign: TextAlign.left),
+                                              ],
+                                            ),
                                           ),
-                                          Text("New Delhi,  Sales & Marketing",
-                                              style: TextStyle(
-                                                  color:
-                                                      const Color(0xff6d6d6e),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "Roboto",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize:
-                                                      getSize(12, context)),
-                                              textAlign: TextAlign.left),
-                                          SizedBox(
-                                            height: getSize(15, context),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    width: getSize(80, context),
-                                                    height:
-                                                        getSize(30, context),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  3)),
-                                                      color: const Color(
-                                                          0xffffe6e7),
+                                          // SizedBox(
+                                          //   height: getSize(15, context),
+                                          // ),
+                                          Container(
+                                            height: MySize.size26,
+                                            child: Row(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      width: MySize
+                                                          .getScaledSizeWidth(
+                                                              75),
+                                                      height: MySize.size26,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    3)),
+                                                        color: const Color(
+                                                            0xffffe6e7),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text("Decline",
+                                                            style: TextStyle(
+                                                                color: AppColors
+                                                                    .red,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontFamily:
+                                                                    FontFamily
+                                                                        .robotoMedium,
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .normal,
+                                                                fontSize: MySize
+                                                                    .size14),
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                      ),
                                                     ),
-                                                    child: Center(
-                                                      child: Text("Decline",
-                                                          style: TextStyle(
-                                                              color: const Color(
-                                                                  0xfffa1313),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontFamily:
-                                                                  "Roboto",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: getSize(
-                                                                  14, context)),
-                                                          textAlign:
-                                                              TextAlign.center),
+                                                    SizedBox(
+                                                      width: MySize
+                                                          .getScaledSizeWidth(
+                                                              17),
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: getSize(25, context),
-                                                  ),
-                                                  Container(
-                                                    width: getSize(80, context),
-                                                    height:
-                                                        getSize(30, context),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  3)),
-                                                      color: const Color(
-                                                          0xffdbf0e9),
+                                                    Container(
+                                                      width: MySize
+                                                          .getScaledSizeWidth(
+                                                              75),
+                                                      height: MySize.size26,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    3)),
+                                                        color: const Color(
+                                                            0xffdbf0e9),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text("Accept",
+                                                            style: TextStyle(
+                                                                color: AppColors
+                                                                    .button_green,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontFamily:
+                                                                    FontFamily
+                                                                        .robotoMedium,
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .normal,
+                                                                fontSize: MySize
+                                                                    .size14),
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                      ),
                                                     ),
-                                                    child: Center(
-                                                      child: Text("Accept",
-                                                          style: TextStyle(
-                                                              color: const Color(
-                                                                  0xff3ba27f),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontFamily:
-                                                                  "Roboto",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: getSize(
-                                                                  14, context)),
-                                                          textAlign:
-                                                              TextAlign.center),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                  ],
+                                                ),
+                                              ],
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -213,29 +252,35 @@ class FollowRequestScreenView extends GetWidget<FollowRequestScreenController> {
                                     children: [
                                       Text("03 : 30 am",
                                           style: TextStyle(
-                                              color: const Color(0xff1c1414),
+                                              color: AppColors.textBlackColor,
                                               fontWeight: FontWeight.w400,
-                                              fontFamily: "Roboto",
+                                              fontFamily: FontFamily.roboto,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: getSize(10, context)),
+                                              fontSize: MySize.size9),
                                           textAlign: TextAlign.left),
                                       SizedBox(
-                                        height: getSize(8, context),
+                                        height: MySize.size3,
                                       ),
                                       Text("12 Dec 22",
                                           style: TextStyle(
-                                              color: const Color(0xff1c1414),
+                                              color: AppColors.textBlackColor,
                                               fontWeight: FontWeight.w400,
-                                              fontFamily: "Roboto",
+                                              fontFamily: FontFamily.roboto,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: getSize(10, context)),
+                                              fontSize: MySize.size9),
                                           textAlign: TextAlign.left),
                                       SizedBox(
-                                        height: getSize(30, context),
+                                        height: MySize.size36,
                                       ),
-                                      Icon(
-                                        Icons.delete,
-                                        size: getSize(20, context),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            right: MySize.getScaledSizeWidth(
+                                                15.1)),
+                                        child: Icon(
+                                          Icons.delete,
+                                          size: MySize.size13,
+                                          color: AppColors.textGray,
+                                        ),
                                       ),
                                     ],
                                   )

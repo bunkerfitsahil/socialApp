@@ -45,15 +45,17 @@ flutter:
     - assets/videos/
 
   fonts:
-    - family: Roboto
+    - family: Roboto-Bold
       fonts:
         - asset: assets/fonts/Roboto-Bold.ttf
+    - family: Roboto-Regular
+      fonts:
         - asset: assets/fonts/Roboto-Regular.ttf
-
-        - asset: assets/fonts/Roboto-Black.ttf
-
+    - family: Roboto-Medium
+      fonts:
         - asset: assets/fonts/Roboto-Medium.ttf
-
+    - family: Roboto-Light
+      fonts:
         - asset: assets/fonts/Roboto-Light.ttf
 
 

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
+import 'package:social_feed_flutter/constants/colors.dart';
+import 'package:social_feed_flutter/constants/font_family.dart';
 import 'package:social_feed_flutter/constants/math_utils.dart';
+import 'package:social_feed_flutter/constants/sizeConstant.dart';
 
 import '../controllers/badges_screen_controller.dart';
 
@@ -15,48 +18,51 @@ class BadgesScreenView extends GetWidget<BadgesScreenController> {
           child: Column(
             children: [
               Container(
-                height: getSize(70, context),
-                color: const Color(0xff3ba27f),
+                height: MySize.size70,
+                color: AppColors.button_green,
                 alignment: Alignment.center,
                 child: Stack(
                   children: [
                     Positioned(
-                      left: getSize(20, context),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              width: getSize(32, context),
-                              height: getSize(32, context),
-                              decoration: BoxDecoration(
-                                  color: const Color(0xffffffff),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Center(
-                                child: Icon(
-                                  Icons.arrow_back,
-                                  size: getSize(22, context),
+                      left: MySize.getScaledSizeWidth(20.5),
+                      child: Container(
+                        height: MySize.getScaledSizeHeight(31.2),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Container(
+                                width: MySize.getScaledSizeWidth(28),
+                                height: MySize.size28,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xffffffff),
+                                    borderRadius: BorderRadius.circular(50)),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    size: MySize.size13,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Positioned(
                       child: Container(
-                        height: getSize(32, context),
+                        height: MySize.getScaledSizeHeight(31.2),
                         width: MediaQuery.of(context).size.width,
                         alignment: Alignment.center,
-                        child: Text("Surbhi Mahendru ",
+                        child: Text("Surbhi Mahendru",
                             style: TextStyle(
-                                color: const Color(0xffffffff),
+                                color: AppColors.white,
                                 fontWeight: FontWeight.w500,
-                                fontFamily: "Roboto",
+                                fontFamily: FontFamily.robotoMedium,
                                 fontStyle: FontStyle.normal,
-                                fontSize: getSize(18, context)),
+                                fontSize: MySize.size18),
                             textAlign: TextAlign.center),
                       ),
                     ),

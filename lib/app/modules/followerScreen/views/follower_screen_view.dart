@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
+import 'package:social_feed_flutter/constants/colors.dart';
+import 'package:social_feed_flutter/constants/font_family.dart';
 import 'package:social_feed_flutter/constants/math_utils.dart';
+import 'package:social_feed_flutter/constants/sizeConstant.dart';
 
 import '../controllers/follower_screen_controller.dart';
 
@@ -16,48 +19,51 @@ class FollowerScreenView extends GetWidget<FollowerScreenController> {
             child: Column(
               children: [
                 Container(
-                  height: getSize(70, context),
-                  color: const Color(0xff3ba27f),
+                  height: MySize.size70,
+                  color: AppColors.button_green,
                   alignment: Alignment.center,
                   child: Stack(
                     children: [
                       Positioned(
-                        left: getSize(20, context),
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Get.back();
-                              },
-                              child: Container(
-                                width: getSize(32, context),
-                                height: getSize(32, context),
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffffffff),
-                                    borderRadius: BorderRadius.circular(50)),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    size: getSize(22, context),
+                        left: MySize.getScaledSizeWidth(20.5),
+                        child: Container(
+                          height: MySize.getScaledSizeHeight(31.2),
+                          child: Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Get.back();
+                                },
+                                child: Container(
+                                  width: MySize.getScaledSizeWidth(28),
+                                  height: MySize.size28,
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffffffff),
+                                      borderRadius: BorderRadius.circular(50)),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.arrow_back,
+                                      size: MySize.size13,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       Positioned(
                         child: Container(
-                          height: getSize(32, context),
+                          height: MySize.getScaledSizeHeight(31.2),
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.center,
                           child: Text("Followers ",
                               style: TextStyle(
-                                  color: const Color(0xffffffff),
+                                  color: AppColors.white,
                                   fontWeight: FontWeight.w500,
-                                  fontFamily: "Roboto",
+                                  fontFamily: FontFamily.robotoMedium,
                                   fontStyle: FontStyle.normal,
-                                  fontSize: getSize(18, context)),
+                                  fontSize: MySize.size18),
                               textAlign: TextAlign.center),
                         ),
                       ),
@@ -67,17 +73,17 @@ class FollowerScreenView extends GetWidget<FollowerScreenController> {
                 Expanded(
                   child: Obx(() {
                     return Container(
-                      padding: EdgeInsets.only(top: getSize(35, context)),
+                      padding: EdgeInsets.only(top: MySize.size78!),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: getSize(15, context)),
+                            horizontal: MySize.getScaledSizeWidth(30)),
                         child: GridView.count(
                           //physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           crossAxisCount: 3,
-                          childAspectRatio: 3 / 3.3,
-                          mainAxisSpacing: getSize(12, context),
-                          //crossAxisSpacing: getSize(0, context),
+                          childAspectRatio: 3 / 4,
+                          mainAxisSpacing: MySize.size44!,
+                          crossAxisSpacing: MySize.getScaledSizeWidth(19),
                           children: List.generate(
                             controller.totalCount.value,
                             (index) {
@@ -89,8 +95,7 @@ class FollowerScreenView extends GetWidget<FollowerScreenController> {
                                     child: Column(
                                       children: [
                                         CircleAvatar(
-                                          backgroundColor: Colors.red,
-                                          radius: getSize(54, context),
+                                          radius: MySize.size44,
                                           backgroundImage:
                                               AssetImage(Assets.avtar),
                                         ),
@@ -127,14 +132,14 @@ class FollowerScreenView extends GetWidget<FollowerScreenController> {
                       controller.onClickSeeMore();
                     },
                     child: Container(
-                      height: getSize(80, context),
+                      height: MySize.size80,
                       padding: EdgeInsets.symmetric(
-                          horizontal: getSize(30, context)),
+                          horizontal: MySize.getScaledSizeWidth(30)),
                       color: Colors.white,
                       child: Column(
                         children: [
                           Container(
-                            height: getSize(35, context),
+                            height: MySize.size41,
                             width: double.infinity,
                             // color: Colors.grey,
                             decoration: BoxDecoration(

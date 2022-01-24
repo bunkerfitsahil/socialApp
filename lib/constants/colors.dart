@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 class AppColors {
   AppColors._();
 
@@ -7,9 +9,10 @@ class AppColors {
   static const Color nearlyWhite = Color(0xFFFEFEFE);
   static const Color white = Color(0xFFFFFFFF);
   static const Color nearlyBlack = Color(0xFF213333);
-  static const Color grey = Color(0xFF3A5160);
+  static const Color grey = Colors.grey;
   static const Color dark_grey = Color(0xFF313A44);
   static const Color button_green = Color(0xff3ba27f);
+  static const Color blackColor = Colors.black;
 
   static const Color darkText = Color(0xFF253840);
   static const Color darkerText = Color(0xFF17262A);
@@ -19,4 +22,13 @@ class AppColors {
   static const Color chipBackground = Color(0xFFEEF1F3);
   static const Color spacer = Color(0xFFF2F2F2);
   static const Color color_FFF2F2F2 = Color(0xFFF2F2F2);
+  static const Color textGray = Color(0xffacacac);
+  static const Color borderWhite = Color(0xffF0F0F0);
+  static const Color textGrayBlackColor = Color(0xff6d6d6e);
+  static const Color textBlackColor = Color(0xff1c1414);
+  static const Color profileBack = Color(0xffeef0f0);
+  static const Color profileFollowText = Color(0xffeef0f0);
+  static const Color backGray = Color(0xffe6e6e6);
+  static const Color red = Color(0xfffa1313);
+  static const Color greenColor = Colors.green;
 }
