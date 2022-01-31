@@ -19,7 +19,10 @@ class Assets {
   static const String share = "assets/icons/share.svg";
   static const String comment = "assets/icons/comment.svg";
   static const String trophy = "assets/icons/trophy.svg";
+  static const String radio = "assets/icons/radio.svg";
   static const String gymImage = "assets/images/story.jpg";
+  static const String image = "assets/icons/image.svg";
+  static const String no_team = "assets/icons/no_team.svg";
 
   // User Profile Screen
   static const String profBack = "assets/images/profile_back.png";

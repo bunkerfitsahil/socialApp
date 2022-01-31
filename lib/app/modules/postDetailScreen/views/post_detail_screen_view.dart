@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:social_feed_flutter/app/routes/app_pages.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
@@ -60,7 +61,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                             ),
                             Positioned(
                               top: MySize.size20,
-                              left: MySize.getScaledSizeWidth(20),
+                              left: MySize.size20,
                               child: Row(
                                 children: [
                                   InkWell(
@@ -68,8 +69,8 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                       Get.back();
                                     },
                                     child: Container(
-                                      width: getSize(32, context),
-                                      height: getSize(32, context),
+                                      width: MySize.size28,
+                                      height: MySize.size28,
                                       decoration: BoxDecoration(
                                           color: const Color(0xffffffff),
                                           borderRadius:
@@ -77,7 +78,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                       child: Center(
                                         child: Icon(
                                           Icons.arrow_back,
-                                          size: getSize(22, context),
+                                          size: MySize.size22,
                                         ),
                                       ),
                                     ),
@@ -150,12 +151,24 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                 ],
                               ),
                             ),
-                            SvgPicture.asset(
-                              Assets.share,
-                              color:
-                                  AppColors.textGrayBlackColor.withOpacity(0.7),
-                              width: MySize.getScaledSizeWidth(14),
-                              height: MySize.size14,
+                            InkWell(
+                              onTap: () {
+                                var text =
+                                    (controller.postData.postBody != null)
+                                        ? controller.postData.postBody
+                                        : null;
+                                var msg = (text != null)
+                                    ? "${controller.postData.attachment!} \n $text"
+                                    : controller.postData.attachment!;
+                                Share.share(msg);
+                              },
+                              child: SvgPicture.asset(
+                                Assets.share,
+                                color: AppColors.textGrayBlackColor
+                                    .withOpacity(0.7),
+                                width: MySize.getScaledSizeWidth(14),
+                                height: MySize.size14,
+                              ),
                             ),
                           ],
                         ),

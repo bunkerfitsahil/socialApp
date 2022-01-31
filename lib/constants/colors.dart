@@ -28,7 +28,12 @@ class AppColors {
   static const Color textBlackColor = Color(0xff1c1414);
   static const Color profileBack = Color(0xffeef0f0);
   static const Color profileFollowText = Color(0xffeef0f0);
+  static const Color backChalangeColor = Color(0xfff7f7f7);
   static const Color backGray = Color(0xffe6e6e6);
   static const Color red = Color(0xfffa1313);
   static const Color greenColor = Colors.green;
+  static const Color blueButtonColor = Color(0xff2f374f);
+  static const Color offWhiteColor = Color(0xfffcfcfc);
+  static const Color shadowColor = Color(0xffd6d6d6);
+  static const Color borderColor = Color(0xffacb6b9);
 }

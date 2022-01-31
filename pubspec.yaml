@@ -24,7 +24,7 @@ dependencies:
   cached_network_image:
   flutter_share:
   share_plus:
-  event_bus: ^2.0.0
+  like_button: ^2.0.4
 
 
   flutter: 

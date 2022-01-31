@@ -9,6 +9,7 @@ class PostsList {
   String? postBody;
   String? attachment;
   int? organization;
+  bool? isLiked;
 
   PostsList(
       {this.id,
@@ -20,7 +21,8 @@ class PostsList {
       this.postUuid,
       this.postBody,
       this.attachment,
-      this.organization});
+      this.organization,
+      this.isLiked});
 
   PostsList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -31,6 +33,7 @@ class PostsList {
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
     postUuid = json['post_uuid'];
+    isLiked = json['is_liked'];
     postBody = json['post_body'];
     attachment = json['attachment'];
     organization = json['organization'];
@@ -43,6 +46,7 @@ class PostsList {
       data['user_data'] = this.userData!.toJson();
     }
     data['number_of_likes'] = this.numberOfLikes;
+    data['is_liked'] = this.isLiked;
     data['number_of_comments'] = this.numberOfComments;
     data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;

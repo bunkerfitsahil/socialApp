@@ -35,7 +35,7 @@ class FollowingScreenView extends GetWidget<FollowingScreenController> {
                                 Get.back();
                               },
                               child: Container(
-                                width: MySize.getScaledSizeWidth(28),
+                                width: MySize.size28,
                                 height: MySize.size28,
                                 decoration: BoxDecoration(
                                     color: const Color(0xffffffff),

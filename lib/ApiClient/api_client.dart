@@ -139,6 +139,28 @@ class ApiClient extends GetConnect {
     }
   }
 
+  callApiForGetUsersData({
+    Function(dynamic data)? onSuccess,
+    Function(dynamic error)? onError,
+    int? id,
+  }) async {
+    Map<String, String> headers = {};
+    headers["Content-Type"] = "application/json";
+
+    headers["Authorization"] = token;
+    //ProgressDialogUtils.showProgressDialog();
+    try {
+      final response = await get(Base_url + 'user-profile/$id',
+          contentType: "application/json", headers: headers);
+
+      onSuccess!(response.body);
+    } catch (error) {
+      //ProgressDialogUtils.hideProgressDialog();
+      onError!(error);
+      Fluttertoast.showToast(msg: "$error");
+    }
+  }
+
   callApiForCreatePostsComment({
     Function(dynamic data)? onSuccess,
     Function(dynamic error)? onError,

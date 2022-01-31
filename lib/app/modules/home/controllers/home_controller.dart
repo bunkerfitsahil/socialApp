@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:social_feed_flutter/ApiClient/api_client.dart';
 import 'package:social_feed_flutter/app/modules/home/post_create_model.dart';
 import 'package:social_feed_flutter/app/routes/app_pages.dart';
+import 'package:social_feed_flutter/constants/argumentConstant.dart';
 import 'package:social_feed_flutter/models/PostsResponseModel.dart';
 import 'package:social_feed_flutter/utils/progress_dialog_utils.dart';
 
@@ -42,8 +43,10 @@ class HomeController extends GetxController {
   @override
   void onClose() {}
 
-  goToUserProfileScreen() {
-    Get.toNamed(Routes.USER_PROFILE);
+  goToUserProfileScreen({int? id}) {
+    Get.toNamed(Routes.USER_PROFILE, arguments: {
+      Argument.userId: id,
+    });
   }
 
   getImage() async {
