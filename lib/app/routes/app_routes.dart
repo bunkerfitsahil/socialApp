@@ -20,6 +20,11 @@ abstract class Routes {
   static const NO_TEAM_EXIST_ALERT_SCREEN = _Paths.NO_TEAM_EXIST_ALERT_SCREEN;
   static const TEAM_INVITE_SCREEN = _Paths.TEAM_INVITE_SCREEN;
   static const LEADER_BOARD_SCREEN = _Paths.LEADER_BOARD_SCREEN;
+  static const TEMP = _Paths.TEMP;
+  static const INDIVIDUAL_CHALANGE_SCREEN = _Paths.INDIVIDUAL_CHALANGE_SCREEN;
+  static const MY_UPCOMING_INDIVIDUAL_SCREEN =
+      _Paths.MY_UPCOMING_INDIVIDUAL_SCREEN;
+  static const PARTICIPATION_SCREEN = _Paths.PARTICIPATION_SCREEN;
 }
 
 abstract class _Paths {
@@ -39,4 +44,8 @@ abstract class _Paths {
   static const NO_TEAM_EXIST_ALERT_SCREEN = '/no-team-exist-alert-screen';
   static const TEAM_INVITE_SCREEN = '/team-invite-screen';
   static const LEADER_BOARD_SCREEN = '/leader-board-screen';
+  static const TEMP = '/temp';
+  static const INDIVIDUAL_CHALANGE_SCREEN = '/individual-chalange-screen';
+  static const MY_UPCOMING_INDIVIDUAL_SCREEN = '/my-upcoming-individual-screen';
+  static const PARTICIPATION_SCREEN = '/participation-screen';
 }

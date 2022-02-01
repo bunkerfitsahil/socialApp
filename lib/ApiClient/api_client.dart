@@ -15,30 +15,6 @@ class ApiClient extends GetConnect {
   static final token =
       "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1NDIwOTM5LCJqdGkiOiI2MWZkMGJhMDJmMGQ0NTgyODI1ZDU3NTQzN2ViN2I0NSIsInVzZXJfaWQiOjN9.Xu3c94eWlBqveKLA7ju9-lui0otVziNKMh08MttqgEw";
 
-  callLogInApi({
-    Function(dynamic data)? onSuccess,
-    Function(dynamic error)? onError,
-  }) async {
-    Map<String, String> headers = {"Content-Type": "multipart/form-data"};
-    ProgressDialogUtils.showProgressDialog();
-    try {
-      Map<String, dynamic> req = <String, dynamic>{};
-      req['txt_username'] = 'admin';
-      req['txt_password'] = 'admin';
-      final form = FormData(req);
-      final response = await post(
-          "https://hofficedemo4.ondemandcrm.co/AppRequestAPI", form,
-          contentType: "multipart/form-data", headers: headers);
-      print(response.body);
-      print(jsonDecode(response.body)[0]);
-      onSuccess!(jsonDecode(response.body)[0]);
-    } catch (error) {
-      ProgressDialogUtils.hideProgressDialog();
-      onError!(error);
-      Fluttertoast.showToast(msg: "$error");
-    }
-  }
-
   callPostCreateApi(
       {Function(dynamic data)? onSuccess,
       Function(dynamic error)? onError,
