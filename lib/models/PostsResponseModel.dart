@@ -9,20 +9,24 @@ class PostsList {
   String? postBody;
   String? attachment;
   int? organization;
+  int? postLikeid;
   bool? isLiked;
-
-  PostsList(
-      {this.id,
-      this.userData,
-      this.numberOfLikes,
-      this.numberOfComments,
-      this.updatedAt,
-      this.createdAt,
-      this.postUuid,
-      this.postBody,
-      this.attachment,
-      this.organization,
-      this.isLiked});
+  String? fileType;
+  PostsList({
+    this.id,
+    this.userData,
+    this.numberOfLikes,
+    this.numberOfComments,
+    this.updatedAt,
+    this.createdAt,
+    this.postUuid,
+    this.postBody,
+    this.attachment,
+    this.organization,
+    this.isLiked,
+    this.postLikeid,
+    this.fileType,
+  });
 
   PostsList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -37,6 +41,8 @@ class PostsList {
     postBody = json['post_body'];
     attachment = json['attachment'];
     organization = json['organization'];
+    postLikeid = json['post_like_id'];
+    fileType = json['file_type'];
   }
 
   Map<String, dynamic> toJson() {

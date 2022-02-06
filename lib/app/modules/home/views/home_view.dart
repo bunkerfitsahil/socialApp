@@ -18,6 +18,8 @@ import 'package:social_feed_flutter/constants/font_family.dart';
 import 'package:social_feed_flutter/constants/math_utils.dart';
 import 'package:social_feed_flutter/constants/sizeConstant.dart';
 import 'package:social_feed_flutter/utils/pref_utils.dart';
+import 'package:social_feed_flutter/utils/progress_dialog_utils.dart';
+import 'package:video_player/video_player.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -117,10 +119,11 @@ class HomeView extends GetWidget<HomeController> {
     );
   }
 
-  Widget getAllImageData() {
+  getAllImageData() {
     return ListView.separated(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
+      cacheExtent: 1000,
       itemBuilder: (context, i) {
         return Container(
           child: Column(
@@ -161,77 +164,69 @@ class HomeView extends GetWidget<HomeController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
-            child: Container(
-              child: Row(
-                children: [
-                  LikeButton(
-                    circleColor: CircleColor(
-                        start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                    bubblesColor: BubblesColor(
-                      dotPrimaryColor: Color(0xff33b5e5),
-                      dotSecondaryColor: Color(0xff0099cc),
-                    ),
-                    likeBuilder: (bool isLiked) {
-                      return SvgPicture.asset(
-                        Assets.trophy,
-                        color:
-                            isLiked ? AppColors.button_green : AppColors.grey,
-                        width: MySize.getScaledSizeWidth(13.3),
-                        height: MySize.size17,
-                      );
-                    },
-                    onTap: (isLiked) async {
-                      if (controller.allPostList[i].isLiked == true) {
-                        controller.allPostList[i].isLiked = false;
-                        controller.allPostList[i].numberOfLikes =
-                            controller.allPostList[i].numberOfLikes! - 1;
-                      } else {
-                        controller.allPostList[i].isLiked = true;
-
-                        controller.allPostList[i].numberOfLikes =
-                            controller.allPostList[i].numberOfLikes! + 1;
-                      }
-
-                      return !isLiked;
-                    },
-                    likeCount: controller.allPostList[i].numberOfLikes,
-                    countPostion: CountPostion.left,
-                    isLiked: controller.allPostList[i].isLiked,
-                    countBuilder: (int? count, bool isLiked, String text) {
-                      var color =
-                          isLiked ? Colors.deepPurpleAccent : Colors.grey;
-                      Widget result;
-                      if (count == 0) {
-                        result = Text(
-                          "0",
-                          style: TextStyle(color: color),
-                        );
-                      } else
-                        result = Text(
-                          text,
-                          style: TextStyle(color: color),
-                        );
-                      return result;
-                    },
-                  ),
-                  // Text(
-                  //   controller.allPostList[i].numberOfLikes.toString(),
-                  //   style:
-                  //       TextStyle(color: Colors.black, fontSize: MySize.size14),
-                  // ),
-                  // SizedBox(
-                  //   width: MySize.getScaledSizeWidth(8),
-                  // ),
-                  // SvgPicture.asset(
-                  //   Assets.trophy,
-                  //   color: AppColors.button_green,
-                  //   width: MySize.getScaledSizeWidth(13.3),
-                  //   height: MySize.size17,
-                  // ),
-                ],
+          Container(
+            width: MySize.getScaledSizeWidth(50),
+            child: LikeButton(
+              circleColor: CircleColor(
+                  start: AppColors.buttonStartColor,
+                  end: AppColors.buttonEndColor),
+              bubblesColor: BubblesColor(
+                dotPrimaryColor: AppColors.dotPrimaryColor,
+                dotSecondaryColor: AppColors.dotPrimaryColor,
               ),
-              height: MySize.size26,
+              likeBuilder: (bool isLiked) {
+                return SvgPicture.asset(
+                  Assets.trophy,
+                  color: isLiked ? AppColors.button_green : AppColors.grey,
+                  width: MySize.getScaledSizeWidth(13.3),
+                  height: MySize.size17,
+                );
+              },
+              onTap: (isLiked) async {
+                if (controller.allPostList[i].isLiked == true) {
+                  controller.isLikeSuccess.value = false;
+                  await controller.deletePostLike(
+                    id: controller.allPostList[i].postLikeid,
+                    successCall: () {
+                      controller.allPostList[i].isLiked = false;
+
+                      controller.allPostList[i].numberOfLikes =
+                          controller.allPostList[i].numberOfLikes! - 1;
+                    },
+                  );
+                } else {
+                  controller.isLikeSuccess.value = false;
+                  await controller.createPostLike(
+                    id: controller.allPostList[i].id,
+                    successCall: () {
+                      controller.allPostList[i].isLiked = true;
+
+                      controller.allPostList[i].numberOfLikes =
+                          controller.allPostList[i].numberOfLikes! + 1;
+                    },
+                  );
+                }
+
+                return (controller.isLikeSuccess.value) ? !isLiked : isLiked;
+              },
+              likeCount: controller.allPostList[i].numberOfLikes,
+              countPostion: CountPostion.left,
+              isLiked: controller.allPostList[i].isLiked,
+              countBuilder: (int? count, bool isLiked, String text) {
+                var color = isLiked ? AppColors.deepColor : AppColors.grey;
+                Widget result;
+                if (count == 0) {
+                  result = Text(
+                    "0",
+                    style: TextStyle(color: color),
+                  );
+                } else
+                  result = Text(
+                    text,
+                    style: TextStyle(color: color),
+                  );
+                return result;
+              },
             ),
           ),
           InkWell(
@@ -245,7 +240,7 @@ class HomeView extends GetWidget<HomeController> {
                 children: [
                   SvgPicture.asset(
                     Assets.comment,
-                    color: Colors.grey,
+                    color: AppColors.grey,
                     width: MySize.getScaledSizeWidth(13.7),
                     height: MySize.getScaledSizeHeight(13.7),
                   ),
@@ -257,7 +252,7 @@ class HomeView extends GetWidget<HomeController> {
                     style: TextStyle(
                         color: AppColors.textGrayBlackColor,
                         fontWeight: FontWeight.w400,
-                        fontFamily: "Roboto",
+                        fontFamily: FontFamily.roboto,
                         fontStyle: FontStyle.normal,
                         fontSize: MySize.size14),
                   ),
@@ -294,23 +289,29 @@ class HomeView extends GetWidget<HomeController> {
     return Container(
       width: double.infinity,
       height: MySize.size240,
-      child: CachedNetworkImage(
-        imageUrl: controller.allPostList[i].attachment.toString(),
-        imageBuilder: (context, imageProvider) => Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.fill,
+      child: (controller.allPostList[i].fileType == "Video")
+          ? VideoPlayerItem(
+              url: controller.allPostList[i].attachment.toString(),
+              videoPlayerController: VideoPlayerController.network(
+                  controller.allPostList[i].attachment.toString()),
+            )
+          : CachedNetworkImage(
+              imageUrl: controller.allPostList[i].attachment.toString(),
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+              placeholder: (context, url) => SpinKitCircle(
+                color: AppColors.greenColor,
+                size: MySize.size30!,
+              ),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              fit: BoxFit.cover,
             ),
-          ),
-        ),
-        placeholder: (context, url) => SpinKitCircle(
-          color: AppColors.greenColor,
-          size: MySize.size30!,
-        ),
-        errorWidget: (context, url, error) => Icon(Icons.error),
-        fit: BoxFit.cover,
-      ),
     );
   }
 
@@ -322,14 +323,6 @@ class HomeView extends GetWidget<HomeController> {
             : Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MySize.getScaledSizeWidth(22)),
-                // child: AutoSizeText(
-                //   'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy ',
-                //   style:
-                //       TextStyle(fontSize: getFontSize(20, context)),
-                //   maxFontSize: getFontSize(20, context),
-                //   minFontSize: getFontSize(10, context),
-                //   maxLines: 2,
-                // ),
                 child: Container(
                   child: AutoSizeText(
                     controller.allPostList[i].postBody.toString(),
@@ -361,7 +354,8 @@ class HomeView extends GetWidget<HomeController> {
       child: InkWell(
         onTap: () {
           controller.goToUserProfileScreen(
-              id: controller.allPostList[i].userData!.userProfileId);
+              id: controller.allPostList[i].userData!.userProfileId,
+              isLoginUser: false);
         },
         child: Row(
           children: [
@@ -374,7 +368,7 @@ class HomeView extends GetWidget<HomeController> {
                   imageUrl: controller.allPostList[i].userData!.profilePicture
                       .toString(),
                   placeholder: (context, url) => SpinKitCircle(
-                    color: Colors.green,
+                    color: AppColors.greenColor,
                     size: MySize.size25!,
                   ),
                   imageBuilder: (context, imageProvider) => Container(
@@ -423,7 +417,7 @@ class HomeView extends GetWidget<HomeController> {
                     style: TextStyle(
                         color: AppColors.textGrayBlackColor,
                         fontWeight: FontWeight.w400,
-                        fontFamily: "Roboto",
+                        fontFamily: FontFamily.roboto,
                         fontStyle: FontStyle.normal,
                         fontSize: MySize.size12),
                     textAlign: TextAlign.left),
@@ -503,11 +497,35 @@ class HomeView extends GetWidget<HomeController> {
         children: [
           Row(
             children: [
-              Container(
-                height: MySize.size35,
-                width: MySize.getScaledSizeWidth(35),
-                child: CircleAvatar(
-                  backgroundImage: AssetImage(Assets.avtar),
+              InkWell(
+                onTap: () {
+                  controller.goToUserProfileScreen(id: 2, isLoginUser: true);
+                },
+                child: Container(
+                  height: MySize.size35,
+                  width: MySize.size35,
+                  child: CircleAvatar(
+                    radius: MySize.size35,
+                    child: CachedNetworkImage(
+                      imageUrl: "",
+                      placeholder: (context, url) => SpinKitCircle(
+                        color: AppColors.greenColor,
+                        size: MySize.size25!,
+                      ),
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: MySize.size35,
+                        width: MySize.size35,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
@@ -527,7 +545,7 @@ class HomeView extends GetWidget<HomeController> {
 
                     decoration: InputDecoration(
                       // isDense: true,
-                      fillColor: Color(0xffF0F0F0),
+                      fillColor: AppColors.borderWhite,
                       filled: true,
                       contentPadding: EdgeInsets.only(
                           bottom: MySize.size35! / 2,
@@ -552,7 +570,7 @@ class HomeView extends GetWidget<HomeController> {
                         borderRadius: BorderRadius.all(Radius.circular(100)),
                         borderSide: BorderSide(color: AppColors.grey, width: 1),
                       ),
-                      hintText: "What's New, Surbhi?",
+                      hintText: "What's New, ",
                       hintStyle: TextStyle(
                           color: AppColors.textGray,
                           fontWeight: FontWeight.w400,
@@ -655,7 +673,7 @@ class HomeView extends GetWidget<HomeController> {
   Widget svgImage(context, {String? img, double? height, double? width}) {
     return SvgPicture.asset(
       Assets.share,
-      color: Colors.grey,
+      color: AppColors.grey,
       width: getSize(20, context),
       height: getSize(20, context),
     );

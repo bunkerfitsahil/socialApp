@@ -25,6 +25,7 @@ abstract class Routes {
   static const MY_UPCOMING_INDIVIDUAL_SCREEN =
       _Paths.MY_UPCOMING_INDIVIDUAL_SCREEN;
   static const PARTICIPATION_SCREEN = _Paths.PARTICIPATION_SCREEN;
+  static const TEST_FOR_BEST = _Paths.TEST_FOR_BEST;
 }
 
 abstract class _Paths {
@@ -48,4 +49,5 @@ abstract class _Paths {
   static const INDIVIDUAL_CHALANGE_SCREEN = '/individual-chalange-screen';
   static const MY_UPCOMING_INDIVIDUAL_SCREEN = '/my-upcoming-individual-screen';
   static const PARTICIPATION_SCREEN = '/participation-screen';
+  static const TEST_FOR_BEST = '/test-for-best';
 }

@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-
 import 'package:social_feed_flutter/app/modules/NoTeamExistAlertScreen/bindings/no_team_exist_alert_screen_binding.dart';
 import 'package:social_feed_flutter/app/modules/NoTeamExistAlertScreen/views/no_team_exist_alert_screen_view.dart';
 import 'package:social_feed_flutter/app/modules/SingleTeamDetailScreen/bindings/single_team_detail_screen_binding.dart';
@@ -46,7 +45,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.TEMP;
+  static const INITIAL = Routes.HOME;
 
   static final routes = [
     GetPage(

@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 
 import 'app/routes/app_pages.dart';
 
+RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 void main() async {
+  // GestureBinding.instance!.resamplingEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
@@ -13,6 +16,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       title: "Application",
+      navigatorObservers: [routeObserver],
       debugShowCheckedModeBanner: false,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,

@@ -91,3 +91,12 @@ class DionewExceptions implements Exception {
     }
   }
 }
+
+class ExceptionWrapper implements Exception {
+  final String message;
+
+  ExceptionWrapper(this.message);
+
+  @override
+  String toString() => message;
+}

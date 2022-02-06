@@ -15,16 +15,16 @@ class TempView extends GetView<TempController> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Get.toNamed(Routes.INDIVIDUAL_CHALANGE_SCREEN);
+                  Get.toNamed(Routes.HOME);
                 },
-                child: Text("Individual Challange"),
+                child: Text("Go to Post"),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Get.toNamed(Routes.TEAM_CHALANGE_DETAIL_SCREEN);
-                },
-                child: Text("Group Challange"),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     Get.toNamed(Routes.TEAM_CHALANGE_DETAIL_SCREEN);
+              //   },
+              //   child: Text("Group Challange"),
+              // ),
             ],
           ),
         ),

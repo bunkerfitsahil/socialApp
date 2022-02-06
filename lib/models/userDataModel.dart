@@ -1,3 +1,5 @@
+import 'package:social_feed_flutter/utils/pref_utils.dart';
+
 class UserDataModel {
   String? height;
   String? weight;
@@ -13,10 +15,12 @@ class UserDataModel {
   String? bio;
   int? followerCount;
   int? followingCount;
+  int? postCount;
   String? parent;
   List<String>? children;
   String? preferredLanguage;
   CorporateProfile? corporateProfile;
+  String? followRequestStatus;
 
   UserDataModel(
       {this.height,
@@ -44,6 +48,8 @@ class UserDataModel {
     profilePicture = json['profile_picture'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     gender = json['gender'];
+    postCount = json['posts_count'];
+    followRequestStatus = json['follow_request_status'];
     firstName = json['first_name'];
     lastName = json['last_name'];
     if (json['goals'] != null) {
@@ -75,7 +81,8 @@ class UserDataModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['height'] = this.height;
     data['weight'] = this.weight;
-    data['profile_picture'] = this.profilePicture;
+    data['profile_picture'] =
+        PrefUtils.isNullEmptyOrFalse(profilePicture) ? "" : profilePicture;
     if (this.user != null) {
       data['user'] = this.user!.toJson();
     }
@@ -156,13 +163,25 @@ class CorporateProfile {
   int? department;
   int? branch;
   int? organization;
+  String? organizationName;
+  String? branchName;
+  String? departmentName;
 
-  CorporateProfile({this.department, this.branch, this.organization});
+  CorporateProfile(
+      {this.department,
+      this.branch,
+      this.organization,
+      this.organizationName,
+      this.branchName,
+      this.departmentName});
 
   CorporateProfile.fromJson(Map<String, dynamic> json) {
     department = json['department'];
     branch = json['branch'];
     organization = json['organization'];
+    organizationName = json['organization_name'];
+    branchName = json['branch_name'];
+    departmentName = json['department_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -170,6 +189,9 @@ class CorporateProfile {
     data['department'] = this.department;
     data['branch'] = this.branch;
     data['organization'] = this.organization;
+    data['organization_name'] = this.organizationName;
+    data['branch_name'] = this.branchName;
+    data['department_name'] = this.departmentName;
     return data;
   }
 }

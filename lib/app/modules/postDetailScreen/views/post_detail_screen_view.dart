@@ -4,14 +4,18 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:like_button/like_button.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:social_feed_flutter/app/routes/app_pages.dart';
+import 'package:social_feed_flutter/constants/argumentConstant.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
 import 'package:social_feed_flutter/constants/font_family.dart';
 import 'package:social_feed_flutter/constants/math_utils.dart';
 import 'package:social_feed_flutter/constants/sizeConstant.dart';
 import 'package:social_feed_flutter/utils/pref_utils.dart';
+import 'package:social_feed_flutter/utils/progress_dialog_utils.dart';
+import 'package:video_player/video_player.dart';
 
 import '../controllers/post_detail_screen_controller.dart';
 
@@ -35,149 +39,20 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                         width: double.infinity,
                         child: Stack(
                           children: [
-                            Container(
-                              width: double.infinity,
-                              height: MySize.getScaledSizeHeight(206.3),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    controller.postData.attachment.toString(),
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                placeholder: (context, url) => SpinKitCircle(
-                                  color: Colors.green,
-                                  size: getSize(30, context),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              top: MySize.size20,
-                              left: MySize.size20,
-                              child: Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Get.back();
-                                    },
-                                    child: Container(
-                                      width: MySize.size28,
-                                      height: MySize.size28,
-                                      decoration: BoxDecoration(
-                                          color: const Color(0xffffffff),
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.arrow_back,
-                                          size: MySize.size22,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            getImageView(),
+                            getBackButton(),
                           ],
                         ),
                       ),
                       SizedBox(
                         height: MySize.size23,
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: MySize.getScaledSizeWidth(22)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Row(
-                                children: [
-                                  Text(
-                                      controller.postData.numberOfLikes
-                                          .toString(),
-                                      style: TextStyle(
-                                          color: AppColors.textGrayBlackColor,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: FontFamily.roboto,
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: MySize.size14),
-                                      textAlign: TextAlign.right),
-                                  SizedBox(
-                                    width: MySize.getScaledSizeWidth(8),
-                                  ),
-                                  SvgPicture.asset(
-                                    Assets.trophy,
-                                    color: AppColors.button_green,
-                                    width: MySize.getScaledSizeWidth(17),
-                                    height: MySize.size17,
-                                  ),
-                                ],
-                              ),
-                              height: MySize.size17,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                // Get.toNamed(Routes.POST_DETAIL_SCREEN);
-                              },
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    Assets.comment,
-                                    color: Colors.grey,
-                                    width: MySize.getScaledSizeWidth(14),
-                                    height: MySize.size14,
-                                  ),
-                                  SizedBox(
-                                    width: MySize.getScaledSizeWidth(9),
-                                  ),
-                                  Text(
-                                      "${controller.postData.numberOfComments} comments",
-                                      style: TextStyle(
-                                          color: AppColors.textGrayBlackColor,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: FontFamily.roboto,
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: MySize.size14),
-                                      textAlign: TextAlign.right)
-                                ],
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                var text =
-                                    (controller.postData.postBody != null)
-                                        ? controller.postData.postBody
-                                        : null;
-                                var msg = (text != null)
-                                    ? "${controller.postData.attachment!} \n $text"
-                                    : controller.postData.attachment!;
-                                Share.share(msg);
-                              },
-                              child: SvgPicture.asset(
-                                Assets.share,
-                                color: AppColors.textGrayBlackColor
-                                    .withOpacity(0.7),
-                                width: MySize.getScaledSizeWidth(14),
-                                height: MySize.size14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      getLikeCommentrow(),
                       SizedBox(
                         height: MySize.size54,
                       ),
                       Divider(
-                        color: const Color(0xffacacac),
+                        color: AppColors.textGrayBlackColor,
                         thickness: 2,
                         indent: getSize(18, context),
                         endIndent: getSize(18, context),
@@ -237,8 +112,8 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                     imageBuilder: (context,
                                                             imageProvider) =>
                                                         Container(
-                                                      height: MySize.size17,
-                                                      width: MySize.size17,
+                                                      height: MySize.size34,
+                                                      width: MySize.size34,
                                                       decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -349,45 +224,143 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      Text("6",
-                                                          style: TextStyle(
-                                                              color: AppColors
-                                                                  .textGrayBlackColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontFamily:
-                                                                  FontFamily
-                                                                      .roboto,
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: MySize
-                                                                  .size14),
-                                                          textAlign:
-                                                              TextAlign.right),
-                                                      SizedBox(
-                                                        width: MySize
-                                                            .getScaledSizeWidth(
-                                                                8),
+                                                  Container(
+                                                    //width: MySize.getScaledSizeWidth(30),
+                                                    child: LikeButton(
+                                                      circleColor: CircleColor(
+                                                          start:
+                                                              Color(0xff00ddff),
+                                                          end: Color(
+                                                              0xff0099cc)),
+                                                      bubblesColor:
+                                                          BubblesColor(
+                                                        dotPrimaryColor:
+                                                            Color(0xff33b5e5),
+                                                        dotSecondaryColor:
+                                                            Color(0xff0099cc),
                                                       ),
-                                                      SvgPicture.asset(
-                                                        Assets.trophy,
-                                                        color: AppColors
-                                                            .button_green,
-                                                        width: MySize
-                                                            .getScaledSizeWidth(
-                                                                16),
-                                                        height: MySize.size16,
-                                                      ),
-                                                    ],
+                                                      likeBuilder:
+                                                          (bool isLiked) {
+                                                        return SvgPicture.asset(
+                                                          Assets.trophy,
+                                                          color: isLiked
+                                                              ? AppColors
+                                                                  .button_green
+                                                              : AppColors.grey,
+                                                          width: MySize
+                                                              .getScaledSizeWidth(
+                                                                  17),
+                                                          height: MySize.size17,
+                                                        );
+                                                      },
+                                                      onTap: (isLiked) async {
+                                                        if (controller
+                                                                .postComments[i]
+                                                                .isLiked ==
+                                                            true) {
+                                                          controller
+                                                              .isLikeSuccessForComment
+                                                              .value = false;
+                                                          await controller
+                                                              .CreateCommentDelete(
+                                                            id: controller
+                                                                .postComments[i]
+                                                                .commentLikeId,
+                                                            successCall: () {
+                                                              controller
+                                                                  .postComments[
+                                                                      i]
+                                                                  .isLiked = false;
+
+                                                              controller
+                                                                  .postComments[
+                                                                      i]
+                                                                  .numberOfLikes = controller
+                                                                      .postComments[
+                                                                          i]
+                                                                      .numberOfLikes! -
+                                                                  1;
+                                                            },
+                                                          );
+                                                        } else {
+                                                          controller
+                                                              .isLikeSuccessForComment
+                                                              .value = false;
+                                                          await controller
+                                                              .createCommentLike(
+                                                            id: controller
+                                                                .postComments[i]
+                                                                .id,
+                                                            commentData: controller
+                                                                .postComments[i],
+                                                            successCall: () {
+                                                              controller
+                                                                  .postComments[
+                                                                      i]
+                                                                  .isLiked = true;
+
+                                                              controller
+                                                                  .postComments[
+                                                                      i]
+                                                                  .numberOfLikes = controller
+                                                                      .postComments[
+                                                                          i]
+                                                                      .numberOfLikes! +
+                                                                  1;
+                                                            },
+                                                          );
+                                                        }
+
+                                                        return (controller
+                                                                .isLikeSuccessForComment
+                                                                .value)
+                                                            ? !isLiked
+                                                            : isLiked;
+                                                      },
+                                                      likeCount: controller
+                                                          .postComments[i]
+                                                          .numberOfLikes,
+                                                      countPostion:
+                                                          CountPostion.left,
+                                                      isLiked: controller
+                                                          .postComments[i]
+                                                          .isLiked,
+                                                      countBuilder: (int? count,
+                                                          bool isLiked,
+                                                          String text) {
+                                                        var color = isLiked
+                                                            ? Colors
+                                                                .deepPurpleAccent
+                                                            : Colors.grey;
+                                                        Widget result;
+                                                        if (count == 0) {
+                                                          result = Text(
+                                                            "0",
+                                                            style: TextStyle(
+                                                                color: color),
+                                                          );
+                                                        } else
+                                                          result = Text(
+                                                            text,
+                                                            style: TextStyle(
+                                                                color: color),
+                                                          );
+                                                        return result;
+                                                      },
+                                                    ),
                                                   ),
                                                   InkWell(
                                                     onTap: () {
-                                                      Get.toNamed(Routes
-                                                          .POST_COMMENT_REPLY_SCREEN);
+                                                      Get.toNamed(
+                                                          Routes
+                                                              .POST_COMMENT_REPLY_SCREEN,
+                                                          arguments: {
+                                                            Argument.commentData:
+                                                                controller
+                                                                    .postComments[
+                                                                        i]
+                                                                    .obs,
+                                                          });
                                                     },
                                                     child: Row(
                                                       children: [
@@ -427,7 +400,11 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                               .getScaledSizeWidth(
                                                                   16),
                                                         ),
-                                                        Text("1",
+                                                        Text(
+                                                            controller
+                                                                .postComments[i]
+                                                                .numberOfReplies
+                                                                .toString(),
                                                             style: TextStyle(
                                                                 color: AppColors
                                                                     .textBlackColor,
@@ -465,7 +442,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                 )
                           : SpinKitCircle(
                               color: Colors.green,
-                              size: getSize(30, context),
+                              size: MySize.size30!,
                             ),
                       SizedBox(
                         height: getSize(90, context),
@@ -550,6 +527,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                   msg: "Please Enter Comment First");
                             } else {
                               controller.addCommentsData();
+                              FocusManager.instance.primaryFocus!.unfocus();
                               controller.commentController.value.text = "";
                               controller.postData.numberOfComments =
                                   controller.postData.numberOfComments! + 1;
@@ -572,6 +550,183 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
           ],
         );
       }),
+    );
+  }
+
+  Container getImageView() {
+    return Container(
+      width: double.infinity,
+      height: MySize.getScaledSizeHeight(206.3),
+      child: (controller.postData.fileType == "Video")
+          ? VideoPlayerItem(
+              url: controller.postData.attachment.toString(),
+              videoPlayerController: VideoPlayerController.network(
+                  controller.postData.attachment.toString()),
+            )
+          : CachedNetworkImage(
+              imageUrl: controller.postData.attachment.toString(),
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+              placeholder: (context, url) => SpinKitCircle(
+                color: Colors.green,
+                size: getSize(30, context),
+              ),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              fit: BoxFit.cover,
+            ),
+    );
+  }
+
+  Positioned getBackButton() {
+    return Positioned(
+      top: MySize.size20,
+      left: MySize.size20,
+      child: Row(
+        children: [
+          InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: Container(
+              width: MySize.size28,
+              height: MySize.size28,
+              decoration: BoxDecoration(
+                  color: const Color(0xffffffff),
+                  borderRadius: BorderRadius.circular(50)),
+              child: Center(
+                child: Icon(
+                  Icons.arrow_back,
+                  size: MySize.size22,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding getLikeCommentrow() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: MySize.getScaledSizeWidth(22)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            //width: MySize.getScaledSizeWidth(30),
+            child: LikeButton(
+              circleColor:
+                  CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+              bubblesColor: BubblesColor(
+                dotPrimaryColor: Color(0xff33b5e5),
+                dotSecondaryColor: Color(0xff0099cc),
+              ),
+              likeBuilder: (bool isLiked) {
+                return SvgPicture.asset(
+                  Assets.trophy,
+                  color: isLiked ? AppColors.button_green : AppColors.grey,
+                  width: MySize.getScaledSizeWidth(13.3),
+                  height: MySize.size17,
+                );
+              },
+              onTap: (isLiked) async {
+                if (controller.postData.isLiked == true) {
+                  controller.isLikeSuccess.value = false;
+                  await controller.deletePostLike(
+                    id: controller.postData.postLikeid,
+                    successCall: () {
+                      controller.postData.isLiked = false;
+
+                      controller.postData.numberOfLikes =
+                          controller.postData.numberOfLikes! - 1;
+                    },
+                  );
+                } else {
+                  controller.isLikeSuccess.value = false;
+                  await controller.createPostLike(
+                    id: controller.postData.id,
+                    successCall: () {
+                      controller.postData.isLiked = true;
+
+                      controller.postData.numberOfLikes =
+                          controller.postData.numberOfLikes! + 1;
+                    },
+                  );
+                }
+
+                return (controller.isLikeSuccess.value) ? !isLiked : isLiked;
+              },
+              likeCount: controller.postData.numberOfLikes,
+              countPostion: CountPostion.left,
+              isLiked: controller.postData.isLiked,
+              countBuilder: (int? count, bool isLiked, String text) {
+                var color = isLiked ? Colors.deepPurpleAccent : Colors.grey;
+                Widget result;
+                if (count == 0) {
+                  result = Text(
+                    "0",
+                    style: TextStyle(color: color),
+                  );
+                } else
+                  result = Text(
+                    text,
+                    style: TextStyle(color: color),
+                  );
+                return result;
+              },
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              // Get.toNamed(Routes.POST_DETAIL_SCREEN);
+            },
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  Assets.comment,
+                  color: Colors.grey,
+                  width: MySize.getScaledSizeWidth(14),
+                  height: MySize.size14,
+                ),
+                SizedBox(
+                  width: MySize.getScaledSizeWidth(9),
+                ),
+                Text("${controller.postData.numberOfComments} comments",
+                    style: TextStyle(
+                        color: AppColors.textGrayBlackColor,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: FontFamily.roboto,
+                        fontStyle: FontStyle.normal,
+                        fontSize: MySize.size14),
+                    textAlign: TextAlign.right)
+              ],
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              var text = (controller.postData.postBody != null)
+                  ? controller.postData.postBody
+                  : null;
+              var msg = (text != null)
+                  ? "${controller.postData.attachment!} \n $text"
+                  : controller.postData.attachment!;
+              Share.share(msg);
+            },
+            child: SvgPicture.asset(
+              Assets.share,
+              color: AppColors.textGrayBlackColor.withOpacity(0.7),
+              width: MySize.getScaledSizeWidth(14),
+              height: MySize.size14,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

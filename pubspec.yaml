@@ -5,7 +5,7 @@ description: A new Flutter project.
 environment: 
   sdk: '>=2.15.1 <3.0.0'
 
-dependencies: 
+dependencies:
   cupertino_icons: ^1.0.2
   shared_preferences:
   get: 4.6.1
@@ -25,9 +25,10 @@ dependencies:
   flutter_share:
   share_plus:
   like_button: ^2.0.4
+  file_picker:
+  chewie:
 
-
-  flutter: 
+  flutter:
     sdk: flutter
 
 dev_dependencies: 

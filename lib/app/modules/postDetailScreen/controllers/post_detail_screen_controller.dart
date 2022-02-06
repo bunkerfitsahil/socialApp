@@ -4,18 +4,20 @@ import 'package:get/get.dart';
 import 'package:social_feed_flutter/ApiClient/api_client.dart';
 import 'package:social_feed_flutter/app/modules/home/controllers/home_controller.dart';
 import 'package:social_feed_flutter/constants/argumentConstant.dart';
+import 'package:social_feed_flutter/models/PostLikeResponseModel.dart';
 import 'package:social_feed_flutter/models/PostsResponseModel.dart';
 import 'package:social_feed_flutter/models/postCommentModel.dart';
 
 class PostDetailScreenController extends GetxController {
-  //TODO: Implement PostDetailScreenController
-
   final count = 0.obs;
   PostsList postData = Get.arguments[Argument.postData];
   RxBool hasPostData = false.obs;
   RxList<PostCommentsModel> postComments = <PostCommentsModel>[].obs;
+  RxBool isLikeSuccess = false.obs;
+  RxBool isLikeSuccessForComment = false.obs;
   Rx<TextEditingController> commentController = TextEditingController().obs;
-
+  List<Replies> dummy = [];
+  HomeController homeController = Get.find<HomeController>();
   @override
   void onInit() {
     getpostCommentsData();
@@ -54,7 +56,9 @@ class PostDetailScreenController extends GetxController {
   }) async {
     await ApiClient().callApiForCreatePostsComment(
         onSuccess: (resp) {
-          onCreateCommentSuccess(resp);
+          if (resp != null) {
+            onCreateCommentSuccess(resp);
+          }
           if (successCall != null) {
             successCall();
           }
@@ -66,7 +70,8 @@ class PostDetailScreenController extends GetxController {
           }
         },
         id: postData.id,
-        message: commentController.value.text.toString());
+        message: commentController.value.text.toString(),
+        parentId: null);
   }
 
   void onGetCommentSuccess(resp) {
@@ -75,9 +80,112 @@ class PostDetailScreenController extends GetxController {
     List data = resp as List;
 
     postComments.value =
-        resp.map((e) => PostCommentsModel.fromJson(e)).toList();
+        data.map((e) => PostCommentsModel.fromJson(e)).toList();
+  }
 
-    //Fluttertoast.showToast(msg: "Post is SuccessFully added");
+  createPostLike({
+    VoidCallback? successCall,
+    VoidCallback? errCall,
+    int? id,
+  }) async {
+    await ApiClient().callApiForPostLike(
+      onSuccess: (resp) {
+        if (successCall != null && resp != null) {
+          postData.postLikeid = PostLikeResponse.fromJson(resp).id;
+          isLikeSuccess.value = true;
+
+          successCall();
+          homeController.getPostData(isLoad: false);
+          //HomeController().postData();
+
+          print("sucess");
+        }
+      },
+      onError: (err) {
+        if (errCall != null) {
+          errCall();
+        }
+      },
+      id: id,
+    );
+  }
+
+  deletePostLike({
+    VoidCallback? successCall,
+    VoidCallback? errCall,
+    int? id,
+  }) async {
+    await ApiClient().callApiForDeletePostLike(
+      onSuccess: (resp) {
+        if (successCall != null && resp != null) {
+          isLikeSuccess.value = true;
+
+          successCall();
+          homeController.getPostData(isLoad: false);
+
+          print("sucess");
+        }
+      },
+      onError: (err) {
+        if (errCall != null) {
+          errCall();
+        }
+      },
+      id: id,
+    );
+  }
+
+  createCommentLike({
+    VoidCallback? successCall,
+    VoidCallback? errCall,
+    int? id,
+    PostCommentsModel? commentData,
+  }) async {
+    await ApiClient().callApiForCommentLike(
+      onSuccess: (resp) {
+        if (successCall != null && resp != null) {
+          commentData!.commentLikeId = CommentLikeResponse.fromJson(resp).id;
+          isLikeSuccessForComment.value = true;
+
+          successCall();
+
+          //HomeController().postData();
+
+          print("sucess");
+        }
+      },
+      onError: (err) {
+        if (errCall != null) {
+          errCall();
+        }
+      },
+      id: id,
+    );
+  }
+
+  CreateCommentDelete({
+    VoidCallback? successCall,
+    VoidCallback? errCall,
+    int? id,
+  }) async {
+    await ApiClient().callApiForDeleteCommentLike(
+      onSuccess: (resp) {
+        if (successCall != null && resp != null) {
+          isLikeSuccessForComment.value = true;
+
+          successCall();
+          //homeController.getPostData(isLoad: false);
+
+          print("sucess");
+        }
+      },
+      onError: (err) {
+        if (errCall != null) {
+          errCall();
+        }
+      },
+      id: id,
+    );
   }
 
   void onGetCommentError(var err) {
@@ -91,7 +199,19 @@ class PostDetailScreenController extends GetxController {
 
     Fluttertoast.showToast(msg: "Comment is SuccessFully added");
     getpostCommentsData();
+
     HomeController().postData();
+  }
+
+  getAllPostCommentReply(List<Replies> reply) {
+    reply.forEach((element) {
+      if (element.replies == null) {
+        dummy.add(element);
+      } else {
+        getAllPostCommentReply(element.replies!);
+      }
+    });
+    print(dummy);
   }
 
   void onCreateCommentFail(var err) {

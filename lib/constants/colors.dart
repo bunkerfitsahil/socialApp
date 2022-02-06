@@ -37,4 +37,9 @@ class AppColors {
   static const Color shadowColor = Color(0xffd6d6d6);
   static const Color borderColor = Color(0xffacb6b9);
   static const Color dialogueBlackColor = Color(0xff000000);
+  static const Color buttonStartColor = Color(0xff00ddff);
+  static const Color buttonEndColor = Color(0xff0099cc);
+  static const Color dotPrimaryColor = Color(0xff33b5e5);
+  static const Color dotSecColor = Color(0xff0099cc);
+  static const Color deepColor = Colors.deepPurpleAccent;
 }

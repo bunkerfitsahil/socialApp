@@ -3,7 +3,12 @@ class PostCommentsModel {
   Null? parent;
   int? post;
   UserData? userData;
+  int? numberOfReplies;
   int? numberOfLikes;
+
+  List<Replies>? replies;
+  int? commentLikeId;
+  bool? isLiked;
   String? updatedAt;
   String? createdAt;
   String? commentUuid;
@@ -15,7 +20,11 @@ class PostCommentsModel {
       this.parent,
       this.post,
       this.userData,
+      this.numberOfReplies,
       this.numberOfLikes,
+      this.replies,
+      this.commentLikeId,
+      this.isLiked,
       this.updatedAt,
       this.createdAt,
       this.commentUuid,
@@ -29,7 +38,16 @@ class PostCommentsModel {
     userData = json['user_data'] != null
         ? new UserData.fromJson(json['user_data'])
         : null;
+    numberOfReplies = json['number_of_replies'];
     numberOfLikes = json['number_of_likes'];
+    if (json['replies'] != null) {
+      replies = <Replies>[];
+      json['replies'].forEach((v) {
+        replies!.add(new Replies.fromJson(v));
+      });
+    }
+    commentLikeId = json['comment_like_id'];
+    isLiked = json['is_liked'];
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
     commentUuid = json['comment_uuid'];
@@ -45,7 +63,13 @@ class PostCommentsModel {
     if (this.userData != null) {
       data['user_data'] = this.userData!.toJson();
     }
+    data['number_of_replies'] = this.numberOfReplies;
     data['number_of_likes'] = this.numberOfLikes;
+    if (this.replies != null) {
+      data['replies'] = this.replies!.map((v) => v.toJson()).toList();
+    }
+    data['comment_like_id'] = this.commentLikeId;
+    data['is_liked'] = this.isLiked;
     data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;
     data['comment_uuid'] = this.commentUuid;
@@ -73,6 +97,57 @@ class UserData {
     data['name'] = this.name;
     data['profile_picture'] = this.profilePicture;
     data['user_profile_id'] = this.userProfileId;
+    return data;
+  }
+}
+
+class Replies {
+  List<Replies>? replies;
+  UserData? userData;
+  int? numberOfLikes;
+  bool? isLiked;
+  int? parent;
+  int? id;
+  String? commentBody;
+
+  Replies(
+      {this.replies,
+      this.userData,
+      this.numberOfLikes,
+      this.isLiked,
+      this.parent,
+      this.id,
+      this.commentBody});
+
+  Replies.fromJson(Map<String, dynamic> json) {
+    if (json['replies'] != null) {
+      replies = <Replies>[];
+      json['replies'].forEach((v) {
+        replies!.add(new Replies.fromJson(v));
+      });
+    }
+    userData = json['user_data'] != null
+        ? new UserData.fromJson(json['user_data'])
+        : null;
+    numberOfLikes = json['number_of_likes'];
+    isLiked = json['is_liked'];
+    parent = json['parent'];
+    commentBody = json['comment_body'];
+    id = json['id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.replies != null) {
+      data['replies'] = this.replies!.map((v) => v.toJson()).toList();
+    }
+    if (this.userData != null) {
+      data['user_data'] = this.userData!.toJson();
+    }
+    data['number_of_likes'] = this.numberOfLikes;
+    data['is_liked'] = this.isLiked;
+    data['parent'] = this.parent;
+    data['id'] = this.id;
     return data;
   }
 }
