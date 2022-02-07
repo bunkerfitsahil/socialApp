@@ -225,7 +225,8 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                                         .spaceBetween,
                                                 children: [
                                                   Container(
-                                                    //width: MySize.getScaledSizeWidth(30),
+                                                    width: MySize
+                                                        .getScaledSizeWidth(50),
                                                     child: LikeButton(
                                                       circleColor: CircleColor(
                                                           start:
@@ -639,7 +640,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                 if (controller.postData.isLiked == true) {
                   controller.isLikeSuccess.value = false;
                   await controller.deletePostLike(
-                    id: controller.postData.postLikeid,
+                    id: controller.postData.loggedInUserPostLikeId,
                     successCall: () {
                       controller.postData.isLiked = false;
 

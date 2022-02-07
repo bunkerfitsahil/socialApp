@@ -9,10 +9,11 @@ import 'package:social_feed_flutter/ApiClient/api_client.dart';
 import 'package:social_feed_flutter/app/modules/home/post_create_model.dart';
 import 'package:social_feed_flutter/app/routes/app_pages.dart';
 import 'package:social_feed_flutter/constants/argumentConstant.dart';
+import 'package:social_feed_flutter/models/PostLikeResponseModel.dart';
 import 'package:social_feed_flutter/models/PostsResponseModel.dart';
 import 'package:social_feed_flutter/utils/progress_dialog_utils.dart';
 
-class HomeController extends GetxController {
+class HomeController extends GetxController with WidgetsBindingObserver {
   //TODO: Implement HomeController
 
   final count = 0.obs;
@@ -21,14 +22,18 @@ class HomeController extends GetxController {
   CreatePostResp createPostResp = CreatePostResp();
   RxBool isImageSelected = false.obs;
   Rx<TextEditingController> postData = TextEditingController().obs;
-  RxList<PostsList> allPostList = <PostsList>[].obs;
+
+  final allPostList = <PostsList>[].obs;
+  RxList<PostsList> newPostList = <PostsList>[].obs;
   RxBool hasPostData = false.obs;
   RxBool isLikeSuccess = false.obs;
   RxBool isImg = false.obs;
-  ScrollController controller = ScrollController();
+  ScrollController scrollController = ScrollController();
   RxList<PostsList> postList = <PostsList>[].obs;
   RxBool isLoading = false.obs;
   RxBool allLoaded = false.obs;
+  RxInt page = 1.obs;
+  RxInt totalPostLength = 0.obs;
 
   late final ImagePicker? _picker;
   //EventBus eventBus = EventBus();
@@ -36,10 +41,40 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     _picker = ImagePicker();
+    WidgetsBinding.instance!.addObserver(this);
     print("hhe");
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      getPostData();
+      mokeFetch();
+      scrollController.addListener(() {
+        if (scrollController.position.pixels >=
+                scrollController.position.maxScrollExtent &&
+            !allLoaded.value) {
+          mokeFetch();
+        }
+      });
+      //getPostData();
     });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    // These are the callbacks
+    switch (state) {
+      case AppLifecycleState.resumed:
+        update();
+        break;
+      case AppLifecycleState.inactive:
+        // widget is inactive
+        break;
+      case AppLifecycleState.paused:
+        // widget is paused
+        break;
+      case AppLifecycleState.detached:
+        // widget is detached
+        break;
+    }
   }
 
   @override
@@ -49,7 +84,10 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void onClose() {
+    scrollController.dispose();
+    WidgetsBinding.instance!.removeObserver(this);
+  }
 
   goToUserProfileScreen({int? id, bool? isLoginUser = false}) {
     Get.toNamed(Routes.USER_PROFILE, arguments: {
@@ -82,9 +120,18 @@ class HomeController extends GetxController {
     }
     isLoading.value = true;
     await Future.delayed(Duration(milliseconds: 500));
-    List<PostsList> newData = allPostList.value.length >= 15
-        ? []
-        : List<PostsList>.generate(10, (index) => allPostList[index]).obs;
+    await getPostData();
+    List<PostsList> newData = newPostList.value;
+    if (newData.isNotEmpty) {
+      allPostList.value.addAll(newData);
+      print(allPostList.value.length);
+      if (totalPostLength <= allPostList.value.length) {
+        allLoaded.value = true;
+      } else {
+        page.value = page.value + 1;
+      }
+    }
+    isLoading.value = false;
   }
 
   onClickPostButton({
@@ -115,30 +162,33 @@ class HomeController extends GetxController {
     bool isLoad = true,
   }) async {
     await ApiClient().callApiForGetPosts(
-      onSuccess: (resp) {
-        onGetPostSuccess(resp);
-        if (successCall != null) {
-          successCall();
-        }
-      },
-      onError: (err) {
-        onGetPostError(err);
-        if (errCall != null) {
-          errCall();
-        }
-      },
-    );
+        onSuccess: (resp) {
+          onGetPostSuccess(resp);
+          if (successCall != null) {
+            successCall();
+          }
+        },
+        onError: (err) {
+          onGetPostError(err);
+          if (errCall != null) {
+            errCall();
+          }
+        },
+        page: page.value);
   }
 
   createPostLike({
     VoidCallback? successCall,
     VoidCallback? errCall,
     int? id,
+    PostsList? postDataModel,
   }) async {
     await ApiClient().callApiForPostLike(
       onSuccess: (resp) {
         if (successCall != null && resp != null) {
-          getPostData();
+          postDataModel?.loggedInUserPostLikeId =
+              PostLikeResponse.fromJson(resp).id;
+          //getPostData();
 
           isLikeSuccess.value = true;
           successCall();
@@ -152,6 +202,10 @@ class HomeController extends GetxController {
       },
       id: id,
     );
+  }
+
+  updateData() {
+    update(allPostList.value);
   }
 
   deletePostLike({
@@ -183,8 +237,10 @@ class HomeController extends GetxController {
     print(createPostResp.organization.toString());
     isImageSelected.value = false;
     Fluttertoast.showToast(msg: "Post is SuccessFully added");
-
-    getPostData();
+    page.value = 1;
+    hasPostData.value = false;
+    allPostList.value.clear();
+    mokeFetch();
   }
 
   void onCreatePostError(var err) {
@@ -195,9 +251,14 @@ class HomeController extends GetxController {
   void onGetPostSuccess(resp) {
     ProgressDialogUtils.hideProgressDialog();
     hasPostData.value = true;
-    List data = resp as List;
+    Map<String, dynamic> data = resp as Map<String, dynamic>;
+    print(resp);
 
-    allPostList.value = resp.map((e) => PostsList.fromJson(e)).toList();
+    PostDataModel postDataModel = PostDataModel.fromJson(data);
+    totalPostLength.value = postDataModel.count!;
+
+    //allPostList.value = postDataModel.results!;
+    newPostList.value = postDataModel.results!;
   }
 
   void onGetSucessLikeCreate(resp) {

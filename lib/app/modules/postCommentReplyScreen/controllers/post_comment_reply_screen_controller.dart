@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:social_feed_flutter/ApiClient/api_client.dart';
 import 'package:social_feed_flutter/app/modules/postDetailScreen/controllers/post_detail_screen_controller.dart';
 import 'package:social_feed_flutter/constants/argumentConstant.dart';
+import 'package:social_feed_flutter/models/PostLikeResponseModel.dart';
 import 'package:social_feed_flutter/models/postCommentModel.dart';
 
 class PostCommentReplyScreenController extends GetxController {
@@ -14,6 +15,8 @@ class PostCommentReplyScreenController extends GetxController {
 
   Rx<PostCommentsModel> postCommentsModel = Get.arguments[Argument.commentData];
   RxBool isLikeSuccessForComment = false.obs;
+  RxBool isCommentLike = false.obs;
+  RxBool isReplyLike = false.obs;
   PostDetailScreenController postDetailScreenController =
       Get.find<PostDetailScreenController>();
 
@@ -77,8 +80,9 @@ class PostCommentReplyScreenController extends GetxController {
     await ApiClient().callApiForCommentLike(
       onSuccess: (resp) {
         if (successCall != null && resp != null) {
-          // commentData!.commentLikeId = CommentLikeResponse.fromJson(resp).id;
+          commentData!.commentLikeId = CommentLikeResponse.fromJson(resp).id;
           isLikeSuccessForComment.value = true;
+          postDetailScreenController.getpostCommentsData();
 
           successCall();
 
@@ -105,6 +109,60 @@ class PostCommentReplyScreenController extends GetxController {
       onSuccess: (resp) {
         if (successCall != null && resp != null) {
           isLikeSuccessForComment.value = true;
+          postDetailScreenController.getpostCommentsData();
+
+          successCall();
+          //homeController.getPostData(isLoad: false);
+
+          print("sucess");
+        }
+      },
+      onError: (err) {
+        if (errCall != null) {
+          errCall();
+        }
+      },
+      id: id,
+    );
+  }
+
+  createReplyLike({
+    VoidCallback? successCall,
+    VoidCallback? errCall,
+    int? id,
+    Replies? commentData,
+  }) async {
+    await ApiClient().callApiForCommentLike(
+      onSuccess: (resp) {
+        if (successCall != null && resp != null) {
+          commentData!.replyLikeId = CommentLikeResponse.fromJson(resp).id;
+          isReplyLike.value = true;
+
+          successCall();
+
+          //HomeController().postData();
+
+          print("sucess");
+        }
+      },
+      onError: (err) {
+        if (errCall != null) {
+          errCall();
+        }
+      },
+      id: id,
+    );
+  }
+
+  ReplyLikeDelete({
+    VoidCallback? successCall,
+    VoidCallback? errCall,
+    int? id,
+  }) async {
+    await ApiClient().callApiForDeleteCommentLike(
+      onSuccess: (resp) {
+        if (successCall != null && resp != null) {
+          isReplyLike.value = true;
 
           successCall();
           //homeController.getPostData(isLoad: false);

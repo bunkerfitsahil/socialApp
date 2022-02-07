@@ -91,11 +91,21 @@ class PostDetailScreenController extends GetxController {
     await ApiClient().callApiForPostLike(
       onSuccess: (resp) {
         if (successCall != null && resp != null) {
-          postData.postLikeid = PostLikeResponse.fromJson(resp).id;
+          postData.loggedInUserPostLikeId = PostLikeResponse.fromJson(resp).id;
+          postData.isLiked = true;
+          for (var element in homeController.allPostList.value) {
+            if (element.id == id) {
+              element.loggedInUserPostLikeId =
+                  PostLikeResponse.fromJson(resp).id;
+              element.isLiked = true;
+            }
+          }
+
+          homeController.updateData();
           isLikeSuccess.value = true;
 
           successCall();
-          homeController.getPostData(isLoad: false);
+
           //HomeController().postData();
 
           print("sucess");
@@ -146,7 +156,13 @@ class PostDetailScreenController extends GetxController {
         if (successCall != null && resp != null) {
           commentData!.commentLikeId = CommentLikeResponse.fromJson(resp).id;
           isLikeSuccessForComment.value = true;
+          for (var element in homeController.allPostList.value) {
+            if (element.id == id) {
+              element.isLiked = false;
+            }
+          }
 
+          homeController.updateData();
           successCall();
 
           //HomeController().postData();

@@ -584,7 +584,7 @@ class UserProfileView extends GetWidget<UserProfileController> {
                 if (controller.allPostList[i].isLiked == true) {
                   controller.isLikeSuccess.value = false;
                   await controller.deletePostLike(
-                    id: controller.allPostList[i].postLikeid,
+                    id: controller.allPostList[i].loggedInUserPostLikeId,
                     successCall: () {
                       controller.allPostList[i].isLiked = false;
 

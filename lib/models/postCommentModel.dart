@@ -39,6 +39,7 @@ class PostCommentsModel {
         ? new UserData.fromJson(json['user_data'])
         : null;
     numberOfReplies = json['number_of_replies'];
+
     numberOfLikes = json['number_of_likes'];
     if (json['replies'] != null) {
       replies = <Replies>[];
@@ -46,7 +47,7 @@ class PostCommentsModel {
         replies!.add(new Replies.fromJson(v));
       });
     }
-    commentLikeId = json['comment_like_id'];
+    commentLikeId = json['logged_in_user_comment_like_id'];
     isLiked = json['is_liked'];
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
@@ -105,6 +106,7 @@ class Replies {
   List<Replies>? replies;
   UserData? userData;
   int? numberOfLikes;
+  int? replyLikeId;
   bool? isLiked;
   int? parent;
   int? id;
@@ -116,6 +118,7 @@ class Replies {
       this.numberOfLikes,
       this.isLiked,
       this.parent,
+      this.replyLikeId,
       this.id,
       this.commentBody});
 
@@ -130,6 +133,7 @@ class Replies {
         ? new UserData.fromJson(json['user_data'])
         : null;
     numberOfLikes = json['number_of_likes'];
+    replyLikeId = json['logged_in_user_reply_like_id'];
     isLiked = json['is_liked'];
     parent = json['parent'];
     commentBody = json['comment_body'];

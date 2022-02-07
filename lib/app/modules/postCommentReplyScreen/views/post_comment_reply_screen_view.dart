@@ -270,27 +270,7 @@ class PostCommentReplyScreenView
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Text("6",
-                        style: TextStyle(
-                            color: AppColors.textGrayBlackColor,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: FontFamily.roboto,
-                            fontStyle: FontStyle.normal,
-                            fontSize: MySize.size14),
-                        textAlign: TextAlign.right),
-                    SizedBox(
-                      width: MySize.getScaledSizeWidth(8),
-                    ),
-                    SvgPicture.asset(
-                      Assets.trophy,
-                      color: AppColors.button_green,
-                      width: MySize.getScaledSizeWidth(16),
-                      height: MySize.size16,
-                    ),
-                  ],
-                ),
+                getLikeButtonForComment(),
                 Row(
                   children: [
                     Text("Reply",
@@ -458,12 +438,10 @@ class PostCommentReplyScreenView
                           if (controller.postCommentsModel.value.replies![i]
                                   .isLiked ==
                               true) {
-                            controller.isLikeSuccessForComment.value = false;
-                            await controller.CreateCommentDelete(
-                              // id: controller
-                              //     .postCommentsModel
-                              //     .replies![i]
-                              //     .commentLikeId,
+                            controller.isReplyLike.value = false;
+                            await controller.ReplyLikeDelete(
+                              id: controller.postCommentsModel.value.replies![i]
+                                  .replyLikeId,
                               successCall: () {
                                 controller.postCommentsModel.value.replies![i]
                                     .isLiked = false;
@@ -478,13 +456,12 @@ class PostCommentReplyScreenView
                               },
                             );
                           } else {
-                            controller.isLikeSuccessForComment.value = false;
-                            await controller.createCommentLike(
+                            controller.isReplyLike.value = false;
+                            await controller.createReplyLike(
                               id: controller
                                   .postCommentsModel.value.replies![i].id,
-                              // commentData: controller
-                              //     .postCommentsModel
-                              //     .replies![i],
+                              commentData: controller
+                                  .postCommentsModel.value.replies![i],
                               successCall: () {
                                 controller.postCommentsModel.value.replies![i]
                                     .isLiked = true;
@@ -500,7 +477,7 @@ class PostCommentReplyScreenView
                             );
                           }
 
-                          return (controller.isLikeSuccessForComment.value)
+                          return (controller.isReplyLike.value)
                               ? !isLiked
                               : isLiked;
                         },
@@ -527,79 +504,6 @@ class PostCommentReplyScreenView
                         },
                       ),
                     ),
-                    // InkWell(
-                    //   onTap: () {
-                    //     Get.toNamed(
-                    //         Routes
-                    //             .POST_COMMENT_REPLY_SCREEN,
-                    //         arguments: {
-                    //           Argument.commentData:
-                    //           controller
-                    //               .postComments[i],
-                    //         });
-                    //   },
-                    //   child: Row(
-                    //     children: [
-                    //       Text("Reply",
-                    //           style: TextStyle(
-                    //               color: AppColors
-                    //                   .textGrayBlackColor,
-                    //               fontWeight:
-                    //               FontWeight
-                    //                   .w400,
-                    //               fontFamily:
-                    //               FontFamily
-                    //                   .roboto,
-                    //               fontStyle:
-                    //               FontStyle
-                    //                   .normal,
-                    //               fontSize: MySize
-                    //                   .size12),
-                    //           textAlign: TextAlign
-                    //               .right),
-                    //       SizedBox(
-                    //         width: MySize.size7,
-                    //       ),
-                    //       Container(
-                    //           width: MySize.size3,
-                    //           height:
-                    //           MySize.size3,
-                    //           decoration: BoxDecoration(
-                    //               color: AppColors
-                    //                   .textBlackColor,
-                    //               borderRadius:
-                    //               BorderRadius
-                    //                   .circular(
-                    //                   100))),
-                    //       SizedBox(
-                    //         width: MySize
-                    //             .getScaledSizeWidth(
-                    //             16),
-                    //       ),
-                    //       Text(
-                    //           controller
-                    //               .postComments[i]
-                    //               .numberOfReplies
-                    //               .toString(),
-                    //           style: TextStyle(
-                    //               color: AppColors
-                    //                   .textBlackColor,
-                    //               fontWeight:
-                    //               FontWeight
-                    //                   .w400,
-                    //               fontFamily:
-                    //               FontFamily
-                    //                   .roboto,
-                    //               fontStyle:
-                    //               FontStyle
-                    //                   .normal,
-                    //               fontSize: MySize
-                    //                   .size14),
-                    //           textAlign:
-                    //           TextAlign.right)
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -613,6 +517,77 @@ class PostCommentReplyScreenView
           height: MySize.size20,
         );
       },
+    );
+  }
+
+  Container getLikeButtonForComment() {
+    return Container(
+      width: MySize.getScaledSizeWidth(50),
+      height: MySize.size16,
+      child: LikeButton(
+        circleColor:
+            CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+        bubblesColor: BubblesColor(
+          dotPrimaryColor: Color(0xff33b5e5),
+          dotSecondaryColor: Color(0xff0099cc),
+        ),
+        likeBuilder: (bool isLiked) {
+          return SvgPicture.asset(
+            Assets.trophy,
+            color: isLiked ? AppColors.button_green : AppColors.grey,
+            width: MySize.getScaledSizeWidth(13.3),
+            height: MySize.size17,
+          );
+        },
+        onTap: (isLiked) async {
+          if (controller.postCommentsModel.value.isLiked == true) {
+            controller.isLikeSuccessForComment.value = false;
+            await controller.CreateCommentDelete(
+              id: controller.postCommentsModel.value.commentLikeId,
+              successCall: () {
+                controller.postCommentsModel.value.isLiked = false;
+
+                controller.postCommentsModel.value.numberOfLikes =
+                    controller.postCommentsModel.value.numberOfLikes! - 1;
+              },
+            );
+          } else {
+            controller.isLikeSuccessForComment.value = false;
+            await controller.createCommentLike(
+              id: controller.postCommentsModel.value.id,
+              commentData: controller.postCommentsModel.value,
+              successCall: () {
+                controller.postCommentsModel.value.isLiked = true;
+
+                controller.postCommentsModel.value.numberOfLikes =
+                    controller.postCommentsModel.value.numberOfLikes! + 1;
+              },
+            );
+          }
+
+          return (controller.isLikeSuccessForComment.value)
+              ? !isLiked
+              : isLiked;
+        },
+        likeCount: controller.postCommentsModel.value.numberOfLikes,
+        countPostion: CountPostion.left,
+        isLiked: controller.postCommentsModel.value.isLiked,
+        countBuilder: (int? count, bool isLiked, String text) {
+          var color = isLiked ? Colors.deepPurpleAccent : Colors.grey;
+          Widget result;
+          if (count == 0) {
+            result = Text(
+              "0",
+              style: TextStyle(color: color),
+            );
+          } else
+            result = Text(
+              text,
+              style: TextStyle(color: color),
+            );
+          return result;
+        },
+      ),
     );
   }
 }

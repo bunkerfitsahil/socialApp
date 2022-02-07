@@ -70,6 +70,7 @@ class ApiClient extends GetConnect {
     Function(dynamic error)? onError,
     File? file,
     bool? isLoad,
+    int? page,
   }) async {
     Map<String, String> headers = {};
     headers["Content-Type"] = "application/json";
@@ -79,7 +80,7 @@ class ApiClient extends GetConnect {
       ProgressDialogUtils.showProgressDialog();
     };
     try {
-      final response = await get(Base_url + 'social-feed-posts/',
+      final response = await get(Base_url + 'social-feed-posts/?page=$page',
           contentType: "application/json", headers: headers);
 
       onSuccess!(response.body);

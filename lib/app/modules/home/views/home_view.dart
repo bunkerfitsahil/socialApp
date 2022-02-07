@@ -38,11 +38,13 @@ class HomeView extends GetWidget<HomeController> {
             body: Obx(() {
               return (controller.hasPostData.value)
                   ? SingleChildScrollView(
+                      controller: controller.scrollController,
                       child: Column(
                         children: [
                           SizedBox(
                             height: MySize.size30,
                           ),
+                          Text(controller.count.value.toString()),
                           getTopProfilePostCreate(),
                           (controller.allPostList.value.isNotEmpty)
                               ? getAllImageData()
@@ -120,42 +122,49 @@ class HomeView extends GetWidget<HomeController> {
   }
 
   getAllImageData() {
-    return ListView.separated(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      cacheExtent: 1000,
-      itemBuilder: (context, i) {
-        return Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: MySize.size22,
+    if (controller.allPostList.value.isNotEmpty) {
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, i) {
+          return Obx(() {
+            return Container(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MySize.size22,
+                  ),
+                  getUserTopPostData(i),
+                  SizedBox(
+                    height: MySize.size18,
+                  ),
+                  getPostDescriptionData(i),
+                  getPostImageView(i),
+                  SizedBox(
+                    height: MySize.size21,
+                  ),
+                  getPostCommentLikeSection(i),
+                  SizedBox(
+                    height: MySize.getScaledSizeHeight(15.6),
+                  ),
+                ],
               ),
-              getUserTopPostData(i),
-              SizedBox(
-                height: MySize.size18,
-              ),
-              getPostDescriptionData(i),
-              getPostImageView(i),
-              SizedBox(
-                height: MySize.size21,
-              ),
-              getPostCommentLikeSection(i),
-              SizedBox(
-                height: MySize.getScaledSizeHeight(15.6),
-              ),
-            ],
-          ),
-        );
-      },
-      itemCount: controller.allPostList.value.length,
-      separatorBuilder: (BuildContext context, int index) {
-        return Container(
-            width: double.infinity,
-            height: MySize.getScaledSizeHeight(0.5),
-            decoration: BoxDecoration(color: AppColors.textGray));
-      },
-    );
+            );
+          });
+        },
+        itemCount: controller.allPostList.value.length,
+        separatorBuilder: (BuildContext context, int index) {
+          return Container(
+              width: double.infinity,
+              height: MySize.getScaledSizeHeight(0.5),
+              decoration: BoxDecoration(color: AppColors.textGray));
+        },
+      );
+    } else {
+      return Container(
+        child: Text("No Data Found"),
+      );
+    }
   }
 
   Widget getPostCommentLikeSection(int i) {
@@ -183,35 +192,36 @@ class HomeView extends GetWidget<HomeController> {
                 );
               },
               onTap: (isLiked) async {
-                if (controller.allPostList[i].isLiked == true) {
+                if (controller.allPostList.value[i].isLiked == true) {
                   controller.isLikeSuccess.value = false;
                   await controller.deletePostLike(
-                    id: controller.allPostList[i].postLikeid,
+                    id: controller.allPostList.value[i].loggedInUserPostLikeId,
                     successCall: () {
-                      controller.allPostList[i].isLiked = false;
+                      controller.allPostList.value[i].isLiked = false;
 
-                      controller.allPostList[i].numberOfLikes =
-                          controller.allPostList[i].numberOfLikes! - 1;
+                      controller.allPostList.value[i].numberOfLikes =
+                          controller.allPostList.value[i].numberOfLikes! - 1;
                     },
                   );
                 } else {
                   controller.isLikeSuccess.value = false;
                   await controller.createPostLike(
-                    id: controller.allPostList[i].id,
+                    id: controller.allPostList.value[i].id,
+                    postDataModel: controller.allPostList.value[i],
                     successCall: () {
-                      controller.allPostList[i].isLiked = true;
+                      controller.allPostList.value[i].isLiked = true;
 
-                      controller.allPostList[i].numberOfLikes =
-                          controller.allPostList[i].numberOfLikes! + 1;
+                      controller.allPostList.value[i].numberOfLikes =
+                          controller.allPostList.value[i].numberOfLikes! + 1;
                     },
                   );
                 }
 
                 return (controller.isLikeSuccess.value) ? !isLiked : isLiked;
               },
-              likeCount: controller.allPostList[i].numberOfLikes,
+              likeCount: controller.allPostList.value[i].numberOfLikes,
               countPostion: CountPostion.left,
-              isLiked: controller.allPostList[i].isLiked,
+              isLiked: controller.allPostList.value[i].isLiked,
               countBuilder: (int? count, bool isLiked, String text) {
                 var color = isLiked ? AppColors.deepColor : AppColors.grey;
                 Widget result;
@@ -231,8 +241,9 @@ class HomeView extends GetWidget<HomeController> {
           ),
           InkWell(
             onTap: () {
-              Get.toNamed(Routes.POST_DETAIL_SCREEN,
-                  arguments: {Argument.postData: controller.allPostList[i]});
+              Get.toNamed(Routes.POST_DETAIL_SCREEN, arguments: {
+                Argument.postData: controller.allPostList.value[i]
+              });
             },
             child: Container(
               height: MySize.size26,
@@ -248,7 +259,7 @@ class HomeView extends GetWidget<HomeController> {
                     width: MySize.getScaledSizeWidth(8),
                   ),
                   Text(
-                    "${controller.allPostList[i].numberOfComments} comments",
+                    "${controller.allPostList.value[i].numberOfComments} comments",
                     style: TextStyle(
                         color: AppColors.textGrayBlackColor,
                         fontWeight: FontWeight.w400,
@@ -271,12 +282,12 @@ class HomeView extends GetWidget<HomeController> {
               ),
             ),
             onTap: () {
-              var text = (controller.allPostList[i].postBody != null)
-                  ? controller.allPostList[i].postBody
+              var text = (controller.allPostList.value[i].postBody != null)
+                  ? controller.allPostList.value[i].postBody
                   : null;
               var msg = (text != null)
-                  ? "${controller.allPostList[i].attachment!} \n $text"
-                  : controller.allPostList[i].attachment!;
+                  ? "${controller.allPostList.value[i].attachment!} \n $text"
+                  : controller.allPostList.value[i].attachment!;
               Share.share(msg);
             },
           ),
@@ -289,14 +300,14 @@ class HomeView extends GetWidget<HomeController> {
     return Container(
       width: double.infinity,
       height: MySize.size240,
-      child: (controller.allPostList[i].fileType == "Video")
+      child: (controller.allPostList.value[i].fileType == "Video")
           ? VideoPlayerItem(
-              url: controller.allPostList[i].attachment.toString(),
+              url: controller.allPostList.value[i].attachment.toString(),
               videoPlayerController: VideoPlayerController.network(
-                  controller.allPostList[i].attachment.toString()),
+                  controller.allPostList.value[i].attachment.toString()),
             )
           : CachedNetworkImage(
-              imageUrl: controller.allPostList[i].attachment.toString(),
+              imageUrl: controller.allPostList.value[i].attachment.toString(),
               imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -318,14 +329,14 @@ class HomeView extends GetWidget<HomeController> {
   Widget getPostDescriptionData(int i) {
     return Column(
       children: [
-        (PrefUtils.isNullEmptyOrFalse(controller.allPostList[i].postBody))
+        (PrefUtils.isNullEmptyOrFalse(controller.allPostList.value[i].postBody))
             ? Container()
             : Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MySize.getScaledSizeWidth(22)),
                 child: Container(
                   child: AutoSizeText(
-                    controller.allPostList[i].postBody.toString(),
+                    controller.allPostList.value[i].postBody.toString(),
                     style: TextStyle(
                         fontSize: MySize.size14,
                         color: AppColors.textBlackColor,
@@ -339,7 +350,7 @@ class HomeView extends GetWidget<HomeController> {
                   ),
                   alignment: Alignment.centerLeft,
                 )),
-        (PrefUtils.isNullEmptyOrFalse(controller.allPostList[i].postBody))
+        (PrefUtils.isNullEmptyOrFalse(controller.allPostList.value[i].postBody))
             ? Container()
             : SizedBox(
                 height: MySize.size10,
@@ -354,7 +365,7 @@ class HomeView extends GetWidget<HomeController> {
       child: InkWell(
         onTap: () {
           controller.goToUserProfileScreen(
-              id: controller.allPostList[i].userData!.userProfileId,
+              id: controller.allPostList.value[i].userData!.userProfileId,
               isLoginUser: false);
         },
         child: Row(
@@ -365,7 +376,8 @@ class HomeView extends GetWidget<HomeController> {
               child: CircleAvatar(
                 radius: MySize.size35,
                 child: CachedNetworkImage(
-                  imageUrl: controller.allPostList[i].userData!.profilePicture
+                  imageUrl: controller
+                      .allPostList.value[i].userData!.profilePicture
                       .toString(),
                   placeholder: (context, url) => SpinKitCircle(
                     color: AppColors.greenColor,
@@ -391,7 +403,7 @@ class HomeView extends GetWidget<HomeController> {
             ),
             Column(
               children: [
-                Text(controller.allPostList[i].userData!.name.toString(),
+                Text(controller.allPostList.value[i].userData!.name.toString(),
                     style: TextStyle(
                         color: AppColors.textBlackColor,
                         fontWeight: FontWeight.w700,
@@ -410,8 +422,9 @@ class HomeView extends GetWidget<HomeController> {
                     //         .toString()),
                     TimeAgo.timeAgoSinceDate(DateFormat("dd-MM-yyyy hh:mma")
                         .format(DateUtilities()
-                            .getDateFromString(
-                                controller.allPostList[i].createdAt.toString())
+                            .getDateFromString(controller
+                                .allPostList.value[i].createdAt
+                                .toString())
                             .toLocal()
                             .add(Duration(hours: 5, minutes: 30)))),
                     style: TextStyle(

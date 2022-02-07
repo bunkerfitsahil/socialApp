@@ -47,11 +47,11 @@ class Follower {
 
   Follower.fromJson(Map<String, dynamic> json) {
     profilePicture =
-        (json['profile_picture'] == null) ? "" : json['profile_picture'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    gender = json['gender'];
-    location = json['location'];
+    (json['profile_picture'] == null) ? " " : json['profile_picture'];
+    firstName = (json['first_name'] == null) ? " " : json['first_name'];
+    lastName = (json['last_name'] == null) ? " " : json['last_name'];
+    gender = (json['gender'] == null) ? " " : json['gender'];
+    location = (json['location'] == null) ? " " : json['location'];
   }
 
   Map<String, dynamic> toJson() {
