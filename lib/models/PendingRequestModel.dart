@@ -37,21 +37,24 @@ class Follower {
   String? lastName;
   String? gender;
   String? location;
+  String? dept;
 
   Follower(
       {this.profilePicture,
       this.firstName,
       this.lastName,
       this.gender,
-      this.location});
+      this.location,
+      this.dept});
 
   Follower.fromJson(Map<String, dynamic> json) {
     profilePicture =
-    (json['profile_picture'] == null) ? " " : json['profile_picture'];
+        (json['profile_picture'] == null) ? " " : json['profile_picture'];
     firstName = (json['first_name'] == null) ? " " : json['first_name'];
     lastName = (json['last_name'] == null) ? " " : json['last_name'];
     gender = (json['gender'] == null) ? " " : json['gender'];
     location = (json['location'] == null) ? " " : json['location'];
+    dept = (json['department'] == null) ? " " : json['department'];
   }
 
   Map<String, dynamic> toJson() {

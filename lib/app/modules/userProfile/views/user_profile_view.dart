@@ -25,13 +25,13 @@ import '../controllers/user_profile_controller.dart';
 class UserProfileView extends GetWidget<UserProfileController> {
   @override
   Widget build(BuildContext context) {
-    MySize().init(context);
     return Scaffold(
       body: Obx(() {
         return SafeArea(
           child: (controller.hasData.value)
               ? (controller.userDataResp != null)
                   ? SingleChildScrollView(
+                      controller: controller.scrollController,
                       child: Column(
                         children: [
                           Container(
@@ -448,16 +448,26 @@ class UserProfileView extends GetWidget<UserProfileController> {
                               ],
                             ),
                           ),
-                          (controller.userDataResp!.followRequestStatus ==
-                                  "Following")
-                              ? ((controller.hasPostData.value)
+                          (controller.isLogInUser)
+                              ? (controller.hasPostData.value)
                                   ? (controller.allPostList.value.isNotEmpty)
                                       ? getAllImageData()
                                       : noDataFound()
                                   : SpinKitCircle(
                                       color: AppColors.greenColor,
-                                    ))
-                              : Container(),
+                                    )
+                              : ((controller
+                                          .userDataResp!.followRequestStatus ==
+                                      "Following")
+                                  ? ((controller.hasPostData.value)
+                                      ? (controller
+                                              .allPostList.value.isNotEmpty)
+                                          ? getAllImageData()
+                                          : noDataFound()
+                                      : SpinKitCircle(
+                                          color: AppColors.greenColor,
+                                        ))
+                                  : Container()),
                         ],
                       ),
                     )
@@ -518,42 +528,66 @@ class UserProfileView extends GetWidget<UserProfileController> {
   }
 
   getAllImageData() {
-    return ListView.separated(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      cacheExtent: 1000,
-      itemBuilder: (context, i) {
-        return Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: MySize.size22,
-              ),
-              getUserTopPostData(i),
-              SizedBox(
-                height: MySize.size18,
-              ),
-              getPostDescriptionData(i),
-              getPostImageView(i),
-              SizedBox(
-                height: MySize.size21,
-              ),
-              getPostCommentLikeSection(i),
-              SizedBox(
-                height: MySize.getScaledSizeHeight(15.6),
-              ),
-            ],
+    if (controller.allPostList.isNotEmpty) {
+      return Stack(
+        children: [
+          ListView.separated(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, i) {
+              return Obx(() {
+                return Container(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MySize.size22,
+                      ),
+                      getUserTopPostData(i),
+                      SizedBox(
+                        height: MySize.size18,
+                      ),
+                      getPostDescriptionData(i),
+                      getPostImageView(i),
+                      SizedBox(
+                        height: MySize.size21,
+                      ),
+                      getPostCommentLikeSection(i),
+                      SizedBox(
+                        height: MySize.getScaledSizeHeight(15.6),
+                      ),
+                    ],
+                  ),
+                );
+              });
+            },
+            itemCount: controller.allPostList.length,
+            separatorBuilder: (BuildContext context, int index) {
+              return Container(
+                  width: double.infinity,
+                  height: MySize.getScaledSizeHeight(0.5),
+                  decoration: BoxDecoration(color: AppColors.textGray));
+            },
           ),
-        );
-      },
-      itemCount: controller.allPostList.value.length,
-      separatorBuilder: (BuildContext context, int index) {
-        return Container(
-            width: double.infinity,
-            height: MySize.getScaledSizeHeight(0.5),
-            decoration: BoxDecoration(color: AppColors.textGray));
-      },
-    );
+          if (controller.isLoading.value) ...[
+            Positioned(
+              left: 0,
+              bottom: 0,
+              child: Container(
+                height: MySize.size80,
+                width: MySize.screenWidth,
+                child: SpinKitCircle(
+                  color: AppColors.button_green,
+                ),
+              ),
+            ),
+          ]
+        ],
+      );
+    } else {
+      return Container(
+        child: Text("No Data Found"),
+      );
+    }
   }
 
   Widget getPostCommentLikeSection(int i) {

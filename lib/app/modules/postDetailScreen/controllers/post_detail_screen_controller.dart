@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -93,14 +95,14 @@ class PostDetailScreenController extends GetxController {
         if (successCall != null && resp != null) {
           postData.loggedInUserPostLikeId = PostLikeResponse.fromJson(resp).id;
           postData.isLiked = true;
-          for (var element in homeController.allPostList.value) {
+          for (var element in homeController.allPostList) {
             if (element.id == id) {
               element.loggedInUserPostLikeId =
                   PostLikeResponse.fromJson(resp).id;
               element.isLiked = true;
             }
           }
-
+          homeController.count.value = Random().nextInt(100);
           homeController.updateData();
           isLikeSuccess.value = true;
 
@@ -124,14 +126,20 @@ class PostDetailScreenController extends GetxController {
     VoidCallback? successCall,
     VoidCallback? errCall,
     int? id,
+    int? pId,
   }) async {
     await ApiClient().callApiForDeletePostLike(
       onSuccess: (resp) {
         if (successCall != null && resp != null) {
           isLikeSuccess.value = true;
-
+          for (var element in homeController.allPostList) {
+            if (element.id == pId) {
+              element.isLiked = false;
+            }
+          }
+          homeController.count.value = Random().nextInt(100);
+          homeController.updateData();
           successCall();
-          homeController.getPostData(isLoad: false);
 
           print("sucess");
         }
@@ -156,13 +164,7 @@ class PostDetailScreenController extends GetxController {
         if (successCall != null && resp != null) {
           commentData!.commentLikeId = CommentLikeResponse.fromJson(resp).id;
           isLikeSuccessForComment.value = true;
-          for (var element in homeController.allPostList.value) {
-            if (element.id == id) {
-              element.isLiked = false;
-            }
-          }
 
-          homeController.updateData();
           successCall();
 
           //HomeController().postData();

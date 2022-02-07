@@ -15,7 +15,6 @@ class IndividualChalangeScreenView
     extends GetWidget<IndividualChalangeScreenController> {
   @override
   Widget build(BuildContext context) {
-    MySize().init(context);
     return Scaffold(
       body: SafeArea(
         child: Container(

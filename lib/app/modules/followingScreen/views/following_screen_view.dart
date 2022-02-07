@@ -6,7 +6,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
 import 'package:social_feed_flutter/constants/font_family.dart';
-import 'package:social_feed_flutter/constants/math_utils.dart';
 import 'package:social_feed_flutter/constants/sizeConstant.dart';
 
 import '../controllers/following_screen_controller.dart';
@@ -40,7 +39,7 @@ class FollowingScreenView extends GetWidget<FollowingScreenController> {
                                   width: MySize.getScaledSizeWidth(28),
                                   height: MySize.size28,
                                   decoration: BoxDecoration(
-                                      color: const Color(0xffffffff),
+                                      color: AppColors.white,
                                       borderRadius: BorderRadius.circular(50)),
                                   child: Center(
                                     child: Icon(
@@ -216,8 +215,8 @@ class FollowingScreenView extends GetWidget<FollowingScreenController> {
                                   width: double.infinity,
                                   // color: Colors.grey,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        getSize(4, context)),
+                                    borderRadius:
+                                        BorderRadius.circular(MySize.size4!),
                                     color: const Color(0xfff7f7f7),
                                   ),
                                   alignment: Alignment.center,
@@ -225,9 +224,9 @@ class FollowingScreenView extends GetWidget<FollowingScreenController> {
                                       style: TextStyle(
                                           color: const Color(0xff1c1414),
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: "Roboto",
+                                          fontFamily: FontFamily.roboto,
                                           fontStyle: FontStyle.normal,
-                                          fontSize: getSize(15, context)),
+                                          fontSize: MySize.size15),
                                       textAlign: TextAlign.center),
                                 ),
                                 Expanded(child: Container()),

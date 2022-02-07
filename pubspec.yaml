@@ -26,7 +26,6 @@ dependencies:
   share_plus:
   like_button: ^2.0.4
   file_picker:
-  chewie:
 
   flutter:
     sdk: flutter

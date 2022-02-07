@@ -13,18 +13,50 @@ class UserProfileController extends GetxController {
   UserDataModel? userDataResp;
   RxBool hasData = false.obs;
   int userId = Get.arguments[Argument.userId];
+  ScrollController scrollController = ScrollController();
+  RxList<PostsList> newPostList = <PostsList>[].obs;
+
   RxList<PostsList> allPostList = <PostsList>[].obs;
   RxBool isLikeSuccess = false.obs;
-
+  RxBool isLoading = false.obs;
+  RxBool allLoaded = false.obs;
   bool isLogInUser = Get.arguments[Argument.isLoginUser];
   RxString? followStatus = "Follow".obs;
   RxBool hasPostData = false.obs;
-
+  RxInt page = 1.obs;
+  RxInt totalPostLength = 0.obs;
   @override
   void onInit() async {
     super.onInit();
     await getUserData();
-    getPostData();
+    mokeFetch();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+              scrollController.position.maxScrollExtent &&
+          !allLoaded.value) {
+        mokeFetch();
+      }
+    });
+  }
+
+  mokeFetch() async {
+    if (allLoaded.value) {
+      return;
+    }
+    isLoading.value = true;
+    await Future.delayed(Duration(milliseconds: 500));
+    await getPostData();
+    List<PostsList> newData = newPostList.value;
+    if (newData.isNotEmpty) {
+      allPostList.value.addAll(newData);
+      print(allPostList.value.length);
+      if (totalPostLength <= allPostList.value.length) {
+        allLoaded.value = true;
+      } else {
+        page.value = page.value + 1;
+      }
+    }
+    isLoading.value = false;
   }
 
   getUserData({
@@ -121,6 +153,7 @@ class UserProfileController extends GetxController {
           }
         },
         isLoad: false,
+        page: page.value,
         id: 2);
   }
 
@@ -151,13 +184,18 @@ class UserProfileController extends GetxController {
   void onGetPostSuccess(resp) {
     ProgressDialogUtils.hideProgressDialog();
     hasPostData.value = true;
-    List data = resp as List;
+    Map<String, dynamic> data = resp as Map<String, dynamic>;
+    print(resp);
 
-    allPostList.value = resp.map((e) => PostsList.fromJson(e)).toList();
+    PostDataModel postDataModel = PostDataModel.fromJson(data);
+    totalPostLength.value = postDataModel.count!;
+
+    //allPostList.value = postDataModel.results!;
+    newPostList.value = postDataModel.results!;
   }
 
   void onGetPostError(err) {
-    hasPostData.value = false;
+    hasPostData.value = true;
   }
 
   void onGetDataSuccess(resp) {

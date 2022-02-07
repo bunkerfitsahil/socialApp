@@ -15,7 +15,6 @@ import '../controllers/team_invite_screen_controller.dart';
 class TeamInviteScreenView extends GetWidget<TeamInviteScreenController> {
   @override
   Widget build(BuildContext context) {
-    MySize().init(context);
     return Scaffold(
       body: GestureDetector(
         onTap: () {

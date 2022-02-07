@@ -133,7 +133,7 @@ class Replies {
         ? new UserData.fromJson(json['user_data'])
         : null;
     numberOfLikes = json['number_of_likes'];
-    replyLikeId = json['logged_in_user_reply_like_id'];
+    replyLikeId = json['logged_in_user_comment_like_id'];
     isLiked = json['is_liked'];
     parent = json['parent'];
     commentBody = json['comment_body'];

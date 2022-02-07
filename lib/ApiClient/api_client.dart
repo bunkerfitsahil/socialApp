@@ -82,8 +82,11 @@ class ApiClient extends GetConnect {
     try {
       final response = await get(Base_url + 'social-feed-posts/?page=$page',
           contentType: "application/json", headers: headers);
-
-      onSuccess!(response.body);
+      if (response.statusCode == 200) {
+        if (response != null) {
+          onSuccess!(response.body);
+        }
+      }
     } catch (error) {
       String msg =
           ExceptionWrapper(DionewExceptions.getExceptions(error)).message;
@@ -100,6 +103,7 @@ class ApiClient extends GetConnect {
     Function(dynamic error)? onError,
     bool? isLoad,
     int? id,
+    int? page,
   }) async {
     Map<String, String> headers = {};
     headers["Content-Type"] = "application/json";
@@ -110,7 +114,7 @@ class ApiClient extends GetConnect {
     };
     try {
       final response = await get(
-          Base_url + 'social-feed-posts/?user__userprofile__id=$id',
+          Base_url + 'social-feed-posts/?user__userprofile__id=$id&page=$page',
           contentType: "application/json",
           headers: headers);
 

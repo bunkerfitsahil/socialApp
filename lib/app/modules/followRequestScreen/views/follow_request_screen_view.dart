@@ -230,30 +230,54 @@ class FollowRequestScreenView extends GetWidget<FollowRequestScreenController> {
                                                                 height: MySize
                                                                     .size3,
                                                               ),
-                                                              Text(
-                                                                  controller
-                                                                      .pendingData![
-                                                                          i]
-                                                                      .follower!
-                                                                      .location!,
-                                                                  style: TextStyle(
-                                                                      color: AppColors
-                                                                          .textGrayBlackColor,
-                                                                      fontWeight:
-                                                                          FontWeight
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                      controller
+                                                                              .pendingData![
+                                                                                  i]
+                                                                              .follower!
+                                                                              .location! +
+                                                                          ", ",
+                                                                      style: TextStyle(
+                                                                          color: AppColors
+                                                                              .textGrayBlackColor,
+                                                                          fontWeight: FontWeight
                                                                               .w400,
-                                                                      fontFamily:
-                                                                          FontFamily
+                                                                          fontFamily: FontFamily
                                                                               .roboto,
-                                                                      fontStyle:
-                                                                          FontStyle
+                                                                          fontStyle: FontStyle
                                                                               .normal,
-                                                                      fontSize:
-                                                                          MySize
+                                                                          fontSize: MySize
                                                                               .size12),
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .left),
+                                                                  Text(
+                                                                      controller
+                                                                          .pendingData![
+                                                                              i]
+                                                                          .follower!
+                                                                          .dept!,
+                                                                      style: TextStyle(
+                                                                          color: AppColors
+                                                                              .textGrayBlackColor,
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          fontFamily: FontFamily
+                                                                              .roboto,
+                                                                          fontStyle: FontStyle
+                                                                              .normal,
+                                                                          fontSize: MySize
+                                                                              .size12),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .left),
+                                                                ],
+                                                              ),
                                                             ],
                                                           ),
                                                         ),
@@ -427,17 +451,30 @@ class FollowRequestScreenView extends GetWidget<FollowRequestScreenController> {
                                                     SizedBox(
                                                       height: MySize.size36,
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          right: MySize
-                                                              .getScaledSizeWidth(
-                                                                  15.1)),
-                                                      child: Icon(
-                                                        Icons.delete,
-                                                        size: MySize.size13,
-                                                        color:
-                                                            AppColors.textGray,
+                                                    InkWell(
+                                                      child: Padding(
+                                                        padding: EdgeInsets.only(
+                                                            right: MySize
+                                                                .getScaledSizeWidth(
+                                                                    15.1)),
+                                                        child: Icon(
+                                                          Icons.delete,
+                                                          size: MySize.size13,
+                                                          color: AppColors
+                                                              .textGray,
+                                                        ),
                                                       ),
+                                                      onTap: () {
+                                                        controller
+                                                            .createAcceptOrDecline(
+                                                                acceptOrDecline:
+                                                                    "DECLINED",
+                                                                follow_id:
+                                                                    controller
+                                                                        .pendingData![
+                                                                            i]
+                                                                        .id!);
+                                                      },
                                                     ),
                                                   ],
                                                 )

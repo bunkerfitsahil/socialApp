@@ -13,7 +13,6 @@ import '../controllers/join_team_screen_controller.dart';
 class JoinTeamScreenView extends GetWidget<JoinTeamScreenController> {
   @override
   Widget build(BuildContext context) {
-    MySize().init(context);
     return Scaffold(
       body: SafeArea(
         child: Container(

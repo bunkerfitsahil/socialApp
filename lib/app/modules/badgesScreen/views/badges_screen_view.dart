@@ -37,7 +37,7 @@ class BadgesScreenView extends GetWidget<BadgesScreenController> {
                                 width: MySize.getScaledSizeWidth(28),
                                 height: MySize.size28,
                                 decoration: BoxDecoration(
-                                    color: const Color(0xffffffff),
+                                    color: AppColors.white,
                                     borderRadius: BorderRadius.circular(50)),
                                 child: Center(
                                   child: Icon(
@@ -71,11 +71,11 @@ class BadgesScreenView extends GetWidget<BadgesScreenController> {
               ),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.only(top: getSize(15, context)),
+                  padding: EdgeInsets.only(top: MySize.size15!),
                   color: const Color(0xffeef0f0),
                   child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: getSize(40, context)),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MySize.getScaledSizeWidth(40)),
                     child: Column(
                       children: [
                         Row(
@@ -83,11 +83,11 @@ class BadgesScreenView extends GetWidget<BadgesScreenController> {
                           children: [
                             Text("Badges Earned",
                                 style: TextStyle(
-                                    color: const Color(0xff1c1414),
+                                    color: AppColors.textBlackColor,
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: "Roboto",
+                                    fontFamily: FontFamily.roboto,
                                     fontStyle: FontStyle.normal,
-                                    fontSize: getFontSize(16, context)),
+                                    fontSize: MySize.size16),
                                 textAlign: TextAlign.center),
                             Expanded(child: Container()),
                           ],

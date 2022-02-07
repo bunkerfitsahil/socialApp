@@ -17,7 +17,6 @@ class MyUpcomingIndividualScreenView
     extends GetWidget<MyUpcomingIndividualScreenController> {
   @override
   Widget build(BuildContext context) {
-    MySize().init(context);
     return Scaffold(
       body: SafeArea(
         child: Container(

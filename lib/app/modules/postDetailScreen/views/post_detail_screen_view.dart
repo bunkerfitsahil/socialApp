@@ -11,7 +11,6 @@ import 'package:social_feed_flutter/constants/argumentConstant.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
 import 'package:social_feed_flutter/constants/font_family.dart';
-import 'package:social_feed_flutter/constants/math_utils.dart';
 import 'package:social_feed_flutter/constants/sizeConstant.dart';
 import 'package:social_feed_flutter/utils/pref_utils.dart';
 import 'package:social_feed_flutter/utils/progress_dialog_utils.dart';
@@ -54,8 +53,8 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                       Divider(
                         color: AppColors.textGrayBlackColor,
                         thickness: 2,
-                        indent: getSize(18, context),
-                        endIndent: getSize(18, context),
+                        indent: MySize.getScaledSizeWidth(18),
+                        endIndent: MySize.getScaledSizeWidth(18),
                       ),
                       SizedBox(
                         height: MySize.size35,
@@ -446,7 +445,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                               size: MySize.size30!,
                             ),
                       SizedBox(
-                        height: getSize(90, context),
+                        height: MySize.size90,
                       ),
                     ],
                   ),
@@ -502,7 +501,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                                 child: Icon(
                                   Icons.close,
                                   color: Colors.black,
-                                  size: getSize(24, context),
+                                  size: MySize.size24,
                                 ),
                               ),
 
@@ -576,7 +575,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
               ),
               placeholder: (context, url) => SpinKitCircle(
                 color: Colors.green,
-                size: getSize(30, context),
+                size: MySize.size30!,
               ),
               errorWidget: (context, url, error) => Icon(Icons.error),
               fit: BoxFit.cover,
@@ -641,6 +640,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                   controller.isLikeSuccess.value = false;
                   await controller.deletePostLike(
                     id: controller.postData.loggedInUserPostLikeId,
+                    pId: controller.postData.id,
                     successCall: () {
                       controller.postData.isLiked = false;
 

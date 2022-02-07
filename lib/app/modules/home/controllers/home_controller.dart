@@ -23,7 +23,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   RxBool isImageSelected = false.obs;
   Rx<TextEditingController> postData = TextEditingController().obs;
 
-  final allPostList = <PostsList>[].obs;
+  List<PostsList> allPostList = <PostsList>[].obs;
   RxList<PostsList> newPostList = <PostsList>[].obs;
   RxBool hasPostData = false.obs;
   RxBool isLikeSuccess = false.obs;
@@ -123,14 +123,15 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     await getPostData();
     List<PostsList> newData = newPostList.value;
     if (newData.isNotEmpty) {
-      allPostList.value.addAll(newData);
-      print(allPostList.value.length);
-      if (totalPostLength <= allPostList.value.length) {
+      allPostList.addAll(newData);
+      print(allPostList.length);
+      if (totalPostLength <= allPostList.length) {
         allLoaded.value = true;
       } else {
         page.value = page.value + 1;
       }
     }
+    update();
     isLoading.value = false;
   }
 
@@ -205,7 +206,9 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   }
 
   updateData() {
-    update(allPostList.value);
+    update(allPostList);
+    print(allPostList[2].isLiked.toString());
+    update();
   }
 
   deletePostLike({
@@ -239,7 +242,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     Fluttertoast.showToast(msg: "Post is SuccessFully added");
     page.value = 1;
     hasPostData.value = false;
-    allPostList.value.clear();
+    allPostList.clear();
     mokeFetch();
   }
 
@@ -266,7 +269,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   }
 
   void onGetPostError(err) {
-    hasPostData.value = false;
+    hasPostData.value = true;
   }
 
   void increment() => count.value++;
