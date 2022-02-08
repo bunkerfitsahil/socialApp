@@ -10,6 +10,7 @@ import 'package:social_feed_flutter/app/routes/app_pages.dart';
 import 'package:social_feed_flutter/constants/argumentConstant.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
+import 'package:social_feed_flutter/constants/dimention.dart';
 import 'package:social_feed_flutter/constants/font_family.dart';
 import 'package:social_feed_flutter/constants/sizeConstant.dart';
 import 'package:social_feed_flutter/utils/pref_utils.dart';
@@ -33,16 +34,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Container(
-                        height: MySize.getScaledSizeHeight(206.3),
-                        width: double.infinity,
-                        child: Stack(
-                          children: [
-                            getImageView(),
-                            getBackButton(),
-                          ],
-                        ),
-                      ),
+                      getPostImageView(),
                       SizedBox(
                         height: MySize.size23,
                       ),
@@ -50,398 +42,16 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                       SizedBox(
                         height: MySize.size54,
                       ),
-                      Divider(
-                        color: AppColors.textGrayBlackColor,
-                        thickness: 2,
-                        indent: MySize.getScaledSizeWidth(18),
-                        endIndent: MySize.getScaledSizeWidth(18),
-                      ),
+                      getDivider(),
                       SizedBox(
                         height: MySize.size35,
                       ),
                       (controller.hasPostData.value)
                           ? (!controller.postComments.isNotEmpty)
-                              ? Container(
-                                  width: double.infinity,
-                                  height: MySize.size14,
-                                  child: Center(
-                                    child: Text("No Comments",
-                                        style: TextStyle(
-                                            color: AppColors.textBlackColor,
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: FontFamily.roboto,
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: MySize.size14),
-                                        textAlign: TextAlign.center),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          MySize.getScaledSizeWidth(22)),
-                                  child: ListView.separated(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, i) {
-                                      return Container(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                CircleAvatar(
-                                                  radius: MySize.size17,
-                                                  // backgroundImage:
-                                                  //     AssetImage(Assets.avtar),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: controller
-                                                        .postComments[i]
-                                                        .userData!
-                                                        .profilePicture
-                                                        .toString(),
-                                                    placeholder:
-                                                        (context, url) =>
-                                                            SpinKitCircle(
-                                                      color: Colors.green,
-                                                      size: MySize.size20!,
-                                                    ),
-                                                    imageBuilder: (context,
-                                                            imageProvider) =>
-                                                        Container(
-                                                      height: MySize.size34,
-                                                      width: MySize.size34,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(100),
-                                                        image: DecorationImage(
-                                                          image: imageProvider,
-                                                          fit: BoxFit.fill,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            Icon(Icons.error),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width:
-                                                      MySize.getScaledSizeWidth(
-                                                          11),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    height: MySize.size49,
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                            controller
-                                                                .postComments[i]
-                                                                .userData!
-                                                                .name
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color: AppColors
-                                                                    .textBlackColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                fontFamily:
-                                                                    FontFamily
-                                                                        .robotoBold,
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .normal,
-                                                                fontSize: MySize
-                                                                    .size14),
-                                                            textAlign:
-                                                                TextAlign.left),
-                                                        SizedBox(
-                                                          height: MySize.size3,
-                                                        ),
-                                                        Text(
-                                                            (PrefUtils.isNullEmptyOrFalse(controller
-                                                                    .postComments[
-                                                                        i]
-                                                                    .commentBody))
-                                                                ? ""
-                                                                : controller
-                                                                    .postComments[
-                                                                        i]
-                                                                    .commentBody
-                                                                    .toString(),
-                                                            style: TextStyle(
-                                                                color: AppColors
-                                                                    .textGrayBlackColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontFamily:
-                                                                    FontFamily
-                                                                        .roboto,
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .normal,
-                                                                fontSize: MySize
-                                                                    .size14),
-                                                            textAlign:
-                                                                TextAlign.left)
-                                                      ],
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      color: AppColors
-                                                          .profileFollowText,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              MySize.size8!),
-                                                    ),
-                                                    padding: EdgeInsets.only(
-                                                        left: MySize
-                                                            .getScaledSizeWidth(
-                                                                7),
-                                                        top: MySize.size6!,
-                                                        bottom: MySize.size6!),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left:
-                                                      MySize.getScaledSizeWidth(
-                                                          49),
-                                                  top: MySize.size10!),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    width: MySize
-                                                        .getScaledSizeWidth(50),
-                                                    child: LikeButton(
-                                                      circleColor: CircleColor(
-                                                          start:
-                                                              Color(0xff00ddff),
-                                                          end: Color(
-                                                              0xff0099cc)),
-                                                      bubblesColor:
-                                                          BubblesColor(
-                                                        dotPrimaryColor:
-                                                            Color(0xff33b5e5),
-                                                        dotSecondaryColor:
-                                                            Color(0xff0099cc),
-                                                      ),
-                                                      likeBuilder:
-                                                          (bool isLiked) {
-                                                        return SvgPicture.asset(
-                                                          Assets.trophy,
-                                                          color: isLiked
-                                                              ? AppColors
-                                                                  .button_green
-                                                              : AppColors.grey,
-                                                          width: MySize
-                                                              .getScaledSizeWidth(
-                                                                  17),
-                                                          height: MySize.size17,
-                                                        );
-                                                      },
-                                                      onTap: (isLiked) async {
-                                                        if (controller
-                                                                .postComments[i]
-                                                                .isLiked ==
-                                                            true) {
-                                                          controller
-                                                              .isLikeSuccessForComment
-                                                              .value = false;
-                                                          await controller
-                                                              .CreateCommentDelete(
-                                                            id: controller
-                                                                .postComments[i]
-                                                                .commentLikeId,
-                                                            successCall: () {
-                                                              controller
-                                                                  .postComments[
-                                                                      i]
-                                                                  .isLiked = false;
-
-                                                              controller
-                                                                  .postComments[
-                                                                      i]
-                                                                  .numberOfLikes = controller
-                                                                      .postComments[
-                                                                          i]
-                                                                      .numberOfLikes! -
-                                                                  1;
-                                                            },
-                                                          );
-                                                        } else {
-                                                          controller
-                                                              .isLikeSuccessForComment
-                                                              .value = false;
-                                                          await controller
-                                                              .createCommentLike(
-                                                            id: controller
-                                                                .postComments[i]
-                                                                .id,
-                                                            commentData: controller
-                                                                .postComments[i],
-                                                            successCall: () {
-                                                              controller
-                                                                  .postComments[
-                                                                      i]
-                                                                  .isLiked = true;
-
-                                                              controller
-                                                                  .postComments[
-                                                                      i]
-                                                                  .numberOfLikes = controller
-                                                                      .postComments[
-                                                                          i]
-                                                                      .numberOfLikes! +
-                                                                  1;
-                                                            },
-                                                          );
-                                                        }
-
-                                                        return (controller
-                                                                .isLikeSuccessForComment
-                                                                .value)
-                                                            ? !isLiked
-                                                            : isLiked;
-                                                      },
-                                                      likeCount: controller
-                                                          .postComments[i]
-                                                          .numberOfLikes,
-                                                      countPostion:
-                                                          CountPostion.left,
-                                                      isLiked: controller
-                                                          .postComments[i]
-                                                          .isLiked,
-                                                      countBuilder: (int? count,
-                                                          bool isLiked,
-                                                          String text) {
-                                                        var color = isLiked
-                                                            ? Colors
-                                                                .deepPurpleAccent
-                                                            : Colors.grey;
-                                                        Widget result;
-                                                        if (count == 0) {
-                                                          result = Text(
-                                                            "0",
-                                                            style: TextStyle(
-                                                                color: color),
-                                                          );
-                                                        } else
-                                                          result = Text(
-                                                            text,
-                                                            style: TextStyle(
-                                                                color: color),
-                                                          );
-                                                        return result;
-                                                      },
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Get.toNamed(
-                                                          Routes
-                                                              .POST_COMMENT_REPLY_SCREEN,
-                                                          arguments: {
-                                                            Argument.commentData:
-                                                                controller
-                                                                    .postComments[
-                                                                        i]
-                                                                    .obs,
-                                                          });
-                                                    },
-                                                    child: Row(
-                                                      children: [
-                                                        Text("Reply",
-                                                            style: TextStyle(
-                                                                color: AppColors
-                                                                    .textGrayBlackColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontFamily:
-                                                                    FontFamily
-                                                                        .roboto,
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .normal,
-                                                                fontSize: MySize
-                                                                    .size12),
-                                                            textAlign: TextAlign
-                                                                .right),
-                                                        SizedBox(
-                                                          width: MySize.size7,
-                                                        ),
-                                                        Container(
-                                                            width: MySize.size3,
-                                                            height:
-                                                                MySize.size3,
-                                                            decoration: BoxDecoration(
-                                                                color: AppColors
-                                                                    .textBlackColor,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            100))),
-                                                        SizedBox(
-                                                          width: MySize
-                                                              .getScaledSizeWidth(
-                                                                  16),
-                                                        ),
-                                                        Text(
-                                                            controller
-                                                                .postComments[i]
-                                                                .numberOfReplies
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color: AppColors
-                                                                    .textBlackColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontFamily:
-                                                                    FontFamily
-                                                                        .roboto,
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .normal,
-                                                                fontSize: MySize
-                                                                    .size14),
-                                                            textAlign:
-                                                                TextAlign.right)
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                    itemCount: controller.postComments.length,
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return SizedBox(
-                                        height: MySize.size20,
-                                      );
-                                    },
-                                  ),
-                                )
+                              ? getAllCommentData()
+                              : getNoCommentData()
                           : SpinKitCircle(
-                              color: Colors.green,
+                              color: AppColors.greenColor,
                               size: MySize.size30!,
                             ),
                       SizedBox(
@@ -451,105 +61,372 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
                   ),
                 ),
               ),
-              bottomSheet: SafeArea(
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MySize.getScaledSizeWidth(29.5)),
-                  margin:
-                      EdgeInsets.only(bottom: MySize.getScaledSizeHeight(20)),
-                  width: double.infinity,
-                  height: MySize.size36,
-                  child: Form(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: controller.commentController.value,
-                            decoration: InputDecoration(
-                              isDense: true,
-                              fillColor: Color(0xffF0F0F0),
-                              //filled: true,
-                              focusedBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
-                                borderSide: BorderSide(
-                                    color: AppColors.textGray, width: 1),
-                              ),
-                              enabledBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
-                                borderSide: BorderSide(
-                                    color: AppColors.textGray, width: 1),
-                              ),
-                              border: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
-                                borderSide: BorderSide(
-                                    color: AppColors.textGray, width: 1),
-                              ),
-                              disabledBorder: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
-                                borderSide: BorderSide(
-                                    color: AppColors.textGray, width: 1),
-                              ),
-                              hintText: "",
-                              suffixIcon: InkWell(
-                                onTap: () {
-                                  controller.commentController.value.text = "";
-                                },
-                                child: Icon(
-                                  Icons.close,
-                                  color: Colors.black,
-                                  size: MySize.size24,
-                                ),
-                              ),
-
-                              hintStyle: TextStyle(
-                                  color: Color(0xffacacac),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: FontFamily.roboto,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: MySize.size16),
-                            ),
-                            cursorColor: Colors.black12.withOpacity(0.6),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            if (controller.commentController.value.text
-                                        .trim() ==
-                                    "" ||
-                                controller.commentController.value.text
-                                        .trim() ==
-                                    " ") {
-                              Fluttertoast.showToast(
-                                  msg: "Please Enter Comment First");
-                            } else {
-                              controller.addCommentsData();
-                              FocusManager.instance.primaryFocus!.unfocus();
-                              controller.commentController.value.text = "";
-                              controller.postData.numberOfComments =
-                                  controller.postData.numberOfComments! + 1;
-                            }
-                          },
-                          child: Container(
-                            child: SvgPicture.asset(
-                              Assets.sendIcon,
-                              height: MySize.getScaledSizeHeight(30.5),
-                              width: MySize.getScaledSizeWidth(30.5),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              bottomSheet: getBottomSheet(),
             ),
           ],
         );
       }),
+    );
+  }
+
+  getDivider() {
+    return Divider(
+      color: AppColors.textGrayBlackColor,
+      thickness: 2,
+      indent: MySize.getScaledSizeWidth(Dimens.d_18),
+      endIndent: MySize.getScaledSizeWidth(Dimens.d_18),
+    );
+  }
+
+  getBottomSheet() {
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: MySize.getScaledSizeWidth(Dimens.d_30)),
+        margin:
+            EdgeInsets.only(bottom: MySize.getScaledSizeHeight(Dimens.d_20)),
+        width: double.infinity,
+        height: MySize.size36,
+        child: Form(
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controller.commentController.value,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    fillColor: AppColors.borderWhite,
+                    //filled: true,
+                    focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      borderSide:
+                          BorderSide(color: AppColors.textGray, width: 1),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      borderSide:
+                          BorderSide(color: AppColors.textGray, width: 1),
+                    ),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      borderSide:
+                          BorderSide(color: AppColors.textGray, width: 1),
+                    ),
+                    disabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      borderSide:
+                          BorderSide(color: AppColors.textGray, width: 1),
+                    ),
+                    hintText: "",
+                    suffixIcon: InkWell(
+                      onTap: () {
+                        controller.commentController.value.text = "";
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.black,
+                        size: MySize.size24,
+                      ),
+                    ),
+
+                    hintStyle: TextStyle(
+                        color: AppColors.textGray,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: FontFamily.roboto,
+                        fontStyle: FontStyle.normal,
+                        fontSize: MySize.size16),
+                  ),
+                  cursorColor: Colors.black12.withOpacity(0.6),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  if (controller.commentController.value.text.trim() == "" ||
+                      controller.commentController.value.text.trim() == " ") {
+                    Fluttertoast.showToast(msg: "Please Enter Comment First");
+                  } else {
+                    controller.addCommentsData();
+                    FocusManager.instance.primaryFocus!.unfocus();
+                    controller.commentController.value.text = "";
+                    controller.postData.numberOfComments =
+                        controller.postData.numberOfComments! + 1;
+                  }
+                },
+                child: Container(
+                  child: SvgPicture.asset(
+                    Assets.sendIcon,
+                    height: MySize.getScaledSizeHeight(Dimens.d_30),
+                    width: MySize.getScaledSizeWidth(Dimens.d_30),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  getPostImageView() {
+    return Container(
+      height: MySize.getScaledSizeHeight(206.3),
+      width: double.infinity,
+      child: Stack(
+        children: [
+          getImageView(),
+          getBackButton(),
+        ],
+      ),
+    );
+  }
+
+  getAllCommentData() {
+    return Container(
+      width: double.infinity,
+      height: MySize.size14,
+      child: Center(
+        child: Text("No Comments",
+            style: TextStyle(
+                color: AppColors.textBlackColor,
+                fontWeight: FontWeight.w700,
+                fontFamily: FontFamily.roboto,
+                fontStyle: FontStyle.normal,
+                fontSize: MySize.size14),
+            textAlign: TextAlign.center),
+      ),
+    );
+  }
+
+  getNoCommentData() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: MySize.getScaledSizeWidth(Dimens.d_22)),
+      child: ListView.separated(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (context, i) {
+          return Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: MySize.size17,
+                      // backgroundImage:
+                      //     AssetImage(Assets.avtar),
+                      child: CachedNetworkImage(
+                        imageUrl: controller
+                            .postComments[i].userData!.profilePicture
+                            .toString(),
+                        placeholder: (context, url) => SpinKitCircle(
+                          color: Colors.green,
+                          size: MySize.size20!,
+                        ),
+                        imageBuilder: (context, imageProvider) => Container(
+                          height: MySize.size34,
+                          width: MySize.size34,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    ),
+                    SizedBox(
+                      width: MySize.getScaledSizeWidth(Dimens.d_11),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: MySize.size49,
+                        child: Column(
+                          children: [
+                            Text(
+                                controller.postComments[i].userData!.name
+                                    .toString(),
+                                style: TextStyle(
+                                    color: AppColors.textBlackColor,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: FontFamily.robotoBold,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: MySize.size14),
+                                textAlign: TextAlign.left),
+                            SizedBox(
+                              height: MySize.size3,
+                            ),
+                            Text(
+                                (PrefUtils.isNullEmptyOrFalse(
+                                        controller.postComments[i].commentBody))
+                                    ? ""
+                                    : controller.postComments[i].commentBody
+                                        .toString(),
+                                style: TextStyle(
+                                    color: AppColors.textGrayBlackColor,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: FontFamily.roboto,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: MySize.size14),
+                                textAlign: TextAlign.left)
+                          ],
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.profileFollowText,
+                          borderRadius: BorderRadius.circular(MySize.size8!),
+                        ),
+                        padding: EdgeInsets.only(
+                            left: MySize.getScaledSizeWidth(Dimens.d_7),
+                            top: MySize.size6!,
+                            bottom: MySize.size6!),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MySize.getScaledSizeWidth(Dimens.d_49),
+                      top: MySize.size10!),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: MySize.getScaledSizeWidth(Dimens.d_50),
+                        child: LikeButton(
+                          circleColor: CircleColor(
+                              start: AppColors.buttonStartColor,
+                              end: AppColors.buttonEndColor),
+                          bubblesColor: BubblesColor(
+                            dotPrimaryColor: AppColors.dotPrimaryColor,
+                            dotSecondaryColor: AppColors.dotPrimaryColor,
+                          ),
+                          likeBuilder: (bool isLiked) {
+                            return SvgPicture.asset(
+                              Assets.trophy,
+                              color: isLiked
+                                  ? AppColors.button_green
+                                  : AppColors.grey,
+                              width: MySize.getScaledSizeWidth(Dimens.d_17),
+                              height: MySize.size17,
+                            );
+                          },
+                          onTap: (isLiked) async {
+                            if (controller.postComments[i].isLiked == true) {
+                              controller.isLikeSuccessForComment.value = false;
+                              await controller.CreateCommentDelete(
+                                id: controller.postComments[i].commentLikeId,
+                                successCall: () {
+                                  controller.postComments[i].isLiked = false;
+
+                                  controller.postComments[i].numberOfLikes =
+                                      controller
+                                              .postComments[i].numberOfLikes! -
+                                          1;
+                                },
+                              );
+                            } else {
+                              controller.isLikeSuccessForComment.value = false;
+                              await controller.createCommentLike(
+                                id: controller.postComments[i].id,
+                                commentData: controller.postComments[i],
+                                successCall: () {
+                                  controller.postComments[i].isLiked = true;
+
+                                  controller.postComments[i].numberOfLikes =
+                                      controller
+                                              .postComments[i].numberOfLikes! +
+                                          1;
+                                },
+                              );
+                            }
+
+                            return (controller.isLikeSuccessForComment.value)
+                                ? !isLiked
+                                : isLiked;
+                          },
+                          likeCount: controller.postComments[i].numberOfLikes,
+                          countPostion: CountPostion.left,
+                          isLiked: controller.postComments[i].isLiked,
+                          countBuilder:
+                              (int? count, bool isLiked, String text) {
+                            var color =
+                                isLiked ? Colors.deepPurpleAccent : Colors.grey;
+                            Widget result;
+                            if (count == 0) {
+                              result = Text(
+                                "0",
+                                style: TextStyle(color: color),
+                              );
+                            } else
+                              result = Text(
+                                text,
+                                style: TextStyle(color: color),
+                              );
+                            return result;
+                          },
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(Routes.POST_COMMENT_REPLY_SCREEN,
+                              arguments: {
+                                Argument.commentData:
+                                    controller.postComments[i].obs,
+                              });
+                        },
+                        child: Row(
+                          children: [
+                            Text("Reply",
+                                style: TextStyle(
+                                    color: AppColors.textGrayBlackColor,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: FontFamily.roboto,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: MySize.size12),
+                                textAlign: TextAlign.right),
+                            SizedBox(
+                              width: MySize.size7,
+                            ),
+                            Container(
+                                width: MySize.size3,
+                                height: MySize.size3,
+                                decoration: BoxDecoration(
+                                    color: AppColors.textBlackColor,
+                                    borderRadius: BorderRadius.circular(100))),
+                            SizedBox(
+                              width: MySize.getScaledSizeWidth(Dimens.d_16),
+                            ),
+                            Text(
+                                controller.postComments[i].numberOfReplies
+                                    .toString(),
+                                style: TextStyle(
+                                    color: AppColors.textBlackColor,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: FontFamily.roboto,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: MySize.size14),
+                                textAlign: TextAlign.right)
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        itemCount: controller.postComments.length,
+        separatorBuilder: (BuildContext context, int index) {
+          return SizedBox(
+            height: MySize.size20,
+          );
+        },
+      ),
     );
   }
 
@@ -597,7 +474,7 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
               width: MySize.size28,
               height: MySize.size28,
               decoration: BoxDecoration(
-                  color: const Color(0xffffffff),
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(50)),
               child: Center(
                 child: Icon(
@@ -614,18 +491,19 @@ class PostDetailScreenView extends GetWidget<PostDetailScreenController> {
 
   Padding getLikeCommentrow() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: MySize.getScaledSizeWidth(22)),
+      padding: EdgeInsets.symmetric(
+          horizontal: MySize.getScaledSizeWidth(Dimens.d_22)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            //width: MySize.getScaledSizeWidth(30),
             child: LikeButton(
-              circleColor:
-                  CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+              circleColor: CircleColor(
+                  start: AppColors.buttonStartColor,
+                  end: AppColors.buttonEndColor),
               bubblesColor: BubblesColor(
-                dotPrimaryColor: Color(0xff33b5e5),
-                dotSecondaryColor: Color(0xff0099cc),
+                dotPrimaryColor: AppColors.dotPrimaryColor,
+                dotSecondaryColor: AppColors.dotPrimaryColor,
               ),
               likeBuilder: (bool isLiked) {
                 return SvgPicture.asset(

@@ -14,6 +14,7 @@ import 'package:social_feed_flutter/constants/argumentConstant.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
 import 'package:social_feed_flutter/constants/dateConstant.dart';
+import 'package:social_feed_flutter/constants/dimention.dart';
 import 'package:social_feed_flutter/constants/font_family.dart';
 import 'package:social_feed_flutter/constants/sizeConstant.dart';
 import 'package:social_feed_flutter/utils/pref_utils.dart';
@@ -79,9 +80,9 @@ class HomeView extends GetWidget<HomeController> {
             children: [
               Container(
                 height: MySize.size36,
-                width: MySize.getScaledSizeWidth(95),
+                width: MySize.getScaledSizeWidth(Dimens.d_95),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius: BorderRadius.circular(Dimens.d_100),
                   color: Colors.grey.withOpacity(0.2),
                 ),
                 child: Center(
@@ -109,7 +110,7 @@ class HomeView extends GetWidget<HomeController> {
                 ),
               ),
               SizedBox(
-                width: MySize.getScaledSizeWidth(20),
+                width: MySize.getScaledSizeWidth(Dimens.d_20),
               )
             ],
           ),
@@ -184,12 +185,13 @@ class HomeView extends GetWidget<HomeController> {
 
   Widget getPostCommentLikeSection(int i) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: MySize.getScaledSizeWidth(22)),
+      padding: EdgeInsets.symmetric(
+          horizontal: MySize.getScaledSizeWidth(Dimens.d_22)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: MySize.getScaledSizeWidth(50),
+            width: MySize.getScaledSizeWidth(Dimens.d_50),
             child: LikeButton(
               circleColor: CircleColor(
                   start: AppColors.buttonStartColor,
@@ -270,7 +272,7 @@ class HomeView extends GetWidget<HomeController> {
                     height: MySize.getScaledSizeHeight(13.7),
                   ),
                   SizedBox(
-                    width: MySize.getScaledSizeWidth(8),
+                    width: MySize.getScaledSizeWidth(Dimens.d_8),
                   ),
                   Text(
                     "${controller.allPostList[i].numberOfComments} comments",
@@ -291,7 +293,7 @@ class HomeView extends GetWidget<HomeController> {
               child: SvgPicture.asset(
                 Assets.share,
                 color: AppColors.textGrayBlackColor.withOpacity(0.7),
-                width: MySize.getScaledSizeWidth(14),
+                width: MySize.getScaledSizeWidth(Dimens.d_14),
                 height: MySize.size14,
               ),
             ),
@@ -347,7 +349,7 @@ class HomeView extends GetWidget<HomeController> {
             ? Container()
             : Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MySize.getScaledSizeWidth(22)),
+                    horizontal: MySize.getScaledSizeWidth(Dimens.d_22)),
                 child: Container(
                   child: AutoSizeText(
                     controller.allPostList[i].postBody.toString(),
@@ -375,7 +377,8 @@ class HomeView extends GetWidget<HomeController> {
 
   Widget getUserTopPostData(int i) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: MySize.getScaledSizeWidth(22)),
+      padding: EdgeInsets.symmetric(
+          horizontal: MySize.getScaledSizeWidth(Dimens.d_22)),
       child: InkWell(
         onTap: () {
           controller.goToUserProfileScreen(
@@ -412,7 +415,7 @@ class HomeView extends GetWidget<HomeController> {
               ),
             ),
             SizedBox(
-              width: MySize.getScaledSizeWidth(12),
+              width: MySize.getScaledSizeWidth(Dimens.d_12),
             ),
             Column(
               children: [
@@ -428,11 +431,6 @@ class HomeView extends GetWidget<HomeController> {
                   height: MySize.size1,
                 ),
                 Text(
-                    // TimeAgo.timeAgoSinceDate(
-                    //     controller
-                    //         .allPostList[i]
-                    //         .createdAt
-                    //         .toString()),
                     TimeAgo.timeAgoSinceDate(DateFormat("dd-MM-yyyy hh:mma")
                         .format(DateUtilities()
                             .getDateFromString(
@@ -512,12 +510,9 @@ class HomeView extends GetWidget<HomeController> {
 
   Widget getTopProfilePostCreate() {
     return Container(
-      //height: getSize(70, context),
-      padding: EdgeInsets.symmetric(horizontal: MySize.getScaledSizeWidth(22)),
-
+      padding: EdgeInsets.symmetric(
+          horizontal: MySize.getScaledSizeWidth(Dimens.d_22)),
       width: double.infinity,
-
-      //   color: Colors.red,
       child: Column(
         children: [
           Row(
@@ -554,46 +549,47 @@ class HomeView extends GetWidget<HomeController> {
                 ),
               ),
               SizedBox(
-                width: MySize.getScaledSizeWidth(15),
+                width: MySize.getScaledSizeWidth(Dimens.d_15),
               ),
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(500.0),
+                    borderRadius: BorderRadius.circular(Dimens.d_500),
                     color: AppColors.grey.withOpacity(0.4),
                   ),
                   height: MySize.size35,
                   child: TextField(
                     controller: controller.postData.value,
                     textAlign: TextAlign.left,
-                    // controller: _controller,
-
                     decoration: InputDecoration(
-                      // isDense: true,
                       fillColor: AppColors.borderWhite,
                       filled: true,
                       contentPadding: EdgeInsets.only(
                           bottom: MySize.size35! / 2,
-                          left: MySize.getScaledSizeWidth(
-                              10) // HERE THE IMPORTANT PART
-                          ),
+                          left: MySize.getScaledSizeWidth(Dimens.d_10)),
                       focusedBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                        borderSide: BorderSide(color: AppColors.grey, width: 1),
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(Dimens.d_100)),
+                        borderSide: BorderSide(
+                            color: AppColors.grey, width: Dimens.d_1),
                       ),
                       enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                        borderSide:
-                            BorderSide(color: AppColors.borderWhite, width: 1),
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(Dimens.d_100)),
+                        borderSide: BorderSide(
+                            color: AppColors.borderWhite, width: Dimens.d_1),
                       ),
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                        borderSide:
-                            BorderSide(color: AppColors.borderWhite, width: 1),
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(Dimens.d_100)),
+                        borderSide: BorderSide(
+                            color: AppColors.borderWhite, width: Dimens.d_1),
                       ),
                       disabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                        borderSide: BorderSide(color: AppColors.grey, width: 1),
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(Dimens.d_100)),
+                        borderSide: BorderSide(
+                            color: AppColors.grey, width: Dimens.d_1),
                       ),
                       hintText: "What's New, ",
                       hintStyle: TextStyle(
@@ -626,10 +622,10 @@ class HomeView extends GetWidget<HomeController> {
                       SvgPicture.asset(
                         Assets.gallery,
                         height: MySize.size16,
-                        width: MySize.getScaledSizeWidth(20),
+                        width: MySize.getScaledSizeWidth(Dimens.d_20),
                       ),
                       SizedBox(
-                        width: MySize.getScaledSizeWidth(12),
+                        width: MySize.getScaledSizeWidth(Dimens.d_12),
                       ),
                       Text("Picture / Video",
                           style: TextStyle(
@@ -644,7 +640,7 @@ class HomeView extends GetWidget<HomeController> {
                 ),
               ),
               SizedBox(
-                width: MySize.getScaledSizeWidth(64),
+                width: MySize.getScaledSizeWidth(Dimens.d_64),
               ),
               InkWell(
                 onTap: () {
@@ -659,7 +655,7 @@ class HomeView extends GetWidget<HomeController> {
                 },
                 child: Container(
                   height: MySize.size27,
-                  width: MySize.getScaledSizeWidth(65),
+                  width: MySize.getScaledSizeWidth(Dimens.d_65),
                   decoration: BoxDecoration(
                       color: AppColors.button_green,
                       borderRadius: BorderRadius.circular(MySize.size3!)),
@@ -684,12 +680,6 @@ class HomeView extends GetWidget<HomeController> {
               width: double.infinity,
               height: MySize.getScaledSizeHeight(0.5),
               decoration: BoxDecoration(color: AppColors.textGray)),
-          // Divider(
-          //   color: AppColors.grey.withOpacity(0.4),
-          //   thickness: 2,
-          //   indent: MySize.getScaledSizeWidth(22),
-          //   endIndent: MySize.getScaledSizeWidth(22),
-          // ),
         ],
       ),
     );
@@ -731,9 +721,6 @@ class HomeView extends GetWidget<HomeController> {
 
   void _onCreateAuthloginSuccess() {
     print("YESSsssssssssss........");
-    // controller.sharedPreferences
-    //     .setString("UserName", controller.userNameController.text.toString());
-    //Get.offAllNamed(AppRoutes.homeScreen);
   }
 
   _onCreateAuthloginError() {

@@ -1,3 +1,5 @@
+import 'package:social_feed_flutter/utils/pref_utils.dart';
+
 class PostDataModel {
   int? count;
   String? next;
@@ -61,21 +63,45 @@ class PostsList {
       this.organization});
 
   PostsList.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = (PrefUtils.isNullEmptyOrFalse(json['id'])) ? 0 : json['id'];
     userData = json['user_data'] != null
         ? new UserData.fromJson(json['user_data'])
         : null;
-    isLiked = json['is_liked'];
-    numberOfLikes = json['number_of_likes'];
-    numberOfComments = json['number_of_comments'];
-    loggedInUserPostLikeId = json['logged_in_user_post_like_id'];
+    isLiked = (PrefUtils.isNullEmptyOrFalse(json['is_liked']))
+        ? false
+        : json['is_liked'];
+    numberOfLikes = (PrefUtils.isNullEmptyOrFalse(json['number_of_likes']))
+        ? 0
+        : json['number_of_likes'];
+    numberOfComments =
+        (PrefUtils.isNullEmptyOrFalse(json['number_of_comments']))
+            ? 0
+            : json['number_of_comments'];
+    loggedInUserPostLikeId =
+        (PrefUtils.isNullEmptyOrFalse(json['logged_in_user_post_like_id']))
+            ? 0
+            : json['logged_in_user_post_like_id'];
     updatedAt = json['updated_at'];
-    createdAt = json['created_at'];
+    createdAt = (PrefUtils.isNullEmptyOrFalse(json['created_at']))
+        ? ""
+        : json['created_at'];
     postUuid = json['post_uuid'];
-    postBody = json['post_body'];
-    attachment = json['attachment'];
-    fileType = json['file_type'];
-    organization = json['organization'];
+    loggedInUserPostLikeId =
+        (PrefUtils.isNullEmptyOrFalse(json['logged_in_user_post_like_id']))
+            ? 0
+            : json['logged_in_user_post_like_id'];
+    postBody = (PrefUtils.isNullEmptyOrFalse(json['post_body']))
+        ? ""
+        : json['post_body'];
+    attachment = (PrefUtils.isNullEmptyOrFalse(json['attachment']))
+        ? ""
+        : json['attachment'];
+    fileType = (PrefUtils.isNullEmptyOrFalse(json['file_type']))
+        ? ""
+        : json['file_type'];
+    organization = (PrefUtils.isNullEmptyOrFalse(json['organization']))
+        ? ""
+        : json['organization'];
   }
 
   Map<String, dynamic> toJson() {
@@ -107,9 +133,13 @@ class UserData {
   UserData({this.name, this.profilePicture, this.userProfileId});
 
   UserData.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    profilePicture = json['profile_picture'];
-    userProfileId = json['user_profile_id'];
+    name = (PrefUtils.isNullEmptyOrFalse(json['name'])) ? "N/A" : json['name'];
+    profilePicture = (PrefUtils.isNullEmptyOrFalse(json['profile_picture']))
+        ? " "
+        : json['profile_picture'];
+    userProfileId = (PrefUtils.isNullEmptyOrFalse(json['user_profile_id']))
+        ? 0
+        : json['user_profile_id'];
   }
 
   Map<String, dynamic> toJson() {

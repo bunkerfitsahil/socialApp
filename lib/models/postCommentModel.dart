@@ -1,6 +1,8 @@
+import 'package:social_feed_flutter/utils/pref_utils.dart';
+
 class PostCommentsModel {
   int? id;
-  Null? parent;
+  int? parent;
   int? post;
   UserData? userData;
   int? numberOfReplies;
@@ -13,7 +15,7 @@ class PostCommentsModel {
   String? createdAt;
   String? commentUuid;
   String? commentBody;
-  Null? attachment;
+  String? attachment;
 
   PostCommentsModel(
       {this.id,
@@ -32,27 +34,43 @@ class PostCommentsModel {
       this.attachment});
 
   PostCommentsModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    parent = json['parent'];
-    post = json['post'];
+    id = (PrefUtils.isNullEmptyOrFalse(json['id'])) ? 0 : json['id'];
+    parent =
+        (PrefUtils.isNullEmptyOrFalse(json['parent'])) ? 0 : json['parent'];
+
+    post = (PrefUtils.isNullEmptyOrFalse(json['post'])) ? 0 : json['post'];
+
     userData = json['user_data'] != null
         ? new UserData.fromJson(json['user_data'])
         : null;
-    numberOfReplies = json['number_of_replies'];
 
-    numberOfLikes = json['number_of_likes'];
+    numberOfReplies = (PrefUtils.isNullEmptyOrFalse(json['number_of_replies']))
+        ? 0
+        : json['number_of_replies'];
+    numberOfLikes = (PrefUtils.isNullEmptyOrFalse(json['number_of_likes']))
+        ? 0
+        : json['number_of_likes'];
+
     if (json['replies'] != null) {
       replies = <Replies>[];
       json['replies'].forEach((v) {
         replies!.add(new Replies.fromJson(v));
       });
     }
-    commentLikeId = json['logged_in_user_comment_like_id'];
-    isLiked = json['is_liked'];
+    commentLikeId =
+        (PrefUtils.isNullEmptyOrFalse(json['logged_in_user_comment_like_id']))
+            ? 0
+            : json['logged_in_user_comment_like_id'];
+    isLiked = (PrefUtils.isNullEmptyOrFalse(json['is_liked']))
+        ? false
+        : json['is_liked'];
+    commentBody = (PrefUtils.isNullEmptyOrFalse(json['comment_body']))
+        ? " "
+        : json['comment_body'];
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
     commentUuid = json['comment_uuid'];
-    commentBody = json['comment_body'];
+
     attachment = json['attachment'];
   }
 
@@ -88,9 +106,13 @@ class UserData {
   UserData({this.name, this.profilePicture, this.userProfileId});
 
   UserData.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    profilePicture = json['profile_picture'];
-    userProfileId = json['user_profile_id'];
+    name = (PrefUtils.isNullEmptyOrFalse(json['name'])) ? "N/A" : json['name'];
+    profilePicture = (PrefUtils.isNullEmptyOrFalse(json['profile_picture']))
+        ? " "
+        : json['profile_picture'];
+    userProfileId = (PrefUtils.isNullEmptyOrFalse(json['user_profile_id']))
+        ? 0
+        : json['user_profile_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -132,12 +154,22 @@ class Replies {
     userData = json['user_data'] != null
         ? new UserData.fromJson(json['user_data'])
         : null;
-    numberOfLikes = json['number_of_likes'];
-    replyLikeId = json['logged_in_user_comment_like_id'];
-    isLiked = json['is_liked'];
-    parent = json['parent'];
-    commentBody = json['comment_body'];
-    id = json['id'];
+    numberOfLikes = (PrefUtils.isNullEmptyOrFalse(json['number_of_likes']))
+        ? 0
+        : json['number_of_likes'];
+    replyLikeId =
+        (PrefUtils.isNullEmptyOrFalse(json['logged_in_user_comment_like_id']))
+            ? 0
+            : json['logged_in_user_comment_like_id'];
+    isLiked = (PrefUtils.isNullEmptyOrFalse(json['is_liked']))
+        ? false
+        : json['is_liked'];
+    commentBody = (PrefUtils.isNullEmptyOrFalse(json['comment_body']))
+        ? " "
+        : json['comment_body'];
+    id = (PrefUtils.isNullEmptyOrFalse(json['id'])) ? 0 : json['id'];
+    parent =
+        (PrefUtils.isNullEmptyOrFalse(json['parent'])) ? 0 : json['parent'];
   }
 
   Map<String, dynamic> toJson() {

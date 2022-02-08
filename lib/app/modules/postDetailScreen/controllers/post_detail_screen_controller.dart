@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -60,6 +58,8 @@ class PostDetailScreenController extends GetxController {
         onSuccess: (resp) {
           if (resp != null) {
             onCreateCommentSuccess(resp);
+
+            homeController.allPostList.refresh();
           }
           if (successCall != null) {
             successCall();
@@ -77,7 +77,6 @@ class PostDetailScreenController extends GetxController {
   }
 
   void onGetCommentSuccess(resp) {
-    // ProgressDialogUtils.hideProgressDialog();
     hasPostData.value = true;
     List data = resp as List;
 
@@ -102,15 +101,11 @@ class PostDetailScreenController extends GetxController {
               element.isLiked = true;
             }
           }
-          homeController.count.value = Random().nextInt(100);
-          homeController.updateData();
+
+          homeController.allPostList.refresh();
           isLikeSuccess.value = true;
 
           successCall();
-
-          //HomeController().postData();
-
-          print("sucess");
         }
       },
       onError: (err) {
@@ -137,11 +132,10 @@ class PostDetailScreenController extends GetxController {
               element.isLiked = false;
             }
           }
-          homeController.count.value = Random().nextInt(100);
+          homeController.allPostList.refresh();
+
           homeController.updateData();
           successCall();
-
-          print("sucess");
         }
       },
       onError: (err) {
@@ -166,10 +160,6 @@ class PostDetailScreenController extends GetxController {
           isLikeSuccessForComment.value = true;
 
           successCall();
-
-          //HomeController().postData();
-
-          print("sucess");
         }
       },
       onError: (err) {
@@ -192,9 +182,6 @@ class PostDetailScreenController extends GetxController {
           isLikeSuccessForComment.value = true;
 
           successCall();
-          //homeController.getPostData(isLoad: false);
-
-          print("sucess");
         }
       },
       onError: (err) {
@@ -211,14 +198,8 @@ class PostDetailScreenController extends GetxController {
   }
 
   void onCreateCommentSuccess(resp) {
-    // ProgressDialogUtils.hideProgressDialog();
-    // hasPostData.value = true;
-    // List data = resp as List;
-
     Fluttertoast.showToast(msg: "Comment is SuccessFully added");
     getpostCommentsData();
-
-    HomeController().postData();
   }
 
   getAllPostCommentReply(List<Replies> reply) {
@@ -229,7 +210,6 @@ class PostDetailScreenController extends GetxController {
         getAllPostCommentReply(element.replies!);
       }
     });
-    print(dummy);
   }
 
   void onCreateCommentFail(var err) {

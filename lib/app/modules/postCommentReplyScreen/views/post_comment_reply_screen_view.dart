@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:like_button/like_button.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
+import 'package:social_feed_flutter/constants/dimention.dart';
 import 'package:social_feed_flutter/constants/font_family.dart';
 import 'package:social_feed_flutter/constants/sizeConstant.dart';
 import 'package:social_feed_flutter/utils/pref_utils.dart';
@@ -25,47 +26,18 @@ class PostCommentReplyScreenView
               child: SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: MySize.getScaledSizeWidth(15)),
+                      horizontal: MySize.getScaledSizeWidth(Dimens.d_15)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         height: MySize.size20,
                       ),
-                      InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Container(
-                          width: MySize.getScaledSizeWidth(28),
-                          height: MySize.size28,
-                          decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Center(
-                            child: Icon(
-                              Icons.arrow_back,
-                              size: MySize.size13,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                        ),
-                      ),
+                      getBackButton(),
                       SizedBox(
                         height: MySize.size17,
                       ),
-                      Container(
-                        height: MySize.size19,
-                        child: Text(
-                            "Replies to ${controller.postCommentsModel.value.userData!.name.toString()}’s comments",
-                            style: TextStyle(
-                                color: AppColors.textBlackColor,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: FontFamily.roboto,
-                                fontStyle: FontStyle.normal,
-                                fontSize: MySize.size14),
-                            textAlign: TextAlign.left),
-                      ),
+                      userCommentReplyName(),
                       SizedBox(
                         height: MySize.size8,
                       ),
@@ -98,12 +70,50 @@ class PostCommentReplyScreenView
     );
   }
 
+  userCommentReplyName() {
+    return Container(
+      height: MySize.size19,
+      child: Text(
+          "Replies to ${controller.postCommentsModel.value.userData!.name.toString()}’s comments",
+          style: TextStyle(
+              color: AppColors.textBlackColor,
+              fontWeight: FontWeight.w400,
+              fontFamily: FontFamily.roboto,
+              fontStyle: FontStyle.normal,
+              fontSize: MySize.size14),
+          textAlign: TextAlign.left),
+    );
+  }
+
+  getBackButton() {
+    return InkWell(
+      onTap: () {
+        Get.back();
+      },
+      child: Container(
+        width: MySize.getScaledSizeWidth(Dimens.d_28),
+        height: MySize.size28,
+        decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(Dimens.d_50)),
+        child: Center(
+          child: Icon(
+            Icons.arrow_back,
+            size: MySize.size13,
+            color: AppColors.blackColor,
+          ),
+        ),
+      ),
+    );
+  }
+
   getBottomSheet(context) {
     return SafeArea(
       child: Container(
-        padding:
-            EdgeInsets.symmetric(horizontal: MySize.getScaledSizeWidth(29.5)),
-        margin: EdgeInsets.only(bottom: MySize.getScaledSizeHeight(20)),
+        padding: EdgeInsets.symmetric(
+            horizontal: MySize.getScaledSizeWidth(Dimens.d_30)),
+        margin:
+            EdgeInsets.only(bottom: MySize.getScaledSizeHeight(Dimens.d_20)),
         width: double.infinity,
         height: MySize.size36,
         child: Form(
@@ -172,8 +182,8 @@ class PostCommentReplyScreenView
                 child: Container(
                   child: SvgPicture.asset(
                     Assets.sendIcon,
-                    height: MySize.getScaledSizeHeight(30.5),
-                    width: MySize.getScaledSizeWidth(30.5),
+                    height: MySize.getScaledSizeHeight(Dimens.d_30),
+                    width: MySize.getScaledSizeWidth(Dimens.d_30),
                   ),
                 ),
               ),
@@ -198,15 +208,15 @@ class PostCommentReplyScreenView
                 //     AssetImage(Assets.avtar),
                 child: CachedNetworkImage(
                   imageUrl: controller
-                      .postCommentsModel.value.userData!.userProfileId
+                      .postCommentsModel.value.userData!.profilePicture
                       .toString(),
                   placeholder: (context, url) => SpinKitCircle(
                     color: AppColors.greenColor,
                     size: MySize.size20!,
                   ),
                   imageBuilder: (context, imageProvider) => Container(
-                    height: MySize.size17,
-                    width: MySize.size17,
+                    height: MySize.size34,
+                    width: MySize.size34,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       image: DecorationImage(
@@ -219,7 +229,7 @@ class PostCommentReplyScreenView
                 ),
               ),
               SizedBox(
-                width: MySize.getScaledSizeWidth(10),
+                width: MySize.getScaledSizeWidth(Dimens.d_10),
               ),
               Expanded(
                 child: Container(
@@ -257,7 +267,7 @@ class PostCommentReplyScreenView
                     borderRadius: BorderRadius.circular(MySize.size8!),
                   ),
                   padding: EdgeInsets.only(
-                      left: MySize.getScaledSizeWidth(7),
+                      left: MySize.getScaledSizeWidth(Dimens.d_7),
                       top: MySize.size6!,
                       bottom: MySize.size6!),
                 ),
@@ -266,7 +276,8 @@ class PostCommentReplyScreenView
           ),
           Padding(
             padding: EdgeInsets.only(
-                left: MySize.getScaledSizeWidth(49), top: MySize.size10!),
+                left: MySize.getScaledSizeWidth(Dimens.d_49),
+                top: MySize.size10!),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -291,7 +302,7 @@ class PostCommentReplyScreenView
                             color: AppColors.textBlackColor,
                             borderRadius: BorderRadius.circular(100))),
                     SizedBox(
-                      width: MySize.getScaledSizeWidth(16),
+                      width: MySize.getScaledSizeWidth(Dimens.d_16),
                     ),
                     Text(
                         controller.postCommentsModel.value.numberOfReplies
@@ -328,8 +339,6 @@ class PostCommentReplyScreenView
                 children: [
                   CircleAvatar(
                     radius: MySize.size17,
-                    // backgroundImage:
-                    //     AssetImage(Assets.avtar),
                     child: CachedNetworkImage(
                       imageUrl: controller.postCommentsModel.value.replies![i]
                           .userData!.profilePicture
@@ -353,7 +362,7 @@ class PostCommentReplyScreenView
                     ),
                   ),
                   SizedBox(
-                    width: MySize.getScaledSizeWidth(11),
+                    width: MySize.getScaledSizeWidth(Dimens.d_11),
                   ),
                   Expanded(
                     child: Container(
@@ -399,7 +408,7 @@ class PostCommentReplyScreenView
                         borderRadius: BorderRadius.circular(MySize.size8!),
                       ),
                       padding: EdgeInsets.only(
-                          left: MySize.getScaledSizeWidth(7),
+                          left: MySize.getScaledSizeWidth(Dimens.d_7),
                           top: MySize.size6!,
                           bottom: MySize.size6!),
                     ),
@@ -408,13 +417,13 @@ class PostCommentReplyScreenView
               ),
               Padding(
                 padding: EdgeInsets.only(
-                    left: MySize.getScaledSizeWidth(49), top: MySize.size10!),
+                    left: MySize.getScaledSizeWidth(Dimens.d_49),
+                    top: MySize.size10!),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      //width: MySize.getScaledSizeWidth(30),
-                      width: MySize.getScaledSizeWidth(50),
+                      width: MySize.getScaledSizeWidth(Dimens.d_50),
                       height: MySize.size16,
                       child: LikeButton(
                         circleColor: CircleColor(
@@ -522,14 +531,14 @@ class PostCommentReplyScreenView
 
   Container getLikeButtonForComment() {
     return Container(
-      width: MySize.getScaledSizeWidth(50),
+      width: MySize.getScaledSizeWidth(Dimens.d_50),
       height: MySize.size16,
       child: LikeButton(
-        circleColor:
-            CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+        circleColor: CircleColor(
+            start: AppColors.buttonStartColor, end: AppColors.buttonEndColor),
         bubblesColor: BubblesColor(
-          dotPrimaryColor: Color(0xff33b5e5),
-          dotSecondaryColor: Color(0xff0099cc),
+          dotPrimaryColor: AppColors.dotPrimaryColor,
+          dotSecondaryColor: AppColors.dotPrimaryColor,
         ),
         likeBuilder: (bool isLiked) {
           return SvgPicture.asset(

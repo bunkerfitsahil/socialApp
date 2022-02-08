@@ -14,6 +14,7 @@ import 'package:social_feed_flutter/constants/argumentConstant.dart';
 import 'package:social_feed_flutter/constants/assets.dart';
 import 'package:social_feed_flutter/constants/colors.dart';
 import 'package:social_feed_flutter/constants/dateConstant.dart';
+import 'package:social_feed_flutter/constants/dimention.dart';
 import 'package:social_feed_flutter/constants/font_family.dart';
 import 'package:social_feed_flutter/constants/sizeConstant.dart';
 import 'package:social_feed_flutter/utils/pref_utils.dart';
@@ -42,10 +43,6 @@ class UserProfileView extends GetWidget<UserProfileController> {
                                   height: MySize.getScaledSizeHeight(298),
                                   decoration: BoxDecoration(
                                     color: AppColors.button_green,
-                                    // borderRadius: BorderRadius.only(
-                                    //   bottomLeft: Radius.circular(getSize(25, context)),
-                                    //   bottomRight: Radius.circular(getSize(25, context)),
-                                    // )
                                   ),
                                   width: double.infinity,
                                   child: Stack(
@@ -70,7 +67,7 @@ class UserProfileView extends GetWidget<UserProfileController> {
                                               child: Container(
                                                 width:
                                                     MySize.getScaledSizeWidth(
-                                                        28),
+                                                        Dimens.d_28),
                                                 height: MySize.size28,
                                                 decoration: BoxDecoration(
                                                     color: AppColors.white,
@@ -107,160 +104,7 @@ class UserProfileView extends GetWidget<UserProfileController> {
                                               textAlign: TextAlign.center),
                                         ),
                                       ),
-                                      Positioned(
-                                        top: MySize.size73,
-                                        child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height:
-                                              MySize.getScaledSizeHeight(229),
-                                          alignment: Alignment.center,
-                                          child: Column(
-                                            children: [
-                                              CircleAvatar(
-                                                radius: MySize.size41,
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                child: CachedNetworkImage(
-                                                  imageUrl: PrefUtils
-                                                          .isNullEmptyOrFalse(
-                                                              controller
-                                                                  .userDataResp!
-                                                                  .profilePicture)
-                                                      ? ""
-                                                      : controller.userDataResp!
-                                                          .profilePicture!,
-                                                  placeholder: (context, url) =>
-                                                      SpinKitCircle(
-                                                    color: Colors.green,
-                                                    size: MySize.size25!,
-                                                  ),
-                                                  imageBuilder: (context,
-                                                          imageProvider) =>
-                                                      Container(
-                                                    height: MySize.size82,
-                                                    width: MySize.size82,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100),
-                                                      color: AppColors.white,
-                                                      image: DecorationImage(
-                                                        image: imageProvider,
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Container(
-                                                    height: MySize.size82,
-                                                    width: MySize.size82,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100),
-                                                      color: AppColors
-                                                          .button_green,
-                                                    ),
-                                                    child: Icon(
-                                                      Icons.person,
-                                                      color: AppColors.white,
-                                                      size: MySize.size40,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: MySize.size8,
-                                              ),
-                                              Text(
-                                                  "${controller.userDataResp!.firstName} ${controller.userDataResp!.lastName}",
-                                                  style: TextStyle(
-                                                      color: AppColors.white,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontFamily:
-                                                          FontFamily.roboto,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontSize: MySize.size14),
-                                                  textAlign: TextAlign.center),
-                                              SizedBox(
-                                                height: MySize.size5,
-                                              ),
-                                              Container(
-                                                height: MySize.size32,
-                                                child: Text(
-                                                    "New Delhi \n${controller.userDataResp!.user!.userType}",
-                                                    style: TextStyle(
-                                                        color: AppColors.white,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontFamily:
-                                                            FontFamily.roboto,
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontSize:
-                                                            MySize.size12),
-                                                    textAlign:
-                                                        TextAlign.center),
-                                              ),
-                                              Container(
-                                                child: Divider(
-                                                  color: Colors.white,
-                                                  indent:
-                                                      MySize.getScaledSizeWidth(
-                                                          38.5),
-                                                  endIndent:
-                                                      MySize.getScaledSizeWidth(
-                                                          37.5),
-                                                ),
-                                              ),
-                                              (PrefUtils.isNullEmptyOrFalse(
-                                                      controller
-                                                          .userDataResp!.bio))
-                                                  ? Container()
-                                                  : Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Container(
-                                                        width: MySize
-                                                            .getScaledSizeWidth(
-                                                                264),
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Text(
-                                                          controller
-                                                              .userDataResp!.bio
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              color: AppColors
-                                                                  .white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontFamily:
-                                                                  FontFamily
-                                                                      .roboto,
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: MySize
-                                                                  .size12),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      ),
-                                                    ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                                      getUserAllDetail(),
                                     ],
                                   ),
                                 ),
@@ -275,170 +119,8 @@ class UserProfileView extends GetWidget<UserProfileController> {
                                   height: MySize.size254,
                                   color: AppColors.profileBack,
                                 ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  alignment: Alignment.center,
-                                  height: MySize.getScaledSizeHeight(52),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.button_green,
-                                      borderRadius: BorderRadius.only(
-                                          bottomLeft:
-                                              Radius.circular(MySize.size21!),
-                                          bottomRight:
-                                              Radius.circular(MySize.size21!))),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        width: MySize.getScaledSizeWidth(298),
-                                        height: MySize.size38,
-                                        // color: Colors.red,
-                                        alignment: Alignment.center,
-                                        child: Container(
-                                          height: MySize.size38,
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: columnPost(context,
-                                                    name: "Post",
-                                                    number: PrefUtils
-                                                            .isNullEmptyOrFalse(
-                                                                controller
-                                                                    .userDataResp!
-                                                                    .postCount!)
-                                                        ? 0
-                                                        : controller
-                                                            .userDataResp!
-                                                            .postCount!),
-                                              ),
-                                              VerticalDivider(
-                                                color: Colors.white,
-                                              ),
-                                              Expanded(
-                                                child: columnPost(context,
-                                                    name: "Followers",
-                                                    number: PrefUtils
-                                                            .isNullEmptyOrFalse(
-                                                                controller
-                                                                    .userDataResp!
-                                                                    .followerCount!)
-                                                        ? 0
-                                                        : controller
-                                                            .userDataResp!
-                                                            .followerCount!),
-                                              ),
-                                              VerticalDivider(
-                                                color: Colors.white,
-                                              ),
-                                              Expanded(
-                                                child: columnPost(context,
-                                                    name: "Following",
-                                                    number: PrefUtils
-                                                            .isNullEmptyOrFalse(
-                                                                controller
-                                                                    .userDataResp!
-                                                                    .followingCount!)
-                                                        ? 0
-                                                        : controller
-                                                            .userDataResp!
-                                                            .followingCount!),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: MySize.size14,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
-                                  top: MySize.size72,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              MySize.getScaledSizeWidth(39)),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: MySize.size19,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text("Badges Earned",
-                                                    style: TextStyle(
-                                                        color: AppColors
-                                                            .textBlackColor,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontFamily: FontFamily
-                                                            .robotoBold,
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontSize:
-                                                            MySize.size12),
-                                                    textAlign:
-                                                        TextAlign.center),
-                                                Expanded(child: Container()),
-                                                InkWell(
-                                                  onTap: () {
-                                                    Get.toNamed(
-                                                        Routes.BADGES_SCREEN);
-                                                  },
-                                                  child: Text("See all",
-                                                      style: TextStyle(
-                                                          color: AppColors
-                                                              .textGrayBlackColor,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontFamily:
-                                                              FontFamily.roboto,
-                                                          fontStyle:
-                                                              FontStyle.normal,
-                                                          fontSize:
-                                                              MySize.size12),
-                                                      textAlign:
-                                                          TextAlign.left),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: MySize.size24,
-                                          ),
-                                          Container(
-                                            height: MySize.getScaledSizeHeight(
-                                                105.9),
-                                            // width: MySize.getScaledSizeWidth(61),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                streakWidget(context,
-                                                    name: "3 Day Streak",
-                                                    img: Assets.streak1,
-                                                    number: 5),
-                                                streakWidget(context,
-                                                    name: "3 Day Streak",
-                                                    img: Assets.streak2,
-                                                    number: 2),
-                                                streakWidget(context,
-                                                    name: "3 Day Streak",
-                                                    img: Assets.streak3,
-                                                    number: 2),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                getPostFollowerCount(),
+                                getBadgeSection(),
                                 Positioned(
                                   top: MySize.getScaledSizeHeight(236),
                                   child: (!controller.isLogInUser)
@@ -489,6 +171,242 @@ class UserProfileView extends GetWidget<UserProfileController> {
     );
   }
 
+  getPostFollowerCount() {
+    return Container(
+      width: MySize.screenWidth,
+      alignment: Alignment.center,
+      height: MySize.getScaledSizeHeight(52),
+      decoration: BoxDecoration(
+          color: AppColors.button_green,
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(MySize.size21!),
+              bottomRight: Radius.circular(MySize.size21!))),
+      child: Column(
+        children: [
+          Container(
+            width: MySize.getScaledSizeWidth(298),
+            height: MySize.size38,
+            // color: Colors.red,
+            alignment: Alignment.center,
+            child: Container(
+              height: MySize.size38,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: columnPost(
+                        name: "Post",
+                        number: PrefUtils.isNullEmptyOrFalse(
+                                controller.userDataResp!.postCount!)
+                            ? 0
+                            : controller.userDataResp!.postCount!),
+                  ),
+                  VerticalDivider(
+                    color: Colors.white,
+                  ),
+                  Expanded(
+                    child: columnPost(
+                        name: "Followers",
+                        number: PrefUtils.isNullEmptyOrFalse(
+                                controller.userDataResp!.followerCount!)
+                            ? 0
+                            : controller.userDataResp!.followerCount!),
+                  ),
+                  VerticalDivider(
+                    color: Colors.white,
+                  ),
+                  Expanded(
+                    child: columnPost(
+                        name: "Following",
+                        number: PrefUtils.isNullEmptyOrFalse(
+                                controller.userDataResp!.followingCount!)
+                            ? 0
+                            : controller.userDataResp!.followingCount!),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: MySize.size14,
+          ),
+        ],
+      ),
+    );
+  }
+
+  getBadgeSection() {
+    return Positioned(
+      top: MySize.size72,
+      child: Container(
+        width: MySize.screenWidth,
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: MySize.getScaledSizeWidth(Dimens.d_39)),
+          child: Column(
+            children: [
+              Container(
+                height: MySize.size19,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Badges Earned",
+                        style: TextStyle(
+                            color: AppColors.textBlackColor,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: FontFamily.robotoBold,
+                            fontStyle: FontStyle.normal,
+                            fontSize: MySize.size12),
+                        textAlign: TextAlign.center),
+                    Expanded(child: Container()),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(Routes.BADGES_SCREEN);
+                      },
+                      child: Text("See all",
+                          style: TextStyle(
+                              color: AppColors.textGrayBlackColor,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: FontFamily.roboto,
+                              fontStyle: FontStyle.normal,
+                              fontSize: MySize.size12),
+                          textAlign: TextAlign.left),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MySize.size24,
+              ),
+              Container(
+                height: MySize.getScaledSizeHeight(105.9),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    streakWidget(
+                        name: "3 Day Streak", img: Assets.streak1, number: 5),
+                    streakWidget(
+                        name: "3 Day Streak", img: Assets.streak2, number: 2),
+                    streakWidget(
+                        name: "3 Day Streak", img: Assets.streak3, number: 2),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  getUserAllDetail() {
+    return Positioned(
+      top: MySize.size73,
+      child: Container(
+        width: MySize.safeWidth,
+        height: MySize.getScaledSizeHeight(229),
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            CircleAvatar(
+              radius: MySize.size41,
+              backgroundColor: Colors.transparent,
+              child: CachedNetworkImage(
+                imageUrl: PrefUtils.isNullEmptyOrFalse(
+                        controller.userDataResp!.profilePicture)
+                    ? ""
+                    : controller.userDataResp!.profilePicture!,
+                placeholder: (context, url) => SpinKitCircle(
+                  color: Colors.green,
+                  size: MySize.size25!,
+                ),
+                imageBuilder: (context, imageProvider) => Container(
+                  height: MySize.size82,
+                  width: MySize.size82,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: AppColors.white,
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  height: MySize.size82,
+                  width: MySize.size82,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: AppColors.button_green,
+                  ),
+                  child: Icon(
+                    Icons.person,
+                    color: AppColors.white,
+                    size: MySize.size40,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MySize.size8,
+            ),
+            Text(
+                "${controller.userDataResp!.firstName} ${controller.userDataResp!.lastName}",
+                style: TextStyle(
+                    color: AppColors.white,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: FontFamily.roboto,
+                    fontStyle: FontStyle.normal,
+                    fontSize: MySize.size14),
+                textAlign: TextAlign.center),
+            SizedBox(
+              height: MySize.size5,
+            ),
+            Container(
+              height: MySize.size32,
+              child: Text(
+                  "New Delhi \n${controller.userDataResp!.user!.userType}",
+                  style: TextStyle(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: FontFamily.roboto,
+                      fontStyle: FontStyle.normal,
+                      fontSize: MySize.size12),
+                  textAlign: TextAlign.center),
+            ),
+            Container(
+              child: Divider(
+                color: Colors.white,
+                indent: MySize.getScaledSizeWidth(38.5),
+                endIndent: MySize.getScaledSizeWidth(37.5),
+              ),
+            ),
+            (PrefUtils.isNullEmptyOrFalse(controller.userDataResp!.bio))
+                ? Container()
+                : Container(
+                    width: MySize.screenWidth,
+                    alignment: Alignment.center,
+                    child: Container(
+                      width: MySize.getScaledSizeWidth(264),
+                      alignment: Alignment.center,
+                      child: Text(
+                        controller.userDataResp!.bio.toString(),
+                        style: TextStyle(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: FontFamily.roboto,
+                            fontStyle: FontStyle.normal,
+                            fontSize: MySize.size12),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+          ],
+        ),
+      ),
+    );
+  }
+
   getStatusButtonTag() {
     return Container(
       width: MySize.screenWidth,
@@ -504,7 +422,9 @@ class UserProfileView extends GetWidget<UserProfileController> {
                 "No follow request yet") {
               controller.createFollowRequest();
             } else if (controller.userDataResp!.followRequestStatus ==
-                "Following") {}
+                "Following") {
+              controller.unfollowUser();
+            }
           },
           child: Container(
             // height: 100,
@@ -592,12 +512,12 @@ class UserProfileView extends GetWidget<UserProfileController> {
 
   Widget getPostCommentLikeSection(int i) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: MySize.getScaledSizeWidth(22)),
+      padding: EdgeInsets.symmetric(
+          horizontal: MySize.getScaledSizeWidth(Dimens.d_22)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            //width: MySize.getScaledSizeWidth(30),
             child: LikeButton(
               circleColor: CircleColor(
                   start: AppColors.buttonStartColor,
@@ -677,7 +597,7 @@ class UserProfileView extends GetWidget<UserProfileController> {
                     height: MySize.getScaledSizeHeight(13.7),
                   ),
                   SizedBox(
-                    width: MySize.getScaledSizeWidth(8),
+                    width: MySize.getScaledSizeWidth(Dimens.d_8),
                   ),
                   Text(
                     "${controller.allPostList[i].numberOfComments} comments",
@@ -698,7 +618,7 @@ class UserProfileView extends GetWidget<UserProfileController> {
               child: SvgPicture.asset(
                 Assets.share,
                 color: AppColors.textGrayBlackColor.withOpacity(0.7),
-                width: MySize.getScaledSizeWidth(14),
+                width: MySize.getScaledSizeWidth(Dimens.d_14),
                 height: MySize.size14,
               ),
             ),
@@ -754,15 +674,7 @@ class UserProfileView extends GetWidget<UserProfileController> {
             ? Container()
             : Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MySize.getScaledSizeWidth(22)),
-                // child: AutoSizeText(
-                //   'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy ',
-                //   style:
-                //       TextStyle(fontSize: getFontSize(20, context)),
-                //   maxFontSize: getFontSize(20, context),
-                //   minFontSize: getFontSize(10, context),
-                //   maxLines: 2,
-                // ),
+                    horizontal: MySize.getScaledSizeWidth(Dimens.d_22)),
                 child: Container(
                   child: AutoSizeText(
                     controller.allPostList[i].postBody.toString(),
@@ -790,7 +702,8 @@ class UserProfileView extends GetWidget<UserProfileController> {
 
   Widget getUserTopPostData(int i) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: MySize.getScaledSizeWidth(22)),
+      padding: EdgeInsets.symmetric(
+          horizontal: MySize.getScaledSizeWidth(Dimens.d_22)),
       child: InkWell(
         onTap: () {
           controller.goToUserProfileScreen(
@@ -827,7 +740,7 @@ class UserProfileView extends GetWidget<UserProfileController> {
               ),
             ),
             SizedBox(
-              width: MySize.getScaledSizeWidth(12),
+              width: MySize.getScaledSizeWidth(Dimens.d_12),
             ),
             Column(
               children: [
@@ -887,7 +800,7 @@ class UserProfileView extends GetWidget<UserProfileController> {
     );
   }
 
-  Widget columnPost(context, {int? number, String? name}) {
+  Widget columnPost({int? number, String? name}) {
     return InkWell(
       onTap: () {
         if (controller.isLogInUser) {
@@ -924,7 +837,7 @@ class UserProfileView extends GetWidget<UserProfileController> {
                     fontWeight: FontWeight.w400,
                     fontFamily: FontFamily.roboto,
                     fontStyle: FontStyle.normal,
-                    fontSize: MySize.getScaledSizeWidth(12)),
+                    fontSize: MySize.getScaledSizeWidth(Dimens.d_12)),
                 textAlign: TextAlign.center)
           ],
         ),
@@ -932,7 +845,7 @@ class UserProfileView extends GetWidget<UserProfileController> {
     );
   }
 
-  Widget streakWidget(context, {int? number, String? name, String? img}) {
+  Widget streakWidget({int? number, String? name, String? img}) {
     return Column(
       children: [
         CircleAvatar(

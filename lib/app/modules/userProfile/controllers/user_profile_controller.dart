@@ -80,6 +80,30 @@ class UserProfileController extends GetxController {
     );
   }
 
+  unfollowUser({
+    VoidCallback? successCall,
+    VoidCallback? errCall,
+  }) async {
+    await ApiClient().callApiForUnfollow(
+      onSuccess: (resp) {
+        if (resp != null) {
+          followStatus!.value = "Follow";
+          Fluttertoast.showToast(msg: "User Unfollow Successfully.");
+        }
+
+        if (successCall != null) {
+          successCall();
+        }
+      },
+      onError: (err) {
+        if (errCall != null) {
+          errCall();
+        }
+      },
+      id: userId,
+    );
+  }
+
   createPostLike({
     VoidCallback? successCall,
     VoidCallback? errCall,

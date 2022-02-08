@@ -483,4 +483,31 @@ class ApiClient extends GetConnect {
       Fluttertoast.showToast(msg: msg);
     }
   }
+
+  callApiForUnfollow({
+    int? id,
+    Function(dynamic data)? onSuccess,
+    Function(dynamic error)? onError,
+  }) async {
+    Map<String, String> headers = {};
+    headers["Content-Type"] = "application/json";
+
+    headers["Authorization"] = token;
+
+    try {
+      final response = await delete(
+          Base_url + 'user/profile-actions/followrequests/unfollow/',
+          contentType: "application/json",
+          headers: headers);
+      if (response.statusCode == 200) {
+        onSuccess!(true);
+      }
+    } catch (error) {
+      //ProgressDialogUtils.hideProgressDialog();
+      String msg =
+          ExceptionWrapper(DionewExceptions.getExceptions(error)).message;
+      onError!(msg);
+      Fluttertoast.showToast(msg: msg);
+    }
+  }
 }

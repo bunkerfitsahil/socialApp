@@ -43,28 +43,51 @@ class UserDataModel {
       this.corporateProfile});
 
   UserDataModel.fromJson(Map<String, dynamic> json) {
-    height = json['height'];
-    weight = json['weight'];
-    profilePicture = json['profile_picture'];
+    height =
+        (PrefUtils.isNullEmptyOrFalse(json['height'])) ? 0 : json['height'];
+    weight =
+        (PrefUtils.isNullEmptyOrFalse(json['weight'])) ? 0 : json['weight'];
+    profilePicture = (PrefUtils.isNullEmptyOrFalse(json['profile_picture']))
+        ? ""
+        : json['profile_picture'];
+
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    gender = json['gender'];
-    postCount = json['posts_count'];
-    followRequestStatus = json['follow_request_status'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
+    gender =
+        (PrefUtils.isNullEmptyOrFalse(json['gender'])) ? "N/A" : json['gender'];
+    postCount = (PrefUtils.isNullEmptyOrFalse(json['posts_count']))
+        ? 0
+        : json['posts_count'];
+    followRequestStatus =
+        (PrefUtils.isNullEmptyOrFalse(json['follow_request_status']))
+            ? " "
+            : json['follow_request_status'];
+    firstName = (PrefUtils.isNullEmptyOrFalse(json['first_name']))
+        ? " "
+        : json['first_name'];
+    lastName = (PrefUtils.isNullEmptyOrFalse(json['last_name']))
+        ? " "
+        : json['last_name'];
+
     if (json['goals'] != null) {
       goals = <String>[];
       json['goals'].forEach((v) {
         goals!.add(v);
       });
     }
-    dateOfBirth = json['date_of_birth'];
-    age = json['age'];
-    bmi = json['bmi'];
-    bio = json['bio'];
-    followerCount = json['follower_count'];
-    followingCount = json['following_count'];
-    parent = json['parent'];
+    dateOfBirth = (PrefUtils.isNullEmptyOrFalse(json['date_of_birth']))
+        ? " "
+        : json['date_of_birth'];
+    age = (PrefUtils.isNullEmptyOrFalse(json['age'])) ? 0 : json['age'];
+    bmi = (PrefUtils.isNullEmptyOrFalse(json['bmi'])) ? 0.0 : json['bmi'];
+    bio = (PrefUtils.isNullEmptyOrFalse(json['bio'])) ? " " : json['bio'];
+    followerCount = (PrefUtils.isNullEmptyOrFalse(json['follower_count']))
+        ? 0
+        : json['follower_count'];
+    followingCount = (PrefUtils.isNullEmptyOrFalse(json['following_count']))
+        ? 0
+        : json['following_count'];
+    parent =
+        (PrefUtils.isNullEmptyOrFalse(json['parent'])) ? " " : json['parent'];
     if (json['children'] != null) {
       children = <String>[];
       json['children'].forEach((v) {
@@ -133,15 +156,28 @@ class User {
       this.verified});
 
   User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    uuid = json['uuid'];
-    email = json['email'];
-    dateJoined = json['date_joined'];
-    isActive = json['is_active'];
-    currentCountry = json['current_country'];
-    phoneNumber = json['phone_number'];
-    userType = json['user_type'];
-    verified = json['verified'];
+    id = (PrefUtils.isNullEmptyOrFalse(json['id'])) ? 0 : json['id'];
+    uuid = (PrefUtils.isNullEmptyOrFalse(json['uuid'])) ? " " : json['uuid'];
+    email = (PrefUtils.isNullEmptyOrFalse(json['email'])) ? " " : json['email'];
+    dateJoined = (PrefUtils.isNullEmptyOrFalse(json['date_joined']))
+        ? " "
+        : json['date_joined'];
+    isActive = (PrefUtils.isNullEmptyOrFalse(json['is_active']))
+        ? false
+        : json['is_active'];
+    currentCountry = (PrefUtils.isNullEmptyOrFalse(json['current_country']))
+        ? 0
+        : json['current_country'];
+    phoneNumber = (PrefUtils.isNullEmptyOrFalse(json['phone_number']))
+        ? " "
+        : json['phone_number'];
+    userType = (PrefUtils.isNullEmptyOrFalse(json['user_type']))
+        ? " "
+        : json['user_type'];
+
+    verified = (PrefUtils.isNullEmptyOrFalse(json['verified']))
+        ? false
+        : json['verified'];
   }
 
   Map<String, dynamic> toJson() {
@@ -176,12 +212,23 @@ class CorporateProfile {
       this.departmentName});
 
   CorporateProfile.fromJson(Map<String, dynamic> json) {
-    department = json['department'];
-    branch = json['branch'];
-    organization = json['organization'];
-    organizationName = json['organization_name'];
-    branchName = json['branch_name'];
-    departmentName = json['department_name'];
+    department = (PrefUtils.isNullEmptyOrFalse(json['department']))
+        ? 0
+        : json['department'];
+    branch =
+        (PrefUtils.isNullEmptyOrFalse(json['branch'])) ? 0 : json['branch'];
+    organization = (PrefUtils.isNullEmptyOrFalse(json['organization']))
+        ? 0
+        : json['organization'];
+    organizationName = (PrefUtils.isNullEmptyOrFalse(json['organization_name']))
+        ? "N/A"
+        : json['organization_name'];
+    branchName = (PrefUtils.isNullEmptyOrFalse(json['branch_name']))
+        ? "N/A"
+        : json['branch_name'];
+    departmentName = (PrefUtils.isNullEmptyOrFalse(json['department_name']))
+        ? "N/A"
+        : json['department_name'];
   }
 
   Map<String, dynamic> toJson() {

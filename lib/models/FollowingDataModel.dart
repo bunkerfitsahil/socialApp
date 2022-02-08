@@ -1,3 +1,5 @@
+import 'package:social_feed_flutter/utils/pref_utils.dart';
+
 class FollowerDataModel {
   String? profilePicture;
   String? firstName;
@@ -13,11 +15,20 @@ class FollowerDataModel {
       this.location});
 
   FollowerDataModel.fromJson(Map<String, dynamic> json) {
-    profilePicture = json['profile_picture'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    gender = json['gender'];
-    location = json['location'];
+    profilePicture = (PrefUtils.isNullEmptyOrFalse(json['profile_picture']))
+        ? " "
+        : json['profile_picture'];
+    firstName = (PrefUtils.isNullEmptyOrFalse(json['first_name']))
+        ? " "
+        : json['first_name'];
+    lastName = (PrefUtils.isNullEmptyOrFalse(json['last_name']))
+        ? " "
+        : json['last_name'];
+    gender =
+        (PrefUtils.isNullEmptyOrFalse(json['gender'])) ? " " : json['gender'];
+    location = (PrefUtils.isNullEmptyOrFalse(json['location']))
+        ? " "
+        : json['location'];
   }
 
   Map<String, dynamic> toJson() {

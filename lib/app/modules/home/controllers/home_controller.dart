@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:social_feed_flutter/ApiClient/api_client.dart';
 import 'package:social_feed_flutter/app/modules/home/post_create_model.dart';
 import 'package:social_feed_flutter/app/routes/app_pages.dart';
@@ -17,13 +16,13 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   //TODO: Implement HomeController
 
   final count = 0.obs;
-  XFile? file;
+
   File? pickFile;
   CreatePostResp createPostResp = CreatePostResp();
   RxBool isImageSelected = false.obs;
   Rx<TextEditingController> postData = TextEditingController().obs;
 
-  List<PostsList> allPostList = <PostsList>[].obs;
+  RxList<PostsList> allPostList = <PostsList>[].obs;
   RxList<PostsList> newPostList = <PostsList>[].obs;
   RxBool hasPostData = false.obs;
   RxBool isLikeSuccess = false.obs;
@@ -35,12 +34,10 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   RxInt page = 1.obs;
   RxInt totalPostLength = 0.obs;
 
-  late final ImagePicker? _picker;
-  //EventBus eventBus = EventBus();
   @override
   void onInit() {
     super.onInit();
-    _picker = ImagePicker();
+
     WidgetsBinding.instance!.addObserver(this);
     print("hhe");
     WidgetsBinding.instance?.addPostFrameCallback((_) {
@@ -52,7 +49,6 @@ class HomeController extends GetxController with WidgetsBindingObserver {
           mokeFetch();
         }
       });
-      //getPostData();
     });
   }
 
@@ -60,7 +56,6 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    // These are the callbacks
     switch (state) {
       case AppLifecycleState.resumed:
         update();
@@ -101,16 +96,13 @@ class HomeController extends GetxController with WidgetsBindingObserver {
         allowMultiple: false,
         type: FileType.custom,
         allowedExtensions: ['jpeg', 'png', 'gif', 'mp4']);
-    // var res = await ImagePicker()
-    //   ..pickImage(source: ImageSource.gallery);
+
     if (result != null) {
-      // Fluttertoast.showToast(msg: "Image is Selected.");
       isImageSelected.value = true;
-      //file = res.;
+
       Fluttertoast.showToast(msg: "Post is selected");
       isImg = result.paths.first!.isImageFileName.obs;
       pickFile = File(result.paths.first!);
-      //print(file);
     }
   }
 
@@ -189,11 +181,9 @@ class HomeController extends GetxController with WidgetsBindingObserver {
         if (successCall != null && resp != null) {
           postDataModel?.loggedInUserPostLikeId =
               PostLikeResponse.fromJson(resp).id;
-          //getPostData();
 
           isLikeSuccess.value = true;
           successCall();
-          print("sucess");
         }
       },
       onError: (err) {
@@ -206,8 +196,6 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   }
 
   updateData() {
-    update(allPostList);
-    print(allPostList[2].isLiked.toString());
     update();
   }
 
@@ -222,7 +210,6 @@ class HomeController extends GetxController with WidgetsBindingObserver {
           isLikeSuccess.value = true;
 
           successCall();
-          print("sucess");
         }
       },
       onError: (err) {
@@ -260,7 +247,6 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     PostDataModel postDataModel = PostDataModel.fromJson(data);
     totalPostLength.value = postDataModel.count!;
 
-    //allPostList.value = postDataModel.results!;
     newPostList.value = postDataModel.results!;
   }
 

@@ -1,3 +1,5 @@
+import 'package:social_feed_flutter/utils/pref_utils.dart';
+
 class PendingDataModel {
   int? id;
   Follower? follower;
@@ -48,13 +50,23 @@ class Follower {
       this.dept});
 
   Follower.fromJson(Map<String, dynamic> json) {
-    profilePicture =
-        (json['profile_picture'] == null) ? " " : json['profile_picture'];
-    firstName = (json['first_name'] == null) ? " " : json['first_name'];
-    lastName = (json['last_name'] == null) ? " " : json['last_name'];
-    gender = (json['gender'] == null) ? " " : json['gender'];
-    location = (json['location'] == null) ? " " : json['location'];
-    dept = (json['department'] == null) ? " " : json['department'];
+    profilePicture = (PrefUtils.isNullEmptyOrFalse(json['profile_picture']))
+        ? " "
+        : json['profile_picture'];
+    firstName = (PrefUtils.isNullEmptyOrFalse(json['first_name']))
+        ? " "
+        : json['first_name'];
+    lastName = (PrefUtils.isNullEmptyOrFalse(json['last_name']))
+        ? " "
+        : json['last_name'];
+    gender =
+        (PrefUtils.isNullEmptyOrFalse(json['gender'])) ? " " : json['gender'];
+    location = (PrefUtils.isNullEmptyOrFalse(json['location']))
+        ? " "
+        : json['location'];
+    dept = (PrefUtils.isNullEmptyOrFalse(json['department']))
+        ? " "
+        : json['department'];
   }
 
   Map<String, dynamic> toJson() {

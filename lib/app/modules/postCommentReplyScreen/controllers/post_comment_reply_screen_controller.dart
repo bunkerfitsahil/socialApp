@@ -8,8 +8,6 @@ import 'package:social_feed_flutter/models/PostLikeResponseModel.dart';
 import 'package:social_feed_flutter/models/postCommentModel.dart';
 
 class PostCommentReplyScreenController extends GetxController {
-  //TODO: Implement PostCommentReplyScreenController
-
   final count = 0.obs;
   Rx<TextEditingController> commentController = TextEditingController().obs;
 
@@ -61,14 +59,9 @@ class PostCommentReplyScreenController extends GetxController {
   }
 
   void onCreateCommentSuccess(resp) {
-    // ProgressDialogUtils.hideProgressDialog();
-    // hasPostData.value = true;
-    // List data = resp as List;
-
     Fluttertoast.showToast(msg: "Reply is SuccessFully added");
     postCommentsModel.value.numberOfReplies =
         postCommentsModel.value.numberOfReplies! + 1;
-    //getpostCommentsData();
   }
 
   createCommentLike({
@@ -85,8 +78,6 @@ class PostCommentReplyScreenController extends GetxController {
           postDetailScreenController.getpostCommentsData();
 
           successCall();
-
-          //HomeController().postData();
 
           print("sucess");
         }
@@ -112,7 +103,6 @@ class PostCommentReplyScreenController extends GetxController {
           postDetailScreenController.getpostCommentsData();
 
           successCall();
-          //homeController.getPostData(isLoad: false);
 
           print("sucess");
         }
@@ -165,7 +155,6 @@ class PostCommentReplyScreenController extends GetxController {
           isReplyLike.value = true;
 
           successCall();
-          //homeController.getPostData(isLoad: false);
 
           print("sucess");
         }
